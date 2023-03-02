@@ -1,0 +1,152 @@
+.categories {
+  padding-bottom: 20px;
+
+  &__content {
+    display: flex;
+    justify-content: center;
+    gap: 11px;
+    padding-left: 7vw;
+    padding-right: 10vw;
+
+    @media (max-width: 1255px) {
+      flex-direction: column;
+      align-items: center;
+      gap: 28px;
+    }
+
+    @include onMobile {
+      padding: 0;
+      gap: 34px;
+    }
+
+    &-desktop {
+      max-width: 799px;
+      min-width: 600px;
+      width: 40vw;
+
+      @media (max-width: 1255px) {
+        width: 100%;
+        max-width: none;
+        min-width: none;
+      }
+
+      @include onMobile {
+        display: none;
+      }
+
+      & > img {
+        width: 100%;
+      }
+    }
+
+    &-mobile {
+      display: none;
+      height: 88vw;
+      width: 100%;
+      background-image: url("../photos/tablet-mobile.svg");
+      background-repeat: no-repeat;
+      background-size: 100vw;
+
+      @include onMobile {
+        display: block;
+      }
+    }
+  }
+
+  &__terms {
+    display: flex;
+    justify-content: center;
+    margin-top: 2px;
+
+    @media (max-width: 1255px) {
+      margin-top: 252px;
+    }
+
+    @include onMobile {
+      margin-top: 54px;
+    }
+  }
+
+  &__all {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 17px;
+    max-width: 507px;
+    height: max-content;
+    margin-top: 2vw;
+
+    @media (max-width: 1255px) {
+      max-width: 700px;
+      gap: 25px;
+      margin-left: 70px;
+      margin-top: 20px;
+    }
+
+    @include onMobile {
+      flex-direction: column;
+      flex-wrap: nowrap;
+      gap: 13px;
+      margin-left: 0;
+    }
+
+    &-category {
+      padding: 12px 16px;
+      border-radius: 100px;
+      font-size: 16px;
+      font-weight: 500;
+      text-align: center;
+      background-color: #e9d5c3;
+      line-height: 1;
+
+      @include onTablet {
+        &:nth-of-type(8),
+        &:nth-of-type(9),
+        &:nth-of-type(10) {
+          display: none;
+        }
+      }
+
+      &-name {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 28px;
+        background: linear-gradient(89.93deg, #de70de -4.57%, #e7708c 97.21%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  }
+}
+
+.categories-desktop {
+  @include onMobile {
+    display: none;
+  }
+}
+
+.categories-mobile {
+  display: none;
+
+  @include onMobile {
+    display: flex;
+  }
+}
+
+.terms-box {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+
+  &__link {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    text-decoration: none;
+    color: $terms-color;
+  }
+}

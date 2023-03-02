@@ -1,0 +1,264 @@
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 42px 4vw 0 3vw;
+
+  @include onMobile {
+    margin: 47px 52px 0 19.75px;
+  }
+
+  &__logo {
+    @include onMobile {
+      max-width: 41.5px;
+    }
+
+    &-image {
+      width: 100%;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    &-beta {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      background-color: $beta-plug-bckg;
+      color: $beta-plug-text;
+      padding: 3px 11px 5px;
+      border-radius: 10px;
+    }
+  }
+}
+
+.button-google {
+  &__box {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    background-color: $google-btn-bckg;
+    border-radius: 10px;
+    padding-left: 18px;
+    padding-right: 29px;
+    height: 44px;
+    cursor: pointer;
+
+    @include onMobile {
+      height: 37.7px;
+      padding: 0 12px;
+    }
+
+    &-icon {
+      @include onMobile {
+        max-width: 18.58px;
+      }
+    }
+
+    &-text {
+      font-family: "Plus Jakarta Sans";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 28px;
+    }
+  }
+}
+
+.general-info {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 4vw;
+  padding-top: 80px;
+
+  @include onTablet {
+    padding-top: 103px;
+  }
+
+  @include onMobile {
+    padding: 38px 0 0;
+  }
+
+  &__title {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 68px;
+    max-width: 868px;
+    text-align: center;
+    color: $general-info-title;
+
+    @include onTablet {
+      max-width: 635px;
+    }
+
+    @include onMobile {
+      font-weight: 700;
+      font-size: 36px;
+      line-height: 40px;
+      max-width: none;
+      padding: 0 37px;
+    }
+  }
+
+  &__subtitle {
+    font-family: "Source Serif 4";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+    text-align: center;
+    max-width: 629px;
+    margin-top: 44px;
+
+    @include onTablet {
+      margin-top: 34px;
+    }
+
+    @include onMobile {
+      margin-top: 44px;
+      max-width: none;
+      padding: 0 35px;
+    }
+
+    &-colored {
+      background: -webkit-linear-gradient(90deg, #de70de -35.25%, #e7708b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    &-bolder {
+      font-weight: bolder;
+    }
+  }
+
+  &__functional {
+    display: flex;
+    gap: 24px;
+    padding-top: 19px;
+
+    &-btn {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      padding: 16px 14px;
+      border-radius: 10px;
+      background-color: $functional-btn;
+      color: $functional-btn-txt;
+      max-height: 56px;
+    }
+  }
+
+  &__waitlist-btn {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    display: flex;
+    align-items: center;
+    padding: 12px 36px;
+    gap: 10px;
+    background: linear-gradient(90deg, #f548b0 -5.11%, #e06a79 100%);
+    border-radius: 10px;
+    margin-top: 16px;
+    border: none;
+    color: $waitlist-btn-txt;
+  }
+}
+
+.general-open {
+  margin-bottom: 44px;
+
+  @include onTablet {
+    margin-bottom: 33px;
+  }
+
+  @include onMobile {
+    margin-bottom: 37.5px;
+  }
+}
+
+.general-closed {
+  margin-bottom: 75px;
+
+  @include onTablet {
+    margin-bottom: 33px;
+  }
+
+  @include onMobile {
+    margin-bottom: 37.5px;
+  }
+}
+
+.functional-search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__inp {
+    width: 386px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    height: 56px;
+
+    &-item {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 24px;
+      width: 305px;
+      box-sizing: border-box;
+      border: none;
+      outline: none;
+      color: $search-txt;
+      background-color: $search-bckg;
+    }
+  }
+
+  &__description {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    max-width: 356px;
+    color: $functional-search-desc;
+  }
+}
+
+.module-border-wrap {
+  max-width: 386px;
+  padding: 1rem;
+  position: relative;
+  background: linear-gradient(
+    268.9deg,
+    rgba(222, 0, 70, 0.5) 0.17%,
+    rgba(205, 0, 238, 0.5) 100%
+  );
+  padding: 2px;
+  border-radius: 10px;
+}
+
+.module {
+  display: flex;
+  align-items: center;
+  background: $search-bckg;
+  color: white;
+  padding-left: 39.5px;
+  padding-right: 44.5px;
+  border-radius: 8px;
+  height: 52px;
+}

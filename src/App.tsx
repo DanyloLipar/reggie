@@ -1,14 +1,20 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+
+import MainPageClosedBeta from "./components/MainPageClosedBeta";
+import MainPageOpenBeta from "./components/MainPageOpenBeta";
+
 import "./assets/index.scss";
-import HomeOpenBeta from "./components/HomeOpenBeta";
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<HomeOpenBeta />} />
-      </Routes>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainPageOpenBeta />} />
+          <Route path="/closed-beta" element={<MainPageClosedBeta />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
