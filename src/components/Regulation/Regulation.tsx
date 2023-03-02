@@ -1,5 +1,3 @@
-import "./Regulation.scss";
-
 import info from "../../assets/photos/results/info.svg";
 import voted from "../../assets/photos/results/voted.svg";
 import thumbs_down from "../../assets/photos/results/thumbs-down.svg";
@@ -171,13 +169,15 @@ const Regulation = () => {
               {showMore ? (
                 <button
                   className="conversation-quest-section-content__more"
-                  onClick={handleText}>
+                  onClick={handleText}
+                >
                   <span>Show less</span>
                 </button>
               ) : (
                 <button
                   className="conversation-quest-section-content__more"
-                  onClick={handleText}>
+                  onClick={handleText}
+                >
                   <span>See more</span>
                 </button>
               )}

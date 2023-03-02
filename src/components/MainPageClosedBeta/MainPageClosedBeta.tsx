@@ -1,5 +1,5 @@
-import React from "react";
 import Categories from "../Categories";
+
 import logo from "../../assets/photos/logo.svg";
 import googleLogo from "../../assets/photos/google.svg";
 

@@ -1,11 +1,9 @@
 import { useState } from "react";
 
-import "./Results.scss";
 import more from "../../assets/photos/results/more.svg";
 import summary from "../../assets/photos/results/summary.svg";
 import star from "../../assets/photos/results/star.svg";
 import visit from "../../assets/photos/results/visit.svg";
-
 import link_disable from "../../assets/photos/results/link-disable.svg";
 import text_area from "../../assets/photos/results/text-area.svg";
 import transform from "../../assets/photos/results/transform.svg";
@@ -52,13 +50,15 @@ const Results = () => {
                 isActive
                   ? "overview-categories-list-item-active-btn"
                   : "overview-categories-list-item-btn"
-              }>
+              }
+            >
               <span
                 className={
                   isActive
                     ? "overview-categories-list-item-btn__txt-active"
                     : "overview-categories-list-item-btn__txt"
-                }>
+                }
+              >
                 Life-safety
               </span>
             </button>
@@ -70,13 +70,15 @@ const Results = () => {
                 isActive
                   ? "overview-categories-list-item-active-btn"
                   : "overview-categories-list-item-btn"
-              }>
+              }
+            >
               <span
                 className={
                   isActive
                     ? "overview-categories-list-item-btn__txt-active"
                     : "overview-categories-list-item-btn__txt"
-                }>
+                }
+              >
                 + Environmental
               </span>
             </button>
@@ -88,13 +90,15 @@ const Results = () => {
                 isActive
                   ? "overview-categories-list-item-active-btn"
                   : "overview-categories-list-item-btn"
-              }>
+              }
+            >
               <span
                 className={
                   isActive
                     ? "overview-categories-list-item-btn__txt-active"
                     : "overview-categories-list-item-btn__txt"
-                }>
+                }
+              >
                 + Location
               </span>
             </button>
@@ -106,13 +110,15 @@ const Results = () => {
                 isActive
                   ? "overview-categories-list-item-active-btn"
                   : "overview-categories-list-item-btn"
-              }>
+              }
+            >
               <span
                 className={
                   isActive
                     ? "overview-categories-list-item-btn__txt-active"
                     : "overview-categories-list-item-btn__txt"
-                }>
+                }
+              >
                 + Zoning
               </span>
             </button>
@@ -124,13 +130,15 @@ const Results = () => {
                 isActive
                   ? "overview-categories-list-item-active-btn"
                   : "overview-categories-list-item-btn"
-              }>
+              }
+            >
               <span
                 className={
                   isActive
                     ? "overview-categories-list-item-btn__txt-active"
                     : "overview-categories-list-item-btn__txt"
-                }>
+                }
+              >
                 + Privacy
               </span>
             </button>

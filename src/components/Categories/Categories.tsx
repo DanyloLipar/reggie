@@ -1,9 +1,8 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import tablet from "../../assets/photos/tablet-desktop.svg";
-import tabletMobile from "../../assets/photos/tablet-desktop.svg";
 import { categories } from "../../core/constants/categories";
 import { categoriesMobile } from "../../core/constants/categories-mobile";
+
+import tablet from "../../assets/photos/tablet.svg";
 
 const Categories = () => {
   return (

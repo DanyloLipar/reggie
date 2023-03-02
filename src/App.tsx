@@ -13,9 +13,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainPageOpenBeta />} />
-          <Route path="/" element={<MainPageClosedBeta />} />
-          <Route path="results" element={<Results />} />
-          <Route path="regulation" element={<Regulation />} />
+          <Route path="/closed-beta" element={<MainPageClosedBeta />} />
+          <Route path="/results" element={<Results />} />
+          <Route path="/regulation" element={<Regulation />} />
         </Routes>
       </BrowserRouter>
     </>
