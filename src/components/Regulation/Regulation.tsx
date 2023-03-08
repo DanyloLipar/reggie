@@ -1,3 +1,9 @@
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+
+import { APIRoutes } from "../../core/http";
+import useHttpGet from "../../core/hooks/useHttpGet";
+
 import info from "../../assets/photos/results/info.svg";
 import voted from "../../assets/photos/results/voted.svg";
 import thumbs_down from "../../assets/photos/results/thumbs-down.svg";
@@ -6,10 +12,15 @@ import star from "../../assets/photos/results/star.svg";
 import visit from "../../assets/photos/results/visit.svg";
 import transform from "../../assets/photos/results/transform.svg";
 import link_active from "../../assets/photos/results/link-active.svg";
-import { useState } from "react";
 
 const Regulation = () => {
   const [showMore, setShowMore] = useState(false);
+
+  const { searchId, articleId } = useParams();
+
+  const { fetchedData: articleDetailed } = useHttpGet<any>(
+    `${APIRoutes.SEARCH_DETAILS}/${searchId}/Articles/${articleId}`
+  );
 
   const handleText = () => {
     if (!showMore) {

@@ -1,9 +1,51 @@
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+import { toast } from "react-toastify";
+import jwtDecode from "jwt-decode";
+
+import AppService from "../../core/services/app.service";
+import AuthService from "../../core/services/auth.service";
+import { setIsAuth } from "../../core/store/reducers/auth/authSlice";
+import { useAppSelector } from "../../core/store";
 import Categories from "../Categories";
+import { App } from "../../core/models";
 
 import logo from "../../assets/photos/logo.svg";
 import googleLogo from "../../assets/photos/google.svg";
 
 const MainPageOpenBeta = () => {
+  const [inpQuery, setInpQuery] = useState("");
+
+  const isAuth = useAppSelector((state) => state.auth.isAuth);
+  const user = useAppSelector((state) => state.auth.currentUser);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleGoogleSignIn = async (values: any) => {
+    // const encoded_values: App.GoogleLogin = jwtDecode(values.credential);
+    try {
+      // const response = await AuthService.loginGoogle(encoded_values);
+      await fetch("https://jsonplaceholder.typicode.com/todos/1");
+    } catch (errors: any) {
+      toast.error("Login failed!");
+    }
+  };
+
+  const performSearch = async () => {
+    try {
+      const response = await AppService.searchPerform({
+        userId: user?.userId,
+        query: inpQuery,
+      });
+      // navigate(`/results/${response?.searchId}`)
+    } catch (errors: any) {
+      toast.error("Not Found!");
+    }
+  };
+
   return (
     <>
       <header className="heading">
@@ -23,7 +65,13 @@ const MainPageOpenBeta = () => {
                 Sign in with Google
               </span>
             </div>
-            <div className="button-google__click"></div>
+            <div className="button-google__click">
+              <GoogleLogin
+                onSuccess={(credentialResponse) => {
+                  handleGoogleSignIn(credentialResponse);
+                }}
+              />
+            </div>
           </label>
         </div>
       </header>
@@ -45,6 +93,9 @@ const MainPageOpenBeta = () => {
                     className="functional-search__inp-item"
                     type="text"
                     placeholder="ie. ‘a smart lock’, ‘extension in NYC’"
+                    value={inpQuery}
+                    onChange={(event) => setInpQuery(event.target.value)}
+                    onKeyDown={performSearch}
                   />
                 </div>
               </div>

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+
 import { categories } from "../../core/constants/categories";
 import { categoriesMobile } from "../../core/constants/categories-mobile";
 

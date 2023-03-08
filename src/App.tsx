@@ -1,4 +1,5 @@
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import MainPageClosedBeta from "./components/MainPageClosedBeta";
 import MainPageOpenBeta from "./components/MainPageOpenBeta";
@@ -10,14 +11,17 @@ import "./assets/index.scss";
 function App() {
   return (
     <>
-      <BrowserRouter>
+      <GoogleOAuthProvider clientId="">
         <Routes>
           <Route path="/" element={<MainPageOpenBeta />} />
           <Route path="/closed-beta" element={<MainPageClosedBeta />} />
-          <Route path="/results" element={<Results />} />
-          <Route path="/regulation" element={<Regulation />} />
+          <Route path="/results/:id" element={<Results />} />
+          <Route
+            path="/regulation/:searchId/:articleId"
+            element={<Regulation />}
+          />
         </Routes>
-      </BrowserRouter>
+      </GoogleOAuthProvider>
     </>
   );
 }

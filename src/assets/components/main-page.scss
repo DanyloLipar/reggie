@@ -38,7 +38,10 @@
 }
 
 .button-google {
+  position: relative;
+
   &__box {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 11px;
@@ -67,6 +70,15 @@
       font-size: 16px;
       line-height: 28px;
     }
+  }
+
+  &__click {
+    position: absolute;
+    opacity: 0;
+    z-index: 10;
+    top: 0;
+    width: 100%;
+    display: block;
   }
 }
 
@@ -145,6 +157,11 @@
     gap: 24px;
     padding-top: 19px;
 
+    @include onMobile {
+      align-items: center;
+      flex-direction: column;
+    }
+
     &-btn {
       font-family: "Inter";
       font-style: normal;
@@ -156,6 +173,7 @@
       background-color: $functional-btn;
       color: $functional-btn-txt;
       max-height: 56px;
+      max-width: 230px;
     }
   }
 

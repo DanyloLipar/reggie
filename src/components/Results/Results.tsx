@@ -1,4 +1,9 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+
+import { APIRoutes } from "../../core/http";
+import { Article } from "../../core/types";
+import useHttpGet from "../../core/hooks/useHttpGet";
 
 import more from "../../assets/photos/results/more.svg";
 import summary from "../../assets/photos/results/summary.svg";
@@ -11,7 +16,18 @@ import voted from "../../assets/photos/results/voted.svg";
 import thumb_down from "../../assets/photos/results/thumbs-down.svg";
 
 const Results = () => {
+  const [categories, setCategories] = useState<Article[]>();
   const [isActive, setIsActive] = useState(false);
+
+  const searchId = useParams();
+
+  // useHttpGet<any>(`${APIRoutes.SEARCH_SUMMARY}/${searchId}`, {
+  //   resolve: (response) => {
+  //     if (response.payload) {
+  //       setCategories(response.summaries);
+  //     }
+  //   },
+  // });
 
   return (
     <section className="overview">
