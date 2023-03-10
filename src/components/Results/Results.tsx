@@ -14,12 +14,23 @@ import text_area from "../../assets/photos/results/text-area.svg";
 import transform from "../../assets/photos/results/transform.svg";
 import voted from "../../assets/photos/results/voted.svg";
 import thumb_down from "../../assets/photos/results/thumbs-down.svg";
+import { filters } from "../../core/constants/filters";
 
 const Results = () => {
   const [categories, setCategories] = useState<Article[]>();
   const [isActive, setIsActive] = useState(false);
+  const [filterParams, setFilterParams] = useState([1]);
 
   const searchId = useParams();
+
+  const filterParamsSwitcher = (id: number) => {
+    if (filterParams.includes(id)) {
+      setFilterParams(filterParams.filter((param) => param !== id));
+      return;
+    }
+
+    setFilterParams([...filterParams, id]);
+  };
 
   // useHttpGet<any>(`${APIRoutes.SEARCH_SUMMARY}/${searchId}`, {
   //   resolve: (response) => {
@@ -59,107 +70,49 @@ const Results = () => {
       </header>
       <div className="overview-categories">
         <ul className="overview-categories-list">
-          <li className="overview-categories-list-item">
-            <button
-              onClick={() => setIsActive(!isActive)}
-              className={
-                isActive
-                  ? "overview-categories-list-item-active-btn"
-                  : "overview-categories-list-item-btn"
-              }
+          {filters.map((filter) => (
+            <li
+              className="overview-categories-list-item"
+              key={filter.id}
+              onClick={() => filterParamsSwitcher(filter.id)}
             >
-              <span
+              <button
+                onClick={() => setIsActive(!isActive)}
                 className={
-                  isActive
-                    ? "overview-categories-list-item-btn__txt-active"
-                    : "overview-categories-list-item-btn__txt"
+                  filterParams.includes(filter.id)
+                    ? "overview-categories-list-item-active-btn"
+                    : "overview-categories-list-item-btn"
                 }
               >
-                Life-safety
-              </span>
-            </button>
-          </li>
-          <li className="overview-categories-list-item">
-            <button
-              onClick={() => setIsActive(!isActive)}
-              className={
-                isActive
-                  ? "overview-categories-list-item-active-btn"
-                  : "overview-categories-list-item-btn"
-              }
-            >
-              <span
-                className={
-                  isActive
-                    ? "overview-categories-list-item-btn__txt-active"
-                    : "overview-categories-list-item-btn__txt"
-                }
-              >
-                + Environmental
-              </span>
-            </button>
-          </li>
-          <li className="overview-categories-list-item">
-            <button
-              onClick={() => setIsActive(!isActive)}
-              className={
-                isActive
-                  ? "overview-categories-list-item-active-btn"
-                  : "overview-categories-list-item-btn"
-              }
-            >
-              <span
-                className={
-                  isActive
-                    ? "overview-categories-list-item-btn__txt-active"
-                    : "overview-categories-list-item-btn__txt"
-                }
-              >
-                + Location
-              </span>
-            </button>
-          </li>
-          <li className="overview-categories-list-item">
-            <button
-              onClick={() => setIsActive(!isActive)}
-              className={
-                isActive
-                  ? "overview-categories-list-item-active-btn"
-                  : "overview-categories-list-item-btn"
-              }
-            >
-              <span
-                className={
-                  isActive
-                    ? "overview-categories-list-item-btn__txt-active"
-                    : "overview-categories-list-item-btn__txt"
-                }
-              >
-                + Zoning
-              </span>
-            </button>
-          </li>
-          <li className="overview-categories-list-item">
-            <button
-              onClick={() => setIsActive(!isActive)}
-              className={
-                isActive
-                  ? "overview-categories-list-item-active-btn"
-                  : "overview-categories-list-item-btn"
-              }
-            >
-              <span
-                className={
-                  isActive
-                    ? "overview-categories-list-item-btn__txt-active"
-                    : "overview-categories-list-item-btn__txt"
-                }
-              >
-                + Privacy
-              </span>
-            </button>
-          </li>
+                <span
+                  className={
+                    filterParams.includes(filter.id)
+                      ? "overview-categories-list-item-btn__txt-active"
+                      : "overview-categories-list-item-btn__txt"
+                  }
+                >
+                  {filter.name}
+                </span>
+              </button>
+            </li>
+          ))}
         </ul>
+        <div className="overview-categories-func">
+          <ul className="overview-categories-func__list">
+            <li className="overview-categories-func__list-item">
+              <img src={more} alt="more" />
+            </li>
+            <li className="overview-categories-func__list-item">
+              <img src={summary} alt="summary" />
+            </li>
+            <li className="overview-categories-func__list-item">
+              <img src={visit} alt="visit" />
+            </li>
+            <li className="overview-categories-func__list-item">
+              <img src={star} alt="star" />
+            </li>
+          </ul>
+        </div>
       </div>
       <main className="overview__results results">
         <div className="results-regulation">

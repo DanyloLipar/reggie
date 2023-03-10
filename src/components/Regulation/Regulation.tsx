@@ -55,10 +55,20 @@ const Regulation = () => {
         <div className="regulation-head-end">
           <img src={star} alt="star" />
           <img src={visit} alt="visit" />
+          <div className="regulation-head-end__thumbs">
+            <img src={voted} alt="voted" />
+            <img src={thumbs_down} alt="thumbs_down" />
+          </div>
         </div>
       </header>
       <div className="regulation-subhead">
         <span className="regulation-subhead__txt">Building codes</span>
+        <div className="regulation-subhead__thumbs">
+          <img src={star} alt="star" />
+          <img src={visit} alt="visit" />
+          <img src={voted} alt="voted" />
+          <img src={thumbs_down} alt="thumbs_down" />
+        </div>
       </div>
       <div className="regulation-desc">
         <p className="regulation-desc__txt">
@@ -153,6 +163,71 @@ const Regulation = () => {
               <img src={thumbs_down} alt="thumbs_down" />
             </button>
           </div>
+          <ul className="conversation-answer-section-func">
+            <li className="conversation-answer-section-func__item">
+              <button className="conversation-answer-section-content-links__item-btn">
+                <img
+                  src={link_active}
+                  alt="link_active"
+                  className="conversation-answer-section-content-links__item-btn-img"
+                />
+              </button>
+            </li>
+            <li className="conversation-answer-section-func__item">
+              <button className="conversation-answer-section-func__item-link">
+                <img
+                  src={star}
+                  alt="star"
+                  className="conversation-answer-section-content-links__item-btn-img"
+                />
+              </button>
+            </li>
+            <li className="conversation-answer-section-func__item">
+              <button className="conversation-answer-section-func__item-link">
+                <img
+                  src={text_area}
+                  alt="text_area"
+                  className="conversation-answer-section-content-links__item-btn-img"
+                />
+              </button>
+            </li>
+            <li className="conversation-answer-section-func__item">
+              <button className="conversation-answer-section-func__item-link">
+                <img
+                  src={visit}
+                  alt="visit"
+                  className="conversation-answer-section-content-links__item-btn-img"
+                />
+              </button>
+            </li>
+            <li className="conversation-answer-section-func__item">
+              <button className="conversation-answer-section-func__item-link">
+                <img
+                  src={transform}
+                  alt="transform"
+                  className="conversation-answer-section-content-links__item-btn-img"
+                />
+              </button>
+            </li>
+            <li className="conversation-answer-section-func__item">
+              <button className="conversation-answer-section-func__item-link">
+                <img
+                  src={voted}
+                  alt="voted"
+                  className="conversation-answer-section-content-links__item-btn-img"
+                />
+              </button>
+            </li>
+            <li className="conversation-answer-section-func__item">
+              <button className="conversation-answer-section-func__item-link">
+                <img
+                  src={thumbs_down}
+                  alt="thumbs_down"
+                  className="conversation-answer-section-content-links__item-btn-img"
+                />
+              </button>
+            </li>
+          </ul>
         </div>
         <div className="conversation-quest-section">
           <div className="conversation-quest-section-line"></div>

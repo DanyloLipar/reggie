@@ -1,12 +1,26 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz@8..60&display=swap");
 
 .regulation {
-  padding: 54px 140px 135px 140px;
+  padding: 54px 140px 135px;
+
+  @include onTablet {
+    padding: 54px 96px 91px 93px;
+  }
+
+  @include onMobile {
+    padding: 26px 8vw 25px;
+  }
+
   &-top {
     width: 100%;
     display: flex;
     justify-content: flex-end;
     margin-bottom: 43px;
+
+    @include onMobile {
+      margin-bottom: 7px;
+    }
+
     &-btn {
       border: none;
       background: none;
@@ -46,6 +60,11 @@
         flex-direction: row;
         align-items: center;
         gap: 15px;
+
+        @include onTablet {
+          display: none;
+        }
+
         &__logo {
           width: 18px;
           height: 18px;
@@ -66,20 +85,59 @@
       display: flex;
       align-items: center;
       gap: 27px;
+
+      @include onMobile {
+        display: none;
+      }
+
       & > img {
         width: 27px;
         height: 27px;
+      }
+
+      &__thumbs {
+        display: none;
+
+        @include onTablet {
+          display: flex;
+          gap: 10px;
+        }
       }
     }
   }
   &-subhead {
     margin-bottom: 46px;
+
+    @include onMobile {
+      display: flex;
+      flex-direction: column;
+      gap: 19px;
+    }
+
+    @include onTablet {
+      margin-bottom: 84px;
+    }
+
+    @include onMobile {
+      margin-bottom: 40px;
+    }
+
     &__txt {
       font-family: "Inter";
       font-style: normal;
       font-size: 24px;
       line-height: 22px;
       color: $subhead-regulation;
+    }
+
+    &__thumbs {
+      display: none;
+
+      @include onMobile {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
     }
   }
   &-desc {
@@ -90,6 +148,11 @@
       font-size: 24px;
       line-height: 32px;
       color: $regulation-main;
+
+      @include onMobile {
+        font-size: 16px;
+        line-height: 22px;
+      }
     }
   }
 }
@@ -100,15 +163,41 @@
   display: flex;
   flex-direction: column;
   gap: 28px;
+
+  @include onTablet {
+    padding: 44px 22px 0 26px;
+    gap: 23px;
+  }
+
+  @include onMobile {
+    padding: 40px 0 0;
+    gap: 40px;
+  }
+
   &-quest-section {
     display: flex;
     gap: 16px;
     flex-direction: row;
+
+    @include onTablet {
+      gap: 19px;
+    }
+
+    @include onTablet {
+      &:last-of-type {
+        display: none;
+      }
+    }
+
     &-line {
       width: 12px;
       border: none;
       border-radius: 4px;
       background: $active-category;
+
+      @include onMobile {
+        display: none;
+      }
     }
     &-content {
       display: flex;
@@ -122,6 +211,11 @@
         font-size: 18px;
         line-height: 28px;
         color: $regulation-main;
+
+        @include onMobile {
+          font-size: 16px;
+          line-height: 22px;
+        }
       }
       &__add {
         font-family: "Inter";
@@ -154,6 +248,38 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+    @include onTablet {
+      margin-bottom: 13px;
+    }
+
+    @include onMobile {
+      margin-bottom: 0;
+    }
+
+    &-func {
+      display: none;
+
+      @include onTablet {
+        list-style-type: none;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 22px;
+      }
+
+      @include onMobile {
+        margin-bottom: 0;
+      }
+
+      &__item {
+        &-link {
+          background-color: $main-background;
+          border: none;
+        }
+      }
+    }
+
     &-content {
       padding-left: 28px;
       padding-right: 20px;
@@ -163,17 +289,36 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
+
+      @include onTablet {
+        padding: 20px 5px 20px 26px;
+      }
+
+      @include onMobile {
+        padding: 20px 26px;
+      }
+
       &-head {
         max-width: 685px;
         display: flex;
         flex-direction: column;
         gap: 8px;
+
+        @include onTablet {
+          max-width: 617px;
+        }
+
         &__txt {
           font-family: "Source Serif 4";
           font-style: normal;
           font-size: 18px;
           line-height: 28px;
           color: $regulation-main;
+
+          @include onMobile {
+            font-size: 16px;
+            line-height: 22px;
+          }
         }
         &__under {
           font-family: "Bold Inter";
@@ -189,6 +334,11 @@
         flex-direction: row;
         gap: 18px;
         align-items: center;
+
+        @include onTablet {
+          display: none;
+        }
+
         &__item-btn {
           background: none;
           border: none;
@@ -201,6 +351,11 @@
       justify-content: flex-end;
       align-items: center;
       gap: 10px;
+
+      @include onTablet {
+        display: none;
+      }
+
       &-btn {
         border: none;
         background: none;

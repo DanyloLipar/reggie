@@ -23,6 +23,10 @@
     align-items: center;
     gap: 18px;
 
+    @include onMobile {
+      gap: 10px;
+    }
+
     &-beta {
       font-family: "Inter";
       font-style: normal;
@@ -188,10 +192,25 @@
     padding: 12px 36px;
     gap: 10px;
     background: linear-gradient(90deg, #f548b0 -5.11%, #e06a79 100%);
+    background-size: 300% 300%;
+    animation: gradient 4s ease infinite;
     border-radius: 10px;
     margin-top: 16px;
     border: none;
     color: $waitlist-btn-txt;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+    opacity: 0.9;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
 
@@ -204,6 +223,7 @@
 
   @include onMobile {
     margin-bottom: 37.5px;
+    opacity: 0.9;
   }
 }
 
