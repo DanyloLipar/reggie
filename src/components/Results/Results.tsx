@@ -48,7 +48,7 @@ const Results = () => {
   const likeSwitcher = (index: number, typeNum: number) => {
     const newResults = [...allresults];
 
-    if (newResults[index].liked !== 0) {
+    if (newResults[index].liked === typeNum) {
       newResults[index].liked = 0;
     } else {
       newResults[index].liked = typeNum;
