@@ -26,6 +26,7 @@ const Results = () => {
   const [isActive, setIsActive] = useState(false);
   const [filterParams, setFilterParams] = useState([1]);
   const [allresults, setAllResults] = useState<any>([]);
+  const [pin, setPin] = useState(false);
 
   const searchId = useParams();
 
@@ -93,9 +94,16 @@ const Results = () => {
             </li>
           </ul>
           <ul className="overview-head-end-list">
-            <li className="overview-head-end-list__item">
-              <img src={star} alt="star" />
-            </li>
+            <div
+              className="overview-head-end-list__item"
+              onClick={() => setPin(!pin)}
+            >
+              {pin ? (
+                <img src={starActive} alt="star-active" />
+              ) : (
+                <img src={star} alt="star" />
+              )}
+            </div>
             <li className="overview-head-end-list__item">
               <img src={visit} alt="visit" />
             </li>
@@ -142,8 +150,15 @@ const Results = () => {
             <li className="overview-categories-func__list-item">
               <img src={visit} alt="visit" />
             </li>
-            <li className="overview-categories-func__list-item">
-              <img src={star} alt="star" />
+            <li
+              className="overview-categories-func__list-item"
+              onClick={() => setPin(!pin)}
+            >
+              {pin ? (
+                <img src={starActive} alt="star-active" />
+              ) : (
+                <img src={star} alt="star" />
+              )}
             </li>
           </ul>
         </div>

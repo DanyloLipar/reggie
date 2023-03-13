@@ -75,6 +75,10 @@
         align-items: center;
         gap: 20px;
         list-style: none;
+
+        &__item {
+          cursor: pointer;
+        }
       }
     }
   }
@@ -157,6 +161,10 @@
           gap: 20px;
           list-style-type: none;
           margin-top: 21px;
+        }
+
+        &-item {
+          cursor: pointer;
         }
       }
     }
