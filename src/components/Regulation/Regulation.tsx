@@ -6,6 +6,8 @@ import useHttpGet from "../../core/hooks/useHttpGet";
 
 import info from "../../assets/photos/results/info.svg";
 import voted from "../../assets/photos/results/voted.svg";
+import def_like from "../../assets/photos/liked.svg";
+import disliked from "../../assets/photos/thumb-down-active.svg";
 import thumbs_down from "../../assets/photos/results/thumbs-down.svg";
 import text_area from "../../assets/photos/results/text-area.svg";
 import star from "../../assets/photos/results/star.svg";
@@ -15,6 +17,12 @@ import link_active from "../../assets/photos/results/link-active.svg";
 
 const Regulation = () => {
   const [showMore, setShowMore] = useState(false);
+  // const [activeHeadLike, setActiveHeadLike] = useState(false);
+  const [isLiked, setIsLiked] = useState({
+    head: 0,
+    comment: 0,
+    star: 0,
+  });
 
   const { searchId, articleId } = useParams();
 
@@ -47,8 +55,90 @@ const Regulation = () => {
               className="regulation-head-title-big__logo"
             />
             <div className="regulation-head-title-big-small">
-              <img src={voted} alt="voted" />
-              <img src={thumbs_down} alt="thumbs_down" />
+              {isLiked.head === 0 && (
+                <>
+                  <img
+                    onClick={() =>
+                      setIsLiked((prev) => {
+                        return {
+                          ...prev,
+                          head: 1,
+                        };
+                      })
+                    }
+                    src={def_like}
+                    alt="def_like"
+                  />
+                  <img
+                    onClick={() =>
+                      setIsLiked((prev) => {
+                        return {
+                          ...prev,
+                          head: 2,
+                        };
+                      })
+                    }
+                    src={thumbs_down}
+                    alt="thumbs_down"
+                  />
+                </>
+              )}
+              {isLiked.head === 1 && (
+                <>
+                  <img
+                    onClick={() =>
+                      setIsLiked((prev) => {
+                        return {
+                          ...prev,
+                          head: 1,
+                        };
+                      })
+                    }
+                    src={voted}
+                    alt="voted"
+                  />
+                  <img
+                    onClick={() =>
+                      setIsLiked((prev) => {
+                        return {
+                          ...prev,
+                          head: 2,
+                        };
+                      })
+                    }
+                    src={thumbs_down}
+                    alt="thumbs_down"
+                  />
+                </>
+              )}
+              {isLiked.head === 2 && (
+                <>
+                  <img
+                    onClick={() =>
+                      setIsLiked((prev) => {
+                        return {
+                          ...prev,
+                          head: 1,
+                        };
+                      })
+                    }
+                    src={def_like}
+                    alt="liked"
+                  />
+                  <img
+                    onClick={() =>
+                      setIsLiked((prev) => {
+                        return {
+                          ...prev,
+                          head: 2,
+                        };
+                      })
+                    }
+                    src={disliked}
+                    alt="thumbs_down"
+                  />
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -56,8 +146,90 @@ const Regulation = () => {
           <img src={star} alt="star" />
           <img src={visit} alt="visit" />
           <div className="regulation-head-end__thumbs">
-            <img src={voted} alt="voted" />
-            <img src={thumbs_down} alt="thumbs_down" />
+            {isLiked.head === 0 && (
+              <>
+                <img
+                  onClick={() =>
+                    setIsLiked((prev) => {
+                      return {
+                        ...prev,
+                        head: 1,
+                      };
+                    })
+                  }
+                  src={def_like}
+                  alt="def_like"
+                />
+                <img
+                  onClick={() =>
+                    setIsLiked((prev) => {
+                      return {
+                        ...prev,
+                        head: 2,
+                      };
+                    })
+                  }
+                  src={thumbs_down}
+                  alt="thumbs_down"
+                />
+              </>
+            )}
+            {isLiked.head === 1 && (
+              <>
+                <img
+                  onClick={() =>
+                    setIsLiked((prev) => {
+                      return {
+                        ...prev,
+                        head: 1,
+                      };
+                    })
+                  }
+                  src={voted}
+                  alt="voted"
+                />
+                <img
+                  onClick={() =>
+                    setIsLiked((prev) => {
+                      return {
+                        ...prev,
+                        head: 2,
+                      };
+                    })
+                  }
+                  src={thumbs_down}
+                  alt="thumbs_down"
+                />
+              </>
+            )}
+            {isLiked.head === 2 && (
+              <>
+                <img
+                  onClick={() =>
+                    setIsLiked((prev) => {
+                      return {
+                        ...prev,
+                        head: 1,
+                      };
+                    })
+                  }
+                  src={def_like}
+                  alt="liked"
+                />
+                <img
+                  onClick={() =>
+                    setIsLiked((prev) => {
+                      return {
+                        ...prev,
+                        head: 2,
+                      };
+                    })
+                  }
+                  src={disliked}
+                  alt="thumbs_down"
+                />
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -156,12 +328,96 @@ const Regulation = () => {
             </ul>
           </div>
           <div className="conversation-answer-section-footer">
-            <button className="conversation-answer-section-footer-btn">
+            {/* <button className="conversation-answer-section-footer-btn">
               <img src={voted} alt="voted" />
             </button>
             <button className="conversation-answer-section-footer-btn">
               <img src={thumbs_down} alt="thumbs_down" />
-            </button>
+            </button> */}
+            {isLiked.comment === 0 && (
+              <>
+                <img
+                  onClick={() =>
+                    setIsLiked((prev) => {
+                      return {
+                        ...prev,
+                        comment: 1,
+                      };
+                    })
+                  }
+                  src={def_like}
+                  alt="def_like"
+                />
+                <img
+                  onClick={() =>
+                    setIsLiked((prev) => {
+                      return {
+                        ...prev,
+                        comment: 2,
+                      };
+                    })
+                  }
+                  src={thumbs_down}
+                  alt="thumbs_down"
+                />
+              </>
+            )}
+            {isLiked.comment === 1 && (
+              <>
+                <img
+                  onClick={() =>
+                    setIsLiked((prev) => {
+                      return {
+                        ...prev,
+                        comment: 1,
+                      };
+                    })
+                  }
+                  src={voted}
+                  alt="voted"
+                />
+                <img
+                  onClick={() =>
+                    setIsLiked((prev) => {
+                      return {
+                        ...prev,
+                        comment: 2,
+                      };
+                    })
+                  }
+                  src={thumbs_down}
+                  alt="thumbs_down"
+                />
+              </>
+            )}
+            {isLiked.comment === 2 && (
+              <>
+                <img
+                  onClick={() =>
+                    setIsLiked((prev) => {
+                      return {
+                        ...prev,
+                        comment: 1,
+                      };
+                    })
+                  }
+                  src={def_like}
+                  alt="liked"
+                />
+                <img
+                  onClick={() =>
+                    setIsLiked((prev) => {
+                      return {
+                        ...prev,
+                        comment: 2,
+                      };
+                    })
+                  }
+                  src={disliked}
+                  alt="thumbs_down"
+                />
+              </>
+            )}
           </div>
           <ul className="conversation-answer-section-func">
             <li className="conversation-answer-section-func__item">
@@ -255,15 +511,13 @@ const Regulation = () => {
               {showMore ? (
                 <button
                   className="conversation-quest-section-content__more"
-                  onClick={handleText}
-                >
+                  onClick={handleText}>
                   <span>Show less</span>
                 </button>
               ) : (
                 <button
                   className="conversation-quest-section-content__more"
-                  onClick={handleText}
-                >
+                  onClick={handleText}>
                   <span>See more</span>
                 </button>
               )}
