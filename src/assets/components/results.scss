@@ -171,9 +171,15 @@
   }
 
   &-regulation {
+    padding-right: 232px;
     margin-bottom: 36px;
 
+    @include onTablet {
+      padding-right: 54px;
+    }
+
     @include onMobile {
+      padding-right: 0;
       margin-bottom: 24px;
     }
 

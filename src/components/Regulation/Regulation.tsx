@@ -5,8 +5,11 @@ import { APIRoutes } from "../../core/http";
 import useHttpGet from "../../core/hooks/useHttpGet";
 
 import info from "../../assets/photos/results/info.svg";
-import voted from "../../assets/photos/results/voted.svg";
-import thumbs_down from "../../assets/photos/results/thumbs-down.svg";
+import like from "../../assets/photos/like.svg";
+import likeActive from "../../assets/photos/like-active.svg";
+import dislike from "../../assets/photos/dislike.svg";
+import dislikeActive from "../../assets/photos/dislike-active.svg";
+import thumbs_down from "../../assets/photos/dislike.svg";
 import text_area from "../../assets/photos/results/text-area.svg";
 import star from "../../assets/photos/results/star.svg";
 import visit from "../../assets/photos/results/visit.svg";
@@ -14,6 +17,7 @@ import transform from "../../assets/photos/results/transform.svg";
 import link_active from "../../assets/photos/results/link-active.svg";
 
 const Regulation = () => {
+  const [liked, setLiked] = useState<string | number>("");
   const [showMore, setShowMore] = useState(false);
 
   const { searchId, articleId } = useParams();
@@ -47,8 +51,14 @@ const Regulation = () => {
               className="regulation-head-title-big__logo"
             />
             <div className="regulation-head-title-big-small">
-              <img src={voted} alt="voted" />
-              <img src={thumbs_down} alt="thumbs_down" />
+              {liked === 1 && <img src={likeActive} alt="like-active" />}
+              {liked === 0 && (
+                <img src={like} alt="like" onClick={() => setLiked(1)} />
+              )}
+              {liked === 1 && (
+                <img src={dislike} alt="dislike" onClick={() => setLiked(0)} />
+              )}
+              {liked === 0 && <img src={dislikeActive} alt="dislike-active" />}
             </div>
           </div>
         </div>
@@ -56,8 +66,16 @@ const Regulation = () => {
           <img src={star} alt="star" />
           <img src={visit} alt="visit" />
           <div className="regulation-head-end__thumbs">
-            <img src={voted} alt="voted" />
-            <img src={thumbs_down} alt="thumbs_down" />
+            {liked === 1 ? (
+              <img src={likeActive} alt="like-active" />
+            ) : (
+              <img src={like} alt="like" onClick={() => setLiked(1)} />
+            )}
+            {liked === 1 ? (
+              <img src={dislike} alt="dislike" onClick={() => setLiked(0)} />
+            ) : (
+              <img src={dislikeActive} alt="dislike-active" />
+            )}
           </div>
         </div>
       </header>
@@ -66,8 +84,16 @@ const Regulation = () => {
         <div className="regulation-subhead__thumbs">
           <img src={star} alt="star" />
           <img src={visit} alt="visit" />
-          <img src={voted} alt="voted" />
-          <img src={thumbs_down} alt="thumbs_down" />
+          {liked === 1 ? (
+            <img src={likeActive} alt="like-active" />
+          ) : (
+            <img src={like} alt="like" onClick={() => setLiked(1)} />
+          )}
+          {liked === 1 ? (
+            <img src={dislike} alt="dislike" onClick={() => setLiked(0)} />
+          ) : (
+            <img src={dislikeActive} alt="dislike-active" />
+          )}
         </div>
       </div>
       <div className="regulation-desc">
@@ -157,7 +183,7 @@ const Regulation = () => {
           </div>
           <div className="conversation-answer-section-footer">
             <button className="conversation-answer-section-footer-btn">
-              <img src={voted} alt="voted" />
+              <img src={likeActive} alt="voted" />
             </button>
             <button className="conversation-answer-section-footer-btn">
               <img src={thumbs_down} alt="thumbs_down" />
@@ -212,7 +238,7 @@ const Regulation = () => {
             <li className="conversation-answer-section-func__item">
               <button className="conversation-answer-section-func__item-link">
                 <img
-                  src={voted}
+                  src={likeActive}
                   alt="voted"
                   className="conversation-answer-section-content-links__item-btn-img"
                 />

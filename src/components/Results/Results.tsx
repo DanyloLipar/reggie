@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { APIRoutes } from "../../core/http";
@@ -8,20 +8,54 @@ import useHttpGet from "../../core/hooks/useHttpGet";
 import more from "../../assets/photos/results/more.svg";
 import summary from "../../assets/photos/results/summary.svg";
 import star from "../../assets/photos/results/star.svg";
+import starActive from "../../assets/photos/results/star-active.svg";
 import visit from "../../assets/photos/results/visit.svg";
 import link_disable from "../../assets/photos/results/link-disable.svg";
 import text_area from "../../assets/photos/results/text-area.svg";
 import transform from "../../assets/photos/results/transform.svg";
-import voted from "../../assets/photos/results/voted.svg";
-import thumb_down from "../../assets/photos/results/thumbs-down.svg";
+import transformActive from "../../assets/photos/results/transform-active.svg";
+import like from "../../assets/photos/like.svg";
+import dislike from "../../assets/photos/dislike.svg";
+import likeActive from "../../assets/photos/like-active.svg";
+import dislikeActive from "../../assets/photos/dislike-active.svg";
 import { filters } from "../../core/constants/filters";
+import { results } from "../../core/constants/results";
 
 const Results = () => {
   const [categories, setCategories] = useState<Article[]>();
   const [isActive, setIsActive] = useState(false);
   const [filterParams, setFilterParams] = useState([1]);
+  const [allresults, setAllResults] = useState<any>([]);
 
   const searchId = useParams();
+
+  useEffect(() => {
+    setAllResults(results);
+  }, []);
+
+  const starPiner = (index: number) => {
+    const newResults = [...allresults];
+    newResults[index].star = !newResults[index].star;
+    setAllResults(newResults);
+  };
+
+  const transformPiner = (index: number) => {
+    const newResults = [...allresults];
+    newResults[index].transform = !newResults[index].transform;
+    setAllResults(newResults);
+  };
+
+  const likeSwitcher = (index: number, typeNum: number) => {
+    const newResults = [...allresults];
+
+    if (newResults[index].liked !== 0) {
+      newResults[index].liked = 0;
+    } else {
+      newResults[index].liked = typeNum;
+    }
+
+    setAllResults(newResults);
+  };
 
   const filterParamsSwitcher = (id: number) => {
     if (filterParams.includes(id)) {
@@ -132,132 +166,110 @@ const Results = () => {
           </div>
         </div>
         <div className="results-reviews">
-          <div className="results-reviews-block">
-            <div className="results-reviews__block-main block-main">
-              <div className="block-main-wrapper">
-                <div className="block-main-review">
-                  <p className="block-main-review__txt">
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et
-                    massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
-                    sapien fringilla, mattis ligula consectetur, ultrices
-                    mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet
-                    augue. Vestibulum auctor ornare leo, non suscipit magna
-                    interdum eu. Curabitur pellentesque nibh nibh, at maximus
-                    ante fermentum sit amet. Pellentesque commodo lacus at
-                    sodales sodales. Quisque sagittis orci ut diam condimentum,
-                    vel euismod erat placerat. In iaculis arcu eros, eget tempus
-                    orci facilisis id. Praesent lorem orci, mattis non efficitur
-                    id, ultricies vel nibh. Sed volutpat lacus vitae gravida
-                    viverra. Fusce vel tempor elit. Proin tempus,.
-                  </p>
-                </div>
-                <div className="block-main-review__block-footer block-footer">
-                  <div className="block-footer-head">
-                    <span className="block-footer-head__main">
-                      City Building Code 2020
-                    </span>
-                    <span className="block-footer-head__additional">
-                      Summary
-                    </span>
+          {results.map((result, index) => (
+            <div className="results-reviews-block" key={result.id}>
+              <div className="results-reviews__block-main block-main">
+                <div className="block-main-wrapper">
+                  <div className="block-main-review">
+                    <p className="block-main-review__txt">{result.desc}</p>
                   </div>
-                  <div className="block-footer-end">
-                    <img src={voted} alt="voted" />
-                    <img src={thumb_down} alt="thumb_down" />
+                  <div className="block-main-review__block-footer block-footer">
+                    <div className="block-footer-head">
+                      <span className="block-footer-head__main">
+                        City Building Code 2020
+                      </span>
+                      <span className="block-footer-head__additional">
+                        Summary
+                      </span>
+                    </div>
+                    {result.liked === 0 && (
+                      <div className="block-footer-end">
+                        <img
+                          src={like}
+                          alt="voted"
+                          onClick={() => likeSwitcher(index, 1)}
+                        />
+                        <img
+                          src={dislike}
+                          alt="thumb_down"
+                          onClick={() => likeSwitcher(index, 2)}
+                        />
+                      </div>
+                    )}
+                    {result.liked === 1 && (
+                      <div className="block-footer-end">
+                        <img
+                          src={likeActive}
+                          alt="voted"
+                          onClick={() => likeSwitcher(index, 1)}
+                        />
+                        <img
+                          src={dislike}
+                          alt="thumb_down"
+                          onClick={() => likeSwitcher(index, 2)}
+                        />
+                      </div>
+                    )}
+                    {result.liked === 2 && (
+                      <div className="block-footer-end">
+                        <img
+                          src={like}
+                          alt="voted"
+                          onClick={() => likeSwitcher(index, 1)}
+                        />
+                        <img
+                          src={dislikeActive}
+                          alt="thumb_down"
+                          onClick={() => likeSwitcher(index, 2)}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
+                <ul className="block-main-controls">
+                  <li className="block-main-controls__item">
+                    <button className="block-main-controls__item-btn">
+                      <img src={link_disable} alt="link_disable" />
+                    </button>
+                  </li>
+                  <li className="block-main-controls__item">
+                    <button
+                      className="block-main-controls__item-btn"
+                      onClick={() => starPiner(index)}
+                    >
+                      {result.star ? (
+                        <img src={starActive} alt="star-active" />
+                      ) : (
+                        <img src={star} alt="star" />
+                      )}
+                    </button>
+                  </li>
+                  <li className="block-main-controls__item">
+                    <button className="block-main-controls__item-btn">
+                      <img src={text_area} alt="text_area" />
+                    </button>
+                  </li>
+                  <li className="block-main-controls__item">
+                    <button className="block-main-controls__item-btn">
+                      <img src={visit} alt="visit" />
+                    </button>
+                  </li>
+                  <li className="block-main-controls__item">
+                    <button
+                      className="block-main-controls__item-btn"
+                      onClick={() => transformPiner(index)}
+                    >
+                      {result.transform ? (
+                        <img src={transformActive} alt="transform-active" />
+                      ) : (
+                        <img src={transform} alt="transform" />
+                      )}
+                    </button>
+                  </li>
+                </ul>
               </div>
-              <ul className="block-main-controls">
-                <li className="block-main-controls__item">
-                  <button className="block-main-controls__item-btn">
-                    <img src={link_disable} alt="link_disable" />
-                  </button>
-                </li>
-                <li className="block-main-controls__item">
-                  <button className="block-main-controls__item-btn">
-                    <img src={star} alt="star" />
-                  </button>
-                </li>
-                <li className="block-main-controls__item">
-                  <button className="block-main-controls__item-btn">
-                    <img src={text_area} alt="text_area" />
-                  </button>
-                </li>
-                <li className="block-main-controls__item">
-                  <button className="block-main-controls__item-btn">
-                    <img src={visit} alt="visit" />
-                  </button>
-                </li>
-                <li className="block-main-controls__item">
-                  <button className="block-main-controls__item-btn">
-                    <img src={transform} alt="transform" />
-                  </button>
-                </li>
-              </ul>
             </div>
-          </div>
-          <div className="results-reviews-block">
-            <div className="results-reviews__block-main block-main">
-              <div className="block-main-wrapper">
-                <div className="block-main-review">
-                  <p className="block-main-review__txt">
-                    Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et
-                    massa mi. Aliquam in hendrerit urna. Pellentesque sit amet
-                    sapien fringilla, mattis ligula consectetur, ultrices
-                    mauris. Maecenas vitae mattis tellus. Nullam quis imperdiet
-                    augue. Vestibulum auctor ornare leo, non suscipit magna
-                    interdum eu. Curabitur pellentesque nibh nibh, at maximus
-                    ante fermentum sit amet. Pellentesque commodo lacus at
-                    sodales sodales. Quisque sagittis orci ut diam condimentum,
-                    vel euismod erat placerat. In iaculis arcu eros, eget tempus
-                    orci facilisis id. Praesent lorem orci, mattis non efficitur
-                    id, ultricies vel nibh. Sed volutpat lacus vitae gravida
-                    viverra. Fusce vel tempor elit. Proin tempus,.
-                  </p>
-                </div>
-                <div className="block-main-review__block-footer block-footer">
-                  <div className="block-footer-head">
-                    <span className="block-footer-head__main">
-                      City Building Code 2020
-                    </span>
-                    <span className="block-footer-head__additional">
-                      Summary
-                    </span>
-                  </div>
-                  <div className="block-footer-end">
-                    <img src={voted} alt="voted" />
-                    <img src={thumb_down} alt="thumb_down" />
-                  </div>
-                </div>
-              </div>
-              <ul className="block-main-controls">
-                <li className="block-main-controls__item">
-                  <button className="block-main-controls__item-btn">
-                    <img src={link_disable} alt="link_disable" />
-                  </button>
-                </li>
-                <li className="block-main-controls__item">
-                  <button className="block-main-controls__item-btn">
-                    <img src={star} alt="star" />
-                  </button>
-                </li>
-                <li className="block-main-controls__item">
-                  <button className="block-main-controls__item-btn">
-                    <img src={text_area} alt="text_area" />
-                  </button>
-                </li>
-                <li className="block-main-controls__item">
-                  <button className="block-main-controls__item-btn">
-                    <img src={visit} alt="visit" />
-                  </button>
-                </li>
-                <li className="block-main-controls__item">
-                  <button className="block-main-controls__item-btn">
-                    <img src={transform} alt="transform" />
-                  </button>
-                </li>
-              </ul>
-            </div>
-          </div>
+          ))}
         </div>
       </main>
     </section>
