@@ -11,8 +11,10 @@ import disliked from "../../assets/photos/dislike-active.svg";
 import thumbs_down from "../../assets/photos/dislike.svg";
 import text_area from "../../assets/photos/results/text-area.svg";
 import star from "../../assets/photos/results/star.svg";
+import active_star from "../../assets/photos/results/star-active.svg";
 import visit from "../../assets/photos/results/visit.svg";
 import transform from "../../assets/photos/results/transform.svg";
+import transform_active from "../../assets/photos/results/transform-active.svg";
 import link_active from "../../assets/photos/results/link-active.svg";
 
 const Regulation = () => {
@@ -21,9 +23,9 @@ const Regulation = () => {
   const [isLiked, setIsLiked] = useState({
     head: 0,
     comment: 0,
-    star_first: 0,
-    star_second: 0,
-    repeat: 0,
+    star_first: false,
+    star_second: false,
+    repeat: false,
   });
 
   const { searchId, articleId } = useParams();
@@ -182,7 +184,34 @@ const Regulation = () => {
           </div>
         </div>
         <div className="regulation-head-end">
-          <img src={star} alt="star" />
+          {!isLiked.star_first && (
+            <img
+              src={star}
+              alt="star"
+              onClick={() => {
+                setIsLiked((prev) => {
+                  return {
+                    ...prev,
+                    star_first: true,
+                  };
+                });
+              }}
+            />
+          )}
+          {isLiked.star_first && (
+            <img
+              src={active_star}
+              alt="active_star"
+              onClick={() => {
+                setIsLiked((prev) => {
+                  return {
+                    ...prev,
+                    star_first: false,
+                  };
+                });
+              }}
+            />
+          )}
           <img src={visit} alt="visit" />
           <div className="regulation-head-end__thumbs">
             {isLiked.head === 0 && (
@@ -275,7 +304,34 @@ const Regulation = () => {
       <div className="regulation-subhead">
         <span className="regulation-subhead__txt">Building codes</span>
         <div className="regulation-subhead__thumbs">
-          <img src={star} alt="star" />
+          {!isLiked.star_first && (
+            <img
+              src={star}
+              alt="star"
+              onClick={() => {
+                setIsLiked((prev) => {
+                  return {
+                    ...prev,
+                    star_first: true,
+                  };
+                });
+              }}
+            />
+          )}
+          {isLiked.star_first && (
+            <img
+              src={active_star}
+              alt="active_star"
+              onClick={() => {
+                setIsLiked((prev) => {
+                  return {
+                    ...prev,
+                    star_first: false,
+                  };
+                });
+              }}
+            />
+          )}
           <img src={visit} alt="visit" />
           <img src={voted} alt="voted" />
           <img src={thumbs_down} alt="thumbs_down" />
@@ -330,11 +386,36 @@ const Regulation = () => {
               </li>
               <li className="conversation-answer-section-content-links__item">
                 <button className="conversation-answer-section-content-links__item-btn">
-                  <img
-                    src={star}
-                    alt="star"
-                    className="conversation-answer-section-content-links__item-btn-img"
-                  />
+                  {!isLiked.star_second && (
+                    <img
+                      className="conversation-answer-section-content-links__item-btn-img"
+                      src={star}
+                      alt="star"
+                      onClick={() => {
+                        setIsLiked((prev) => {
+                          return {
+                            ...prev,
+                            star_second: true,
+                          };
+                        });
+                      }}
+                    />
+                  )}
+                  {isLiked.star_second && (
+                    <img
+                      className="conversation-answer-section-content-links__item-btn-img"
+                      src={active_star}
+                      alt="active_star"
+                      onClick={() => {
+                        setIsLiked((prev) => {
+                          return {
+                            ...prev,
+                            star_second: false,
+                          };
+                        });
+                      }}
+                    />
+                  )}
                 </button>
               </li>
               <li className="conversation-answer-section-content-links__item">
@@ -356,23 +437,44 @@ const Regulation = () => {
                 </button>
               </li>
               <li className="conversation-answer-section-content-links__item">
-                <button className="conversation-answer-section-content-links__item-btn">
-                  <img
-                    src={transform}
-                    alt="transform"
-                    className="conversation-answer-section-content-links__item-btn-img"
-                  />
-                </button>
+                {!isLiked.repeat && (
+                  <button className="conversation-answer-section-content-links__item-btn">
+                    <img
+                      className="conversation-answer-section-content-links__item-btn-img"
+                      src={transform}
+                      alt="star"
+                      onClick={() => {
+                        setIsLiked((prev) => {
+                          return {
+                            ...prev,
+                            repeat: true,
+                          };
+                        });
+                      }}
+                    />
+                  </button>
+                )}
+                {isLiked.repeat && (
+                  <button className="conversation-answer-section-content-links__item-btn">
+                    <img
+                      className="conversation-answer-section-content-links__item-btn-img"
+                      src={transform_active}
+                      alt="transform_active"
+                      onClick={() => {
+                        setIsLiked((prev) => {
+                          return {
+                            ...prev,
+                            repeat: false,
+                          };
+                        });
+                      }}
+                    />
+                  </button>
+                )}
               </li>
             </ul>
           </div>
           <div className="conversation-answer-section-footer">
-            {/* <button className="conversation-answer-section-footer-btn">
-              <img src={voted} alt="voted" />
-            </button>
-            <button className="conversation-answer-section-footer-btn">
-              <img src={thumbs_down} alt="thumbs_down" />
-            </button> */}
             {isLiked.comment === 0 && (
               <>
                 <img
@@ -506,11 +608,36 @@ const Regulation = () => {
             </li>
             <li className="conversation-answer-section-func__item">
               <button className="conversation-answer-section-func__item-link">
-                <img
-                  src={star}
-                  alt="star"
-                  className="conversation-answer-section-content-links__item-btn-img"
-                />
+                {!isLiked.star_second && (
+                  <img
+                    className="conversation-answer-section-content-links__item-btn-img"
+                    src={star}
+                    alt="star"
+                    onClick={() => {
+                      setIsLiked((prev) => {
+                        return {
+                          ...prev,
+                          star_second: true,
+                        };
+                      });
+                    }}
+                  />
+                )}
+                {isLiked.star_second && (
+                  <img
+                    className="conversation-answer-section-content-links__item-btn-img"
+                    src={active_star}
+                    alt="active_star"
+                    onClick={() => {
+                      setIsLiked((prev) => {
+                        return {
+                          ...prev,
+                          star_second: false,
+                        };
+                      });
+                    }}
+                  />
+                )}
               </button>
             </li>
             <li className="conversation-answer-section-func__item">
@@ -586,15 +713,13 @@ const Regulation = () => {
               {showMore ? (
                 <button
                   className="conversation-quest-section-content__more"
-                  onClick={handleText}
-                >
+                  onClick={handleText}>
                   <span>Show less</span>
                 </button>
               ) : (
                 <button
                   className="conversation-quest-section-content__more"
-                  onClick={handleText}
-                >
+                  onClick={handleText}>
                   <span>See more</span>
                 </button>
               )}
