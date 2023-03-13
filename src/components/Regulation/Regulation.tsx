@@ -16,7 +16,6 @@ import transform from "../../assets/photos/results/transform.svg";
 import link_active from "../../assets/photos/results/link-active.svg";
 
 const Regulation = () => {
-  const [liked, setLiked] = useState<string | number>("");
   const [showMore, setShowMore] = useState(false);
 
   const [isLiked, setIsLiked] = useState({
@@ -278,16 +277,8 @@ const Regulation = () => {
         <div className="regulation-subhead__thumbs">
           <img src={star} alt="star" />
           <img src={visit} alt="visit" />
-          {liked === 1 ? (
-            <img src={likeActive} alt="like-active" />
-          ) : (
-            <img src={like} alt="like" onClick={() => setLiked(1)} />
-          )}
-          {liked === 1 ? (
-            <img src={dislike} alt="dislike" onClick={() => setLiked(0)} />
-          ) : (
-            <img src={dislikeActive} alt="dislike-active" />
-          )}
+          <img src={voted} alt="voted" />
+          <img src={thumbs_down} alt="thumbs_down" />
         </div>
       </div>
       <div className="regulation-desc">
@@ -552,7 +543,7 @@ const Regulation = () => {
             <li className="conversation-answer-section-func__item">
               <button className="conversation-answer-section-func__item-link">
                 <img
-                  src={likeActive}
+                  src={voted}
                   alt="voted"
                   className="conversation-answer-section-content-links__item-btn-img"
                 />
