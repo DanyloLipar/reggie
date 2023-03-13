@@ -17,11 +17,13 @@ import link_active from "../../assets/photos/results/link-active.svg";
 
 const Regulation = () => {
   const [showMore, setShowMore] = useState(false);
-  // const [activeHeadLike, setActiveHeadLike] = useState(false);
+
   const [isLiked, setIsLiked] = useState({
     head: 0,
     comment: 0,
-    star: 0,
+    star_first: 0,
+    star_second: 0,
+    repeat: 0,
   });
 
   const { searchId, articleId } = useParams();
@@ -60,6 +62,12 @@ const Regulation = () => {
                   <img
                     onClick={() =>
                       setIsLiked((prev) => {
+                        if (isLiked.head === 1) {
+                          return {
+                            ...prev,
+                            head: 0,
+                          };
+                        }
                         return {
                           ...prev,
                           head: 1,
@@ -72,6 +80,12 @@ const Regulation = () => {
                   <img
                     onClick={() =>
                       setIsLiked((prev) => {
+                        if (isLiked.head === 2) {
+                          return {
+                            ...prev,
+                            head: 0,
+                          };
+                        }
                         return {
                           ...prev,
                           head: 2,
@@ -88,6 +102,13 @@ const Regulation = () => {
                   <img
                     onClick={() =>
                       setIsLiked((prev) => {
+                        if (isLiked.head === 1) {
+                          return {
+                            ...prev,
+                            head: 0,
+                          };
+                        }
+
                         return {
                           ...prev,
                           head: 1,
@@ -100,6 +121,12 @@ const Regulation = () => {
                   <img
                     onClick={() =>
                       setIsLiked((prev) => {
+                        if (isLiked.head === 2) {
+                          return {
+                            ...prev,
+                            head: 0,
+                          };
+                        }
                         return {
                           ...prev,
                           head: 2,
@@ -116,6 +143,12 @@ const Regulation = () => {
                   <img
                     onClick={() =>
                       setIsLiked((prev) => {
+                        if (isLiked.head === 1) {
+                          return {
+                            ...prev,
+                            head: 0,
+                          };
+                        }
                         return {
                           ...prev,
                           head: 1,
@@ -128,6 +161,12 @@ const Regulation = () => {
                   <img
                     onClick={() =>
                       setIsLiked((prev) => {
+                        if (isLiked.head === 2) {
+                          return {
+                            ...prev,
+                            head: 0,
+                          };
+                        }
                         return {
                           ...prev,
                           head: 2,
@@ -339,6 +378,12 @@ const Regulation = () => {
                 <img
                   onClick={() =>
                     setIsLiked((prev) => {
+                      if (isLiked.comment === 1) {
+                        return {
+                          ...prev,
+                          comment: 0,
+                        };
+                      }
                       return {
                         ...prev,
                         comment: 1,
@@ -351,6 +396,12 @@ const Regulation = () => {
                 <img
                   onClick={() =>
                     setIsLiked((prev) => {
+                      if (isLiked.comment === 2) {
+                        return {
+                          ...prev,
+                          comment: 0,
+                        };
+                      }
                       return {
                         ...prev,
                         comment: 2,
@@ -367,6 +418,12 @@ const Regulation = () => {
                 <img
                   onClick={() =>
                     setIsLiked((prev) => {
+                      if (isLiked.comment === 1) {
+                        return {
+                          ...prev,
+                          comment: 0,
+                        };
+                      }
                       return {
                         ...prev,
                         comment: 1,
@@ -379,6 +436,12 @@ const Regulation = () => {
                 <img
                   onClick={() =>
                     setIsLiked((prev) => {
+                      if (isLiked.comment === 2) {
+                        return {
+                          ...prev,
+                          comment: 0,
+                        };
+                      }
                       return {
                         ...prev,
                         comment: 2,
@@ -395,6 +458,12 @@ const Regulation = () => {
                 <img
                   onClick={() =>
                     setIsLiked((prev) => {
+                      if (isLiked.comment === 1) {
+                        return {
+                          ...prev,
+                          comment: 0,
+                        };
+                      }
                       return {
                         ...prev,
                         comment: 1,
@@ -407,6 +476,12 @@ const Regulation = () => {
                 <img
                   onClick={() =>
                     setIsLiked((prev) => {
+                      if (isLiked.comment === 2) {
+                        return {
+                          ...prev,
+                          comment: 0,
+                        };
+                      }
                       return {
                         ...prev,
                         comment: 2,
