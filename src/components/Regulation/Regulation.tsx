@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { APIRoutes } from "../../core/http";
@@ -16,6 +16,7 @@ import visit from "../../assets/photos/results/visit.svg";
 import transform from "../../assets/photos/results/transform.svg";
 import transform_active from "../../assets/photos/results/transform-active.svg";
 import link_active from "../../assets/photos/results/link-active.svg";
+import AppService from "../../core/services/app.service";
 
 const Regulation = () => {
   const [showMore, setShowMore] = useState(false);
@@ -30,9 +31,11 @@ const Regulation = () => {
 
   const { searchId, articleId } = useParams();
 
-  const { fetchedData: articleDetailed } = useHttpGet<any>(
-    `${APIRoutes.SEARCH_DETAILS}/${searchId}/Articles/${articleId}`
-  );
+  // const { fetchedData: articleDetailed } = useHttpGet<any>(
+  //   `${APIRoutes.SEARCH_DETAILS}/${searchId}/articles/${articleId}`
+  // );
+
+  const { fetchedData: articles } = useHttpGet<any>(`${APIRoutes.ARTICLES}`);
 
   const handleText = () => {
     if (!showMore) {
@@ -41,6 +44,8 @@ const Regulation = () => {
       setShowMore(false);
     }
   };
+
+  console.log(articles);
 
   return (
     <section className="regulation">

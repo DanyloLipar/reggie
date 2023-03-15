@@ -1,4 +1,5 @@
 import { AxiosResponse } from "axios";
+
 import { APIRoutes } from "../http";
 import { App } from "../models";
 
@@ -21,5 +22,16 @@ export default class AppService {
     formData.append("userId", String(model.userId));
     formData.append("query", model.query);
     return RequestsService.postMethod<any>(APIRoutes.SEARCH, formData);
+  }
+
+  static async createArticle(model: any): Promise<AxiosResponse<any>> {
+    const formData = new FormData();
+
+    for (var property in model) {
+      if (model.hasOwnProperty(property))
+        formData.append(property, (<any>model)[property]);
+    }
+
+    return RequestsService.postMethod<any>(APIRoutes.ARTICLES, formData);
   }
 }

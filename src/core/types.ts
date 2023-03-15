@@ -1,15 +1,15 @@
-type ArticleSummary = {
+export type Article = {
   articleId: number;
   articleName: string;
-  tags: string[];
-  articleSummary: string;
-};
-
-export type Article = {
   categoryId: number;
   category: string;
-  numberOfArticles: number;
-  numberOfRequirements: number;
-  categorySummary: string;
-  articleSummaries: ArticleSummary[];
+  tags: string[];
+  articleSummary: string;
+  requirements: Requirements[];
+};
+
+export type Requirements = {
+  requirementId: number;
+  requirementName: string;
+  requirementSummary: string;
 };

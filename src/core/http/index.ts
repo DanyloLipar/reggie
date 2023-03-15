@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const APIRoutes = {
+  ARTICLES: "/articles",
   AUTH_GOOGLE: "/googleLoginCallback",
   JOIN_WAITINGLIST: "/joinWaitingList",
   SEARCH: "/search",
