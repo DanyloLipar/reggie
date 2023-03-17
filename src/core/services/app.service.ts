@@ -32,6 +32,8 @@ export default class AppService {
         formData.append(property, (<any>model)[property]);
     }
 
-    return RequestsService.postMethod<any>(APIRoutes.ARTICLES, formData);
+    return RequestsService.postMethod<any>(APIRoutes.ARTICLES, formData, {
+      params: { _method: "PUT" },
+    });
   }
 }

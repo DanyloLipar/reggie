@@ -11,7 +11,7 @@ import "./assets/index.scss";
 function App() {
   return (
     <>
-      <GoogleOAuthProvider clientId="">
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_KEY}>
         <Routes>
           <Route path="/" element={<MainPageOpenBeta />} />
           <Route path="/closed-beta" element={<MainPageClosedBeta />} />

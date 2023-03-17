@@ -1,4 +1,4 @@
-import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { APIRoutes } from "../../core/http";
@@ -35,7 +35,7 @@ const Regulation = () => {
   //   `${APIRoutes.SEARCH_DETAILS}/${searchId}/articles/${articleId}`
   // );
 
-  const { fetchedData: articles } = useHttpGet<any>(`${APIRoutes.ARTICLES}`);
+  // const { fetchedData: articles } = useHttpGet<any>(`${APIRoutes.ARTICLES}`);
 
   const handleText = () => {
     if (!showMore) {
@@ -45,12 +45,19 @@ const Regulation = () => {
     }
   };
 
-  console.log(articles);
+  const addAcrticle = async () => {
+    const response = await AppService.createArticle({
+      id: 1,
+      name: "artilce_1",
+      categoryTag: "category_1",
+      tags: ["tag1", "tag2"],
+    });
+  };
 
   return (
     <section className="regulation">
       <div className="regulation-top">
-        <button className="regulation-top-btn">
+        <button onClick={addAcrticle} className="regulation-top-btn">
           <span className="regulation-top-btn__txt">Sign out</span>
         </button>
       </div>
