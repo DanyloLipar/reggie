@@ -25,11 +25,12 @@ const MainPageOpenBeta = () => {
   const dispatch = useDispatch();
 
   const handleGoogleSignIn = async (values: any) => {
-    // const encoded_values: App.GoogleLogin = jwtDecode(values.credential);
+    const encoded_values: App.GoogleLogin = jwtDecode(values.credential);
+
     try {
-      // const response = await AuthService.loginGoogle(encoded_values);
-      await fetch("https://jsonplaceholder.typicode.com/todos/1");
+      await AuthService.loginGoogle(encoded_values);
     } catch (errors: any) {
+      console.log(errors)
       toast.error("Login failed!");
     }
   };
