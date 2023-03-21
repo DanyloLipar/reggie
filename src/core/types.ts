@@ -13,3 +13,12 @@ export type Requirements = {
   requirementName: string;
   requirementSummary: string;
 };
+
+export type Category = {
+  articleSummaries: any; 
+  category: string;
+  categoryId: number;
+  categorySummary: string;
+  numberOfArticles: number;
+  numberOfRequirements: number;
+}

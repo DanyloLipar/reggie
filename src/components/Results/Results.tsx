@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { APIRoutes } from "../../core/http";
-import { Article } from "../../core/types";
+import { Article, Category } from "../../core/types";
 import useHttpGet from "../../core/hooks/useHttpGet";
 
 import more from "../../assets/photos/results/more.svg";
@@ -20,11 +20,12 @@ import likeActive from "../../assets/photos/like-active.svg";
 import dislikeActive from "../../assets/photos/dislike-active.svg";
 import { filters } from "../../core/constants/filters";
 import { results } from "../../core/constants/results";
+import { toast } from "react-toastify";
 
 const Results = () => {
-  const [categories, setCategories] = useState<Article[]>();
+  const [categories, setCategories] = useState<Category[]>([]);
   const [isActive, setIsActive] = useState(false);
-  const [filterParams, setFilterParams] = useState([1]);
+  const [selectedCategory, setSelectedCategory] = useState<Category>();
   const [allresults, setAllResults] = useState<any>([]);
   const [pin, setPin] = useState(false);
 
@@ -58,22 +59,33 @@ const Results = () => {
     setAllResults(newResults);
   };
 
-  const filterParamsSwitcher = (id: number) => {
-    if (filterParams.includes(id)) {
-      setFilterParams(filterParams.filter((param) => param !== id));
-      return;
-    }
+  // const filterParamsSwitcher = (id: number) => {
+  //   if (filterParams.includes(id)) {
+  //     setFilterParams(filterParams.filter((param: any) => param !== id));
+  //     return;
+  //   }
 
-    setFilterParams([...filterParams, id]);
+  //   setFilterParams([...filterParams, id]);
+  // };
+
+  const filterParamsSwitcher = (id: number) => {
+    const newCategory = categories.find((category: Category) => category.categoryId === id);
+    setSelectedCategory(newCategory);
   };
 
   useHttpGet<any>(`${APIRoutes.SEARCH_SUMMARY}/${searchId}`, {
     resolve: (response) => {
-      if (response.payload) {
-        setCategories(response.summaries);
+      if (response) {
+        setCategories(response?.summaries);
+        setSelectedCategory(response?.summaries[0])
       }
     },
+    reject: (error) => {
+      toast.error("Articles not found!")
+    }
   });
+
+  console.log(selectedCategory);
 
   return (
     <section className="overview">
@@ -111,25 +123,25 @@ const Results = () => {
       </header>
       <div className="overview-categories">
         <ul className="overview-categories-list">
-          {filters.map((filter) => (
+          {categories.map((category: Category, index: number) => (
             <li
               className="overview-categories-list-item"
-              key={filter.id}
-              onClick={() => filterParamsSwitcher(filter.id)}>
+              key={category.categoryId}
+              onClick={() => filterParamsSwitcher(category.categoryId)}>
               <button
                 onClick={() => setIsActive(!isActive)}
                 className={
-                  filterParams.includes(filter.id)
+                  selectedCategory?.categoryId === category.categoryId
                     ? "overview-categories-list-item-active-btn"
                     : "overview-categories-list-item-btn"
                 }>
                 <span
                   className={
-                    filterParams.includes(filter.id)
+                    selectedCategory?.categoryId === category.categoryId
                       ? "overview-categories-list-item-btn__txt-active"
                       : "overview-categories-list-item-btn__txt"
                   }>
-                  {filter.name}
+                  {category.category}
                 </span>
               </button>
             </li>
@@ -161,38 +173,32 @@ const Results = () => {
       <main className="overview__results results">
         <div className="results-regulation">
           <span className="results-regulation-head">
-            Generated based on 3 regulations and 72 requirements
+            {`Generated based on ${selectedCategory?.numberOfArticles} regulations and ${selectedCategory?.numberOfRequirements} requirements`}
           </span>
           <div className="results-regulation-desc">
             <p className="results-regulation-desc__txt">
-              Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa
-              mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien
-              fringilla, mattis ligula consectetur, ultrices mauris. Maecenas
-              vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum
-              auctor ornare leo, non suscipit magna interdum eu. Curabitur
-              pellentesque nibh nibh, at maximus ante fermentum sit amet.
-              Pellentesque commodo lacus at sodales sodales.
+              {selectedCategory?.categorySummary}
             </p>
           </div>
         </div>
         <div className="results-reviews">
-          {results.map((result, index) => (
-            <div className="results-reviews-block" key={result.id}>
+          {selectedCategory?.articleSummaries.map((article: Article, index: number) => (
+            <div className="results-reviews-block" key={article.articleId}>
               <div className="results-reviews__block-main block-main">
                 <div className="block-main-wrapper">
                   <div className="block-main-review">
-                    <p className="block-main-review__txt">{result.desc}</p>
+                    <p className="block-main-review__txt">{article.articleSummary}</p>
                   </div>
                   <div className="block-main-review__block-footer block-footer">
                     <div className="block-footer-head">
                       <span className="block-footer-head__main">
-                        City Building Code 2020
+                        {article.articleName}
                       </span>
                       <span className="block-footer-head__additional">
                         Summary
                       </span>
                     </div>
-                    {result.liked === 0 && (
+                    {/* {result.liked === 0 && (
                       <div className="block-footer-end">
                         <img
                           src={like}
@@ -233,7 +239,7 @@ const Results = () => {
                           onClick={() => likeSwitcher(index, 2)}
                         />
                       </div>
-                    )}
+                    )} */}
                   </div>
                 </div>
                 <ul className="block-main-controls">
@@ -242,7 +248,7 @@ const Results = () => {
                       <img src={link_disable} alt="link_disable" />
                     </button>
                   </li>
-                  <li className="block-main-controls__item">
+                  {/* <li className="block-main-controls__item">
                     <button
                       className="block-main-controls__item-btn"
                       onClick={() => starPiner(index)}>
@@ -252,7 +258,7 @@ const Results = () => {
                         <img src={star} alt="star" />
                       )}
                     </button>
-                  </li>
+                  </li> */}
                   <li className="block-main-controls__item">
                     <button className="block-main-controls__item-btn">
                       <img src={text_area} alt="text_area" />
@@ -263,7 +269,7 @@ const Results = () => {
                       <img src={visit} alt="visit" />
                     </button>
                   </li>
-                  <li className="block-main-controls__item">
+                  {/* <li className="block-main-controls__item">
                     <button
                       className="block-main-controls__item-btn"
                       onClick={() => transformPiner(index)}>
@@ -273,7 +279,7 @@ const Results = () => {
                         <img src={transform} alt="transform" />
                       )}
                     </button>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             </div>

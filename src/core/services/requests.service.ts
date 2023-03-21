@@ -8,6 +8,9 @@ export default class RequestsService {
   ): Promise<AxiosResponse<T>> {
     return $api.get(url, {
       params: query,
+      headers: {
+        Authorization: process.env.REACT_APP_JWT_TOKEN
+      }
     });
   }
 

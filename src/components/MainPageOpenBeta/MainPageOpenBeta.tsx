@@ -59,6 +59,8 @@ const MainPageOpenBeta = () => {
     }
   };
 
+  console.log(process.env.REACT_APP_JWT_TOKEN);
+
   return (
     <>
       <header className="heading">

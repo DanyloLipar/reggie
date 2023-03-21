@@ -7,5 +7,6 @@ declare namespace NodeJS {
     readonly PUBLIC_URL: string;
     readonly REACT_APP_API_URL: string;
     readonly REACT_APP_GOOGLE_KEY: string;
+    readonly REACT_APP_JWT_TOKEN: string;
   }
 }
