@@ -15,7 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPageOpenBeta />} />
           <Route path="/closed-beta" element={<MainPageClosedBeta />} />
-          <Route path="/results/:id" element={<Results />} />
+          <Route path="/results/:searchId" element={<Results />} />
           <Route
             path="/regulation/:searchId/:articleId"
             element={<Regulation />}
