@@ -20,8 +20,6 @@ const MainPageOpenBeta = () => {
 
   const user = useAppSelector((state) => state.auth.currentUser);
 
-  const { searchId } = useParams();
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -41,25 +39,32 @@ const MainPageOpenBeta = () => {
 
       localStorage.setItem("savedUser", JSON.stringify(response?.data));
     } catch (errors: any) {
-      console.log(errors)
       toast.error("Login failed!");
+    }
+  };
+
+  const handleSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+
+    if (inpQuery) {
+      performSearch();
+    } else {
+      toast.error("Please provide search details");
     }
   };
 
   const performSearch = async () => {
     try {
-      await AppService.searchPerform({
+      const response = await AppService.searchPerform({
         userId: user?.userId,
         query: inpQuery,
       });
 
-      // navigate(`/results/${searchId}`);
+      navigate(`/results/${response?.data?.searchId}`);
     } catch (errors: any) {
       toast.error("Not Found!");
     }
   };
-
-  console.log(process.env.REACT_APP_JWT_TOKEN);
 
   return (
     <>
@@ -99,7 +104,7 @@ const MainPageOpenBeta = () => {
           trained on mountains of federal, state, and local regulations, so you
           don't have to be.
         </p>
-        <div className="general-info__functional">
+        <form onSubmit={handleSubmit} className="general-info__functional">
           <div className="general-info__functional-search functional-search">
             <div className="functional-search__inp">
               <div className="module-border-wrap">
@@ -110,7 +115,6 @@ const MainPageOpenBeta = () => {
                     placeholder="ie. ‘a smart lock’, ‘extension in NYC’"
                     value={inpQuery}
                     onChange={(event) => setInpQuery(event.target.value)}
-                    onKeyDown={performSearch}
                   />
                 </div>
               </div>
@@ -120,8 +124,10 @@ const MainPageOpenBeta = () => {
               does not constitute or provide legal advice.
             </span>
           </div>
-          <button className="general-info__functional-btn">Try for free</button>
-        </div>
+          <button type="submit" className="general-info__functional-btn">
+            Try for free
+          </button>
+        </form>
       </div>
       <Categories />
     </>

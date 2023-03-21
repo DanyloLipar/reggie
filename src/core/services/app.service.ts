@@ -6,7 +6,9 @@ import { App } from "../models";
 import RequestsService from "./requests.service";
 
 export default class AppService {
-  static async joinWaitingList(userId: number): Promise<AxiosResponse<any>> {
+  static async joinWaitingList(
+    userId: number | undefined
+  ): Promise<AxiosResponse<any>> {
     const userData = JSON.stringify(userId);
 
     return RequestsService.postMethod<any>(

@@ -9,8 +9,8 @@ export default class RequestsService {
     return $api.get(url, {
       params: query,
       headers: {
-        Authorization: process.env.REACT_APP_JWT_TOKEN
-      }
+        Authorization: process.env.REACT_APP_JWT_TOKEN,
+      },
     });
   }
 
@@ -19,7 +19,16 @@ export default class RequestsService {
     payload?: any,
     config?: any
   ): Promise<AxiosResponse<T>> {
-    return $api.post<T>(url, payload, config);
+    return $api.post<T>(
+      url,
+      payload,
+      (config = {
+        headers: {
+          "Content-Type": "application/json;",
+          Authorization: process.env.REACT_APP_JWT_TOKEN,
+        },
+      })
+    );
   }
 
   static async putMethod<T>(
