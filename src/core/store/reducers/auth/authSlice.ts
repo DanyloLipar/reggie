@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { AuthState } from "./types";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+import { AuthState, User } from "./types";
 
 const state: AuthState = {
   isAuth: false,
@@ -13,8 +14,11 @@ const authSlice = createSlice({
     setIsAuth(state) {
       state.isAuth = !state.isAuth;
     },
+    setUser(state, action: PayloadAction<User>) {
+      state.currentUser = action.payload;
+    },
   },
 });
 
 export default authSlice.reducer;
-export const { setIsAuth } = authSlice.actions;
+export const { setIsAuth, setUser } = authSlice.actions;

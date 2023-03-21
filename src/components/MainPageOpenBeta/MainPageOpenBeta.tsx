@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { toast } from "react-toastify";
 import jwtDecode from "jwt-decode";
 
 import AppService from "../../core/services/app.service";
 import AuthService from "../../core/services/auth.service";
-import { setIsAuth } from "../../core/store/reducers/auth/authSlice";
+import { setIsAuth, setUser } from "../../core/store/reducers/auth/authSlice";
 import { useAppSelector } from "../../core/store";
 import Categories from "../Categories";
 import { App } from "../../core/models";
@@ -18,17 +18,28 @@ import googleLogo from "../../assets/photos/google.svg";
 const MainPageOpenBeta = () => {
   const [inpQuery, setInpQuery] = useState("");
 
-  const isAuth = useAppSelector((state) => state.auth.isAuth);
   const user = useAppSelector((state) => state.auth.currentUser);
+
+  const { searchId } = useParams();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (localStorage.getItem("savedUser")) {
+      const currUser = JSON.parse(localStorage.getItem("savedUser") || "{}");
+
+      dispatch(setUser(currUser));
+      dispatch(setIsAuth());
+    }
+  }, []);
+
   const handleGoogleSignIn = async (values: any) => {
     const encoded_values: App.GoogleLogin = jwtDecode(values.credential);
-
     try {
-      await AuthService.loginGoogle(encoded_values);
+      const response = await AuthService.loginGoogle(encoded_values);
+
+      localStorage.setItem("savedUser", JSON.stringify(response?.data));
     } catch (errors: any) {
       console.log(errors)
       toast.error("Login failed!");
@@ -37,11 +48,12 @@ const MainPageOpenBeta = () => {
 
   const performSearch = async () => {
     try {
-      const response = await AppService.searchPerform({
+      await AppService.searchPerform({
         userId: user?.userId,
         query: inpQuery,
       });
-      // navigate(`/results/${response?.searchId}`)
+
+      // navigate(`/results/${searchId}`);
     } catch (errors: any) {
       toast.error("Not Found!");
     }

@@ -28,7 +28,7 @@ const Results = () => {
   const [allresults, setAllResults] = useState<any>([]);
   const [pin, setPin] = useState(false);
 
-  const searchId = useParams();
+  const { searchId } = useParams();
 
   useEffect(() => {
     setAllResults(results);
@@ -67,13 +67,13 @@ const Results = () => {
     setFilterParams([...filterParams, id]);
   };
 
-  // useHttpGet<any>(`${APIRoutes.SEARCH_SUMMARY}/${searchId}`, {
-  //   resolve: (response) => {
-  //     if (response.payload) {
-  //       setCategories(response.summaries);
-  //     }
-  //   },
-  // });
+  useHttpGet<any>(`${APIRoutes.SEARCH_SUMMARY}/${searchId}`, {
+    resolve: (response) => {
+      if (response.payload) {
+        setCategories(response.summaries);
+      }
+    },
+  });
 
   return (
     <section className="overview">
@@ -96,8 +96,7 @@ const Results = () => {
           <ul className="overview-head-end-list">
             <div
               className="overview-head-end-list__item"
-              onClick={() => setPin(!pin)}
-            >
+              onClick={() => setPin(!pin)}>
               {pin ? (
                 <img src={starActive} alt="star-active" />
               ) : (
@@ -116,23 +115,20 @@ const Results = () => {
             <li
               className="overview-categories-list-item"
               key={filter.id}
-              onClick={() => filterParamsSwitcher(filter.id)}
-            >
+              onClick={() => filterParamsSwitcher(filter.id)}>
               <button
                 onClick={() => setIsActive(!isActive)}
                 className={
                   filterParams.includes(filter.id)
                     ? "overview-categories-list-item-active-btn"
                     : "overview-categories-list-item-btn"
-                }
-              >
+                }>
                 <span
                   className={
                     filterParams.includes(filter.id)
                       ? "overview-categories-list-item-btn__txt-active"
                       : "overview-categories-list-item-btn__txt"
-                  }
-                >
+                  }>
                   {filter.name}
                 </span>
               </button>
@@ -152,8 +148,7 @@ const Results = () => {
             </li>
             <li
               className="overview-categories-func__list-item"
-              onClick={() => setPin(!pin)}
-            >
+              onClick={() => setPin(!pin)}>
               {pin ? (
                 <img src={starActive} alt="star-active" />
               ) : (
@@ -250,8 +245,7 @@ const Results = () => {
                   <li className="block-main-controls__item">
                     <button
                       className="block-main-controls__item-btn"
-                      onClick={() => starPiner(index)}
-                    >
+                      onClick={() => starPiner(index)}>
                       {result.star ? (
                         <img src={starActive} alt="star-active" />
                       ) : (
@@ -272,8 +266,7 @@ const Results = () => {
                   <li className="block-main-controls__item">
                     <button
                       className="block-main-controls__item-btn"
-                      onClick={() => transformPiner(index)}
-                    >
+                      onClick={() => transformPiner(index)}>
                       {result.transform ? (
                         <img src={transformActive} alt="transform-active" />
                       ) : (

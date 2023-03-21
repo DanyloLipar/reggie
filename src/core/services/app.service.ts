@@ -7,21 +7,29 @@ import RequestsService from "./requests.service";
 
 export default class AppService {
   static async joinWaitingList(userId: number): Promise<AxiosResponse<any>> {
-    const formData = new FormData();
-    formData.append("userId", String(userId));
+    const userData = JSON.stringify(userId);
+
     return RequestsService.postMethod<any>(
-      `${APIRoutes.JOIN_WAITINGLIST}/${userId}`,
-      formData
+      APIRoutes.JOIN_WAITINGLIST,
+      userData,
+      {
+        headers: {
+          "Content-Type": "application/json;",
+        },
+      }
     );
   }
 
   static async searchPerform(
     model: App.PerformSearch
   ): Promise<AxiosResponse<any>> {
-    const formData = new FormData();
-    formData.append("userId", String(model.userId));
-    formData.append("query", model.query);
-    return RequestsService.postMethod<any>(APIRoutes.SEARCH, formData);
+    const searchQuery = JSON.stringify(model);
+
+    return RequestsService.postMethod<any>(APIRoutes.SEARCH, searchQuery, {
+      headers: {
+        "Content-Type": "application/json;",
+      },
+    });
   }
 
   static async createArticle(model: any): Promise<AxiosResponse<any>> {
