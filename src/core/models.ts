@@ -16,4 +16,11 @@ export declare namespace App {
     userId: number | undefined;
     query: string;
   }
+
+  interface ArticleLike {
+    userId: number | undefined;
+    isSummary: boolean;
+    articleId: number | undefined;
+    feedback: number | string;
+  }
 }

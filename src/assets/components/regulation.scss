@@ -182,18 +182,35 @@
     display: flex;
     gap: 16px;
     flex-direction: row;
-    &:hover {
+    cursor: pointer;
+
+    &-active {
+      justify-content: space-between;
       background-color: #f8f4f0;
-      transition: 0.5s;
+      transition: 0.2s;
       border-radius: 14px;
+      padding-left: 31px;
     }
+
     @include onTablet {
       gap: 19px;
     }
 
-    @include onTablet {
-      &:last-of-type {
+    &-footer {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 10px;
+      margin-top: 12px;
+
+      @include onTablet {
         display: none;
+      }
+
+      &-btn {
+        border: none;
+        background: none;
       }
     }
 
@@ -207,6 +224,7 @@
         display: none;
       }
     }
+
     &-content {
       display: flex;
       flex-direction: column;
@@ -341,6 +359,7 @@
         flex-direction: row;
         gap: 18px;
         align-items: center;
+        margin-right: 27px;
 
         @include onTablet {
           display: none;
@@ -350,22 +369,6 @@
           background: none;
           border: none;
         }
-      }
-    }
-    &-footer {
-      width: 100%;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      gap: 10px;
-
-      @include onTablet {
-        display: none;
-      }
-
-      &-btn {
-        border: none;
-        background: none;
       }
     }
   }

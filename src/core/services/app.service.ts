@@ -46,4 +46,21 @@ export default class AppService {
       params: { _method: "PUT" },
     });
   }
+
+  static async changeIsSummary(
+    searchId: number | undefined,
+    model: App.ArticleLike
+  ): Promise<AxiosResponse<any>> {
+    const feedbackData = JSON.stringify(model);
+
+    return RequestsService.postMethod<any>(
+      `${APIRoutes.FEEDBACK}/${searchId}`,
+      feedbackData,
+      {
+        headers: {
+          "Content-Type": "application/json;",
+        },
+      }
+    );
+  }
 }

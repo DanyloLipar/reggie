@@ -7,6 +7,7 @@ export const APIRoutes = {
   SEARCH: "/search",
   SEARCH_SUMMARY: "/searchSummary",
   SEARCH_DETAILS: "/searchDetails",
+  FEEDBACK: "/feedback"
 };
 
 const $api = axios.create({

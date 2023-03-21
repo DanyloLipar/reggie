@@ -1,4 +1,5 @@
 import { ChangeEvent, ChangeEventHandler, useEffect, useState } from "react";
+import classNames from "classnames";
 import { useParams } from "react-router-dom";
 
 import { APIRoutes } from "../../core/http";
@@ -19,11 +20,15 @@ import link_active from "../../assets/photos/results/link-active.svg";
 import AppService from "../../core/services/app.service";
 import { Article } from "../../core/types";
 import { useLogout } from "../../core/hooks/useLogout";
+import { useAppSelector } from "../../core/store";
+import { toast } from "react-toastify";
 
 const Regulation = () => {
   const [showMore, setShowMore] = useState(false);
-  const [article, setArticle] = useState<Article>()
-
+  const [hovered, setHovered] = useState<string | number>("");
+  const [article, setArticle] = useState<Article>();
+  const [isSummary, setIsSummary] = useState(false);
+  const [feedback, setFeedback] = useState("");
   const [isLiked, setIsLiked] = useState({
     head: 0,
     comment: 0,
@@ -32,15 +37,18 @@ const Regulation = () => {
     repeat: false,
   });
 
+  const user = useAppSelector((state) => state.auth.currentUser);
+
   const { logout } = useLogout();
 
   const { searchId, articleId } = useParams();
 
   useHttpGet<any>(
-    `${APIRoutes.SEARCH_DETAILS}/${searchId}/articles/${articleId}`, {
+    `${APIRoutes.SEARCH_DETAILS}/${searchId}/articles/${articleId}`,
+    {
       resolve: (response) => {
         setArticle(response?.article);
-      }
+      },
     }
   );
 
@@ -56,6 +64,19 @@ const Regulation = () => {
     }
   };
 
+  const handleSummary = async () => {
+    const newFeedback = {
+      userId: user?.userId,
+      isSummary: isSummary,
+      articleId: Number(articleId),
+      feedback: feedback,
+    };
+
+    try {
+      await AppService.changeIsSummary(Number(searchId), newFeedback);
+    } catch (error: any) {}
+  };
+
   // const addAcrticle = async () => {
   //   const response = await AppService.createArticle({
   //     id: 1,
@@ -65,7 +86,7 @@ const Regulation = () => {
   //   });
   // };
 
-  console.log(article)
+  console.log(article);
 
   return (
     <section className="regulation">
@@ -84,23 +105,23 @@ const Regulation = () => {
               className="regulation-head-title-big__logo"
             />
             <div className="regulation-head-title-big-small">
-              {isLiked.head === 0 && (
+              {feedback === "" && (
                 <>
                   <img
-                    onClick={() =>
-                      setIsLiked((prev) => {
-                        if (isLiked.head === 1) {
-                          return {
-                            ...prev,
-                            head: 0,
-                          };
-                        }
-                        return {
-                          ...prev,
-                          head: 1,
-                        };
-                      })
-                    }
+                    // onClick={() =>
+                    //   setFeedback((prev) => {
+                    //     if (feedback. === 1) {
+                    //       return {
+                    //         ...prev,
+                    //         head: 0,
+                    //       };
+                    //     }
+                    //     return {
+                    //       ...prev,
+                    //       head: 1,
+                    //     };
+                    //   })
+                    // }
                     src={def_like}
                     alt="def_like"
                   />
@@ -363,404 +384,264 @@ const Regulation = () => {
         </div>
       </div>
       <div className="regulation-desc">
-        <p className="regulation-desc__txt">
-          {article?.articleSummary}
-        </p>
+        <p className="regulation-desc__txt">{article?.articleSummary}</p>
       </div>
       <main className="regulation__conversation conversation">
-        <div className="conversation-quest-section">
-          <div className="conversation-quest-section-line"></div>
-          <div className="conversation-quest-section-content">
-            <p className="conversation-quest-section-content__main">
-              “You made it so simple. My new site is so much faster and easier
-              to work with than my old site. I just choose the page, make the
-              change.”
-            </p>
-            <span className="conversation-quest-section-content__add">
-              Section 901.2.1
-            </span>
-          </div>
-        </div>
-        <div className="conversation-answer-section">
-          <div className="conversation-answer-section-content">
-            <div className="conversation-answer-section-content-head">
-              <p className="conversation-answer-section-content-head__txt">
-                “You made it so simple. My new site is so much faster and easier
-                to work with than my old site. I just choose the page, make the
-                change.”
-              </p>
-              <span className="conversation-answer-section-content-head__under">
-                Section 901.2.1
-              </span>
-            </div>
-            <ul className="conversation-answer-section-content-links">
-              <li className="conversation-answer-section-content-links__item">
-                <button className="conversation-answer-section-content-links__item-btn">
-                  <img
-                    src={link_active}
-                    alt="link_active"
-                    className="conversation-answer-section-content-links__item-btn-img"
-                  />
-                </button>
-              </li>
-              <li className="conversation-answer-section-content-links__item">
-                <button className="conversation-answer-section-content-links__item-btn">
-                  {!isLiked.star_second && (
-                    <img
-                      className="conversation-answer-section-content-links__item-btn-img"
-                      src={star}
-                      alt="star"
-                      onClick={() => {
-                        setIsLiked((prev) => {
-                          return {
-                            ...prev,
-                            star_second: true,
-                          };
-                        });
-                      }}
-                    />
-                  )}
-                  {isLiked.star_second && (
-                    <img
-                      className="conversation-answer-section-content-links__item-btn-img"
-                      src={active_star}
-                      alt="active_star"
-                      onClick={() => {
-                        setIsLiked((prev) => {
-                          return {
-                            ...prev,
-                            star_second: false,
-                          };
-                        });
-                      }}
-                    />
-                  )}
-                </button>
-              </li>
-              <li className="conversation-answer-section-content-links__item">
-                <button className="conversation-answer-section-content-links__item-btn">
-                  <img
-                    src={text_area}
-                    alt="text_area"
-                    className="conversation-answer-section-content-links__item-btn-img"
-                  />
-                </button>
-              </li>
-              <li className="conversation-answer-section-content-links__item">
-                <button className="conversation-answer-section-content-links__item-btn">
-                  <img
-                    src={visit}
-                    alt="visit"
-                    className="conversation-answer-section-content-links__item-btn-img"
-                  />
-                </button>
-              </li>
-              <li className="conversation-answer-section-content-links__item">
-                {!isLiked.repeat && (
-                  <button className="conversation-answer-section-content-links__item-btn">
-                    <img
-                      className="conversation-answer-section-content-links__item-btn-img"
-                      src={transform}
-                      alt="star"
-                      onClick={() => {
-                        setIsLiked((prev) => {
-                          return {
-                            ...prev,
-                            repeat: true,
-                          };
-                        });
-                      }}
-                    />
-                  </button>
-                )}
-                {isLiked.repeat && (
-                  <button className="conversation-answer-section-content-links__item-btn">
-                    <img
-                      className="conversation-answer-section-content-links__item-btn-img"
-                      src={transform_active}
-                      alt="transform_active"
-                      onClick={() => {
-                        setIsLiked((prev) => {
-                          return {
-                            ...prev,
-                            repeat: false,
-                          };
-                        });
-                      }}
-                    />
-                  </button>
-                )}
-              </li>
-            </ul>
-          </div>
-          <div className="conversation-answer-section-footer">
-            {isLiked.comment === 0 && (
-              <>
-                <img
-                  onClick={() =>
-                    setIsLiked((prev) => {
-                      if (isLiked.comment === 1) {
-                        return {
-                          ...prev,
-                          comment: 0,
-                        };
-                      }
-                      return {
-                        ...prev,
-                        comment: 1,
-                      };
-                    })
-                  }
-                  src={def_like}
-                  alt="def_like"
-                />
-                <img
-                  onClick={() =>
-                    setIsLiked((prev) => {
-                      if (isLiked.comment === 2) {
-                        return {
-                          ...prev,
-                          comment: 0,
-                        };
-                      }
-                      return {
-                        ...prev,
-                        comment: 2,
-                      };
-                    })
-                  }
-                  src={thumbs_down}
-                  alt="thumbs_down"
-                />
-              </>
-            )}
-            {isLiked.comment === 1 && (
-              <>
-                <img
-                  onClick={() =>
-                    setIsLiked((prev) => {
-                      if (isLiked.comment === 1) {
-                        return {
-                          ...prev,
-                          comment: 0,
-                        };
-                      }
-                      return {
-                        ...prev,
-                        comment: 1,
-                      };
-                    })
-                  }
-                  src={voted}
-                  alt="voted"
-                />
-                <img
-                  onClick={() =>
-                    setIsLiked((prev) => {
-                      if (isLiked.comment === 2) {
-                        return {
-                          ...prev,
-                          comment: 0,
-                        };
-                      }
-                      return {
-                        ...prev,
-                        comment: 2,
-                      };
-                    })
-                  }
-                  src={thumbs_down}
-                  alt="thumbs_down"
-                />
-              </>
-            )}
-            {isLiked.comment === 2 && (
-              <>
-                <img
-                  onClick={() =>
-                    setIsLiked((prev) => {
-                      if (isLiked.comment === 1) {
-                        return {
-                          ...prev,
-                          comment: 0,
-                        };
-                      }
-                      return {
-                        ...prev,
-                        comment: 1,
-                      };
-                    })
-                  }
-                  src={def_like}
-                  alt="liked"
-                />
-                <img
-                  onClick={() =>
-                    setIsLiked((prev) => {
-                      if (isLiked.comment === 2) {
-                        return {
-                          ...prev,
-                          comment: 0,
-                        };
-                      }
-                      return {
-                        ...prev,
-                        comment: 2,
-                      };
-                    })
-                  }
-                  src={disliked}
-                  alt="thumbs_down"
-                />
-              </>
-            )}
-          </div>
-          <ul className="conversation-answer-section-func">
-            <li className="conversation-answer-section-func__item">
-              <button className="conversation-answer-section-content-links__item-btn">
-                <img
-                  src={link_active}
-                  alt="link_active"
-                  className="conversation-answer-section-content-links__item-btn-img"
-                />
-              </button>
-            </li>
-            <li className="conversation-answer-section-func__item">
-              <button className="conversation-answer-section-func__item-link">
-                {!isLiked.star_second && (
-                  <img
-                    className="conversation-answer-section-content-links__item-btn-img"
-                    src={star}
-                    alt="star"
-                    onClick={() => {
-                      setIsLiked((prev) => {
-                        return {
-                          ...prev,
-                          star_second: true,
-                        };
-                      });
-                    }}
-                  />
-                )}
-                {isLiked.star_second && (
-                  <img
-                    className="conversation-answer-section-content-links__item-btn-img"
-                    src={active_star}
-                    alt="active_star"
-                    onClick={() => {
-                      setIsLiked((prev) => {
-                        return {
-                          ...prev,
-                          star_second: false,
-                        };
-                      });
-                    }}
-                  />
-                )}
-              </button>
-            </li>
-            <li className="conversation-answer-section-func__item">
-              <button className="conversation-answer-section-func__item-link">
-                <img
-                  src={text_area}
-                  alt="text_area"
-                  className="conversation-answer-section-content-links__item-btn-img"
-                />
-              </button>
-            </li>
-            <li className="conversation-answer-section-func__item">
-              <button className="conversation-answer-section-func__item-link">
-                <img
-                  src={visit}
-                  alt="visit"
-                  className="conversation-answer-section-content-links__item-btn-img"
-                />
-              </button>
-            </li>
-            <li className="conversation-answer-section-func__item">
-              <button className="conversation-answer-section-func__item-link">
-                <img
-                  src={transform}
-                  alt="transform"
-                  className="conversation-answer-section-content-links__item-btn-img"
-                />
-              </button>
-            </li>
-            <li className="conversation-answer-section-func__item">
-              <button className="conversation-answer-section-func__item-link">
-                <img
-                  src={voted}
-                  alt="voted"
-                  className="conversation-answer-section-content-links__item-btn-img"
-                />
-              </button>
-            </li>
-            <li className="conversation-answer-section-func__item">
-              <button className="conversation-answer-section-func__item-link">
-                <img
-                  src={thumbs_down}
-                  alt="thumbs_down"
-                  className="conversation-answer-section-content-links__item-btn-img"
-                />
-              </button>
-            </li>
-          </ul>
-        </div>
-        <div className="conversation-quest-section">
-          <div className="conversation-quest-section-line"></div>
-          <div className="conversation-quest-section-content">
-            <p className="conversation-quest-section-content__main">
-              Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa
-              mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien
-              fringilla, mattis ligula consectetur, ultrices mauris. Maecenas
-              vitae mattis tellus. Nullam quis imperdiet augue. Vestibulum
-              auctor ornare leo, non suscipit magna interdum eu. Curabitur
-              pellentesque nibh nibh, at maximus ante fermentum sit amet.
-              Pellentesque commodo lacus at sodales sodales. Quisque sagittis
-              orci ut diam condimentum, vel euismod erat placerat. In.
-              {showMore && (
-                <span className="conversation-quest-section-content__main">
-                  “You made it so simple. My new site is so much faster and
-                  easier to work with than my old site. I just choose the page,
-                  make the change.” “You made it so simple. My new site is so
-                  much faster and easier to work with than my old site. I just
-                  choose the page, make the change.” “You made it so simple. My
-                  new site is so much faster and easier to work with than my old
-                  site. I just choose the page, make the change.”
+        {article?.requirements.map((requirement) => (
+          <div
+            onMouseEnter={() => setHovered(requirement.requirementId)}
+            onMouseLeave={() => setHovered("")}
+          >
+            <div
+              className={classNames({
+                "conversation-quest-section": true,
+                "conversation-quest-section-active":
+                  hovered === requirement.requirementId,
+              })}
+            >
+              {hovered !== requirement.requirementId && (
+                <div
+                  className={classNames({
+                    "conversation-quest-section-line": true,
+                  })}
+                ></div>
+              )}
+              <div className="conversation-quest-section-content">
+                <p className="conversation-quest-section-content__main">
+                  {requirement.requirementSummary}
+                </p>
+                <span className="conversation-quest-section-content__add">
+                  {requirement.requirementName}
                 </span>
+              </div>
+              {hovered === requirement.requirementId && (
+                <ul className="conversation-answer-section-content-links">
+                  <li className="conversation-answer-section-content-links__item">
+                    <button className="conversation-answer-section-content-links__item-btn">
+                      <img
+                        src={link_active}
+                        alt="link_active"
+                        className="conversation-answer-section-content-links__item-btn-img"
+                      />
+                    </button>
+                  </li>
+                  <li className="conversation-answer-section-content-links__item">
+                    <button className="conversation-answer-section-content-links__item-btn">
+                      {!isLiked.star_second && (
+                        <img
+                          className="conversation-answer-section-content-links__item-btn-img"
+                          src={star}
+                          alt="star"
+                          onClick={() => {
+                            setIsLiked((prev) => {
+                              return {
+                                ...prev,
+                                star_second: true,
+                              };
+                            });
+                          }}
+                        />
+                      )}
+                      {isLiked.star_second && (
+                        <img
+                          className="conversation-answer-section-content-links__item-btn-img"
+                          src={active_star}
+                          alt="active_star"
+                          onClick={() => {
+                            setIsLiked((prev) => {
+                              return {
+                                ...prev,
+                                star_second: false,
+                              };
+                            });
+                          }}
+                        />
+                      )}
+                    </button>
+                  </li>
+                  <li className="conversation-answer-section-content-links__item">
+                    <button className="conversation-answer-section-content-links__item-btn">
+                      <img
+                        src={text_area}
+                        alt="text_area"
+                        className="conversation-answer-section-content-links__item-btn-img"
+                      />
+                    </button>
+                  </li>
+                  <li className="conversation-answer-section-content-links__item">
+                    <button className="conversation-answer-section-content-links__item-btn">
+                      <img
+                        src={visit}
+                        alt="visit"
+                        className="conversation-answer-section-content-links__item-btn-img"
+                      />
+                    </button>
+                  </li>
+                  <li className="conversation-answer-section-content-links__item">
+                    {!isLiked.repeat && (
+                      <button className="conversation-answer-section-content-links__item-btn">
+                        <img
+                          className="conversation-answer-section-content-links__item-btn-img"
+                          src={transform}
+                          alt="star"
+                          onClick={() => {
+                            setIsLiked((prev) => {
+                              return {
+                                ...prev,
+                                repeat: true,
+                              };
+                            });
+                          }}
+                        />
+                      </button>
+                    )}
+                    {isLiked.repeat && (
+                      <button className="conversation-answer-section-content-links__item-btn">
+                        <img
+                          className="conversation-answer-section-content-links__item-btn-img"
+                          src={transform_active}
+                          alt="transform_active"
+                          onClick={() => {
+                            setIsLiked((prev) => {
+                              return {
+                                ...prev,
+                                repeat: false,
+                              };
+                            });
+                          }}
+                        />
+                      </button>
+                    )}
+                  </li>
+                </ul>
               )}
-              {showMore ? (
-                <button
-                  className="conversation-quest-section-content__more"
-                  onClick={handleText}>
-                  <span>Show less</span>
-                </button>
-              ) : (
-                <button
-                  className="conversation-quest-section-content__more"
-                  onClick={handleText}>
-                  <span>See more</span>
-                </button>
-              )}
-            </p>
-            <span className="conversation-quest-section-content__add">
-              Section 901.2.1
-            </span>
+            </div>
+            {hovered === requirement.requirementId && (
+              <div className="conversation-quest-section-footer">
+                {isLiked.comment === 0 && (
+                  <>
+                    <img
+                      onClick={() =>
+                        setIsLiked((prev) => {
+                          if (isLiked.comment === 1) {
+                            return {
+                              ...prev,
+                              comment: 0,
+                            };
+                          }
+                          return {
+                            ...prev,
+                            comment: 1,
+                          };
+                        })
+                      }
+                      src={def_like}
+                      alt="def_like"
+                    />
+                    <img
+                      onClick={() =>
+                        setIsLiked((prev) => {
+                          if (isLiked.comment === 2) {
+                            return {
+                              ...prev,
+                              comment: 0,
+                            };
+                          }
+                          return {
+                            ...prev,
+                            comment: 2,
+                          };
+                        })
+                      }
+                      src={thumbs_down}
+                      alt="thumbs_down"
+                    />
+                  </>
+                )}
+                {isLiked.comment === 1 && (
+                  <>
+                    <img
+                      onClick={() =>
+                        setIsLiked((prev) => {
+                          if (isLiked.comment === 1) {
+                            return {
+                              ...prev,
+                              comment: 0,
+                            };
+                          }
+                          return {
+                            ...prev,
+                            comment: 1,
+                          };
+                        })
+                      }
+                      src={voted}
+                      alt="voted"
+                    />
+                    <img
+                      onClick={() =>
+                        setIsLiked((prev) => {
+                          if (isLiked.comment === 2) {
+                            return {
+                              ...prev,
+                              comment: 0,
+                            };
+                          }
+                          return {
+                            ...prev,
+                            comment: 2,
+                          };
+                        })
+                      }
+                      src={thumbs_down}
+                      alt="thumbs_down"
+                    />
+                  </>
+                )}
+                {isLiked.comment === 2 && (
+                  <>
+                    <img
+                      onClick={() =>
+                        setIsLiked((prev) => {
+                          if (isLiked.comment === 1) {
+                            return {
+                              ...prev,
+                              comment: 0,
+                            };
+                          }
+                          return {
+                            ...prev,
+                            comment: 1,
+                          };
+                        })
+                      }
+                      src={def_like}
+                      alt="liked"
+                    />
+                    <img
+                      onClick={() =>
+                        setIsLiked((prev) => {
+                          if (isLiked.comment === 2) {
+                            return {
+                              ...prev,
+                              comment: 0,
+                            };
+                          }
+                          return {
+                            ...prev,
+                            comment: 2,
+                          };
+                        })
+                      }
+                      src={disliked}
+                      alt="thumbs_down"
+                    />
+                  </>
+                )}
+              </div>
+            )}
           </div>
-        </div>
-        <div className="conversation-quest-section">
-          <div className="conversation-quest-section-line"></div>
-          <div className="conversation-quest-section-content">
-            <p className="conversation-quest-section-content__main">
-              “You made it so simple. My new site is so much faster and easier
-              to work with than my old site. I just choose the page, make the
-              change.”
-            </p>
-            <span className="conversation-quest-section-content__add">
-              Section 901.2.1
-            </span>
-          </div>
-        </div>
+        ))}
       </main>
     </section>
   );
