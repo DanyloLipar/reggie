@@ -21,6 +21,7 @@ import dislikeActive from "../../assets/photos/dislike-active.svg";
 import { filters } from "../../core/constants/filters";
 import { results } from "../../core/constants/results";
 import { toast } from "react-toastify";
+import { useLogout } from "../../core/hooks/useLogout";
 
 const Results = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -30,6 +31,7 @@ const Results = () => {
   const [pin, setPin] = useState(false);
 
   const navigate = useNavigate();
+  const { logout } = useLogout();
 
   const { searchId } = useParams();
 
@@ -92,7 +94,7 @@ const Results = () => {
   return (
     <section className="overview">
       <div className="overview-top">
-        <button className="overview-top-btn">
+        <button onClick={logout} className="overview-top-btn">
           <span className="overview-top-btn__txt">Sign out</span>
         </button>
       </div>

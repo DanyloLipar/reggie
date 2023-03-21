@@ -18,6 +18,7 @@ import transform_active from "../../assets/photos/results/transform-active.svg";
 import link_active from "../../assets/photos/results/link-active.svg";
 import AppService from "../../core/services/app.service";
 import { Article } from "../../core/types";
+import { useLogout } from "../../core/hooks/useLogout";
 
 const Regulation = () => {
   const [showMore, setShowMore] = useState(false);
@@ -30,6 +31,8 @@ const Regulation = () => {
     star_second: false,
     repeat: false,
   });
+
+  const { logout } = useLogout();
 
   const { searchId, articleId } = useParams();
 
@@ -53,21 +56,21 @@ const Regulation = () => {
     }
   };
 
-  const addAcrticle = async () => {
-    const response = await AppService.createArticle({
-      id: 1,
-      name: "artilce_1",
-      categoryTag: "category_1",
-      tags: ["tag1", "tag2"],
-    });
-  };
+  // const addAcrticle = async () => {
+  //   const response = await AppService.createArticle({
+  //     id: 1,
+  //     name: "artilce_1",
+  //     categoryTag: "category_1",
+  //     tags: ["tag1", "tag2"],
+  //   });
+  // };
 
   console.log(article)
 
   return (
     <section className="regulation">
       <div className="regulation-top">
-        <button onClick={addAcrticle} className="regulation-top-btn">
+        <button onClick={logout} className="regulation-top-btn">
           <span className="regulation-top-btn__txt">Sign out</span>
         </button>
       </div>
