@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { APIRoutes } from "../../core/http";
 import { Article, Category } from "../../core/types";
@@ -28,6 +28,8 @@ const Results = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category>();
   const [allresults, setAllResults] = useState<any>([]);
   const [pin, setPin] = useState(false);
+
+  const navigate = useNavigate();
 
   const { searchId } = useParams();
 
@@ -265,7 +267,9 @@ const Results = () => {
                     </button>
                   </li>
                   <li className="block-main-controls__item">
-                    <button className="block-main-controls__item-btn">
+                    <button className="block-main-controls__item-btn" onClick={() => {
+                      navigate(`/regulation/${selectedCategory.categoryId}/${article.articleId}`)
+                    }}>
                       <img src={visit} alt="visit" />
                     </button>
                   </li>

@@ -17,9 +17,11 @@ import transform from "../../assets/photos/results/transform.svg";
 import transform_active from "../../assets/photos/results/transform-active.svg";
 import link_active from "../../assets/photos/results/link-active.svg";
 import AppService from "../../core/services/app.service";
+import { Article } from "../../core/types";
 
 const Regulation = () => {
   const [showMore, setShowMore] = useState(false);
+  const [article, setArticle] = useState<Article>()
 
   const [isLiked, setIsLiked] = useState({
     head: 0,
@@ -31,9 +33,15 @@ const Regulation = () => {
 
   const { searchId, articleId } = useParams();
 
-  // const { fetchedData: articleDetailed } = useHttpGet<any>(
-  //   `${APIRoutes.SEARCH_DETAILS}/${searchId}/articles/${articleId}`
-  // );
+  useHttpGet<any>(
+    `${APIRoutes.SEARCH_DETAILS}/${searchId}/articles/${articleId}`, {
+      resolve: (response) => {
+        setArticle(response?.article);
+      }
+    }
+  );
+
+  console.log(article);
 
   // const { fetchedData: articles } = useHttpGet<any>(`${APIRoutes.ARTICLES}`);
 
@@ -54,6 +62,8 @@ const Regulation = () => {
     });
   };
 
+  console.log(article)
+
   return (
     <section className="regulation">
       <div className="regulation-top">
@@ -63,7 +73,7 @@ const Regulation = () => {
       </div>
       <header className="regulation-head">
         <div className="regulation-head-title">
-          <h1 className="regulation-head-title__txt">New York City</h1>
+          <h1 className="regulation-head-title__txt">{article?.articleName}</h1>
           <div className="regulation-head-title-big">
             <img
               src={info}
@@ -314,7 +324,7 @@ const Regulation = () => {
         </div>
       </header>
       <div className="regulation-subhead">
-        <span className="regulation-subhead__txt">Building codes</span>
+        <span className="regulation-subhead__txt">{article?.category}</span>
         <div className="regulation-subhead__thumbs">
           {!isLiked.star_first && (
             <img
@@ -351,13 +361,7 @@ const Regulation = () => {
       </div>
       <div className="regulation-desc">
         <p className="regulation-desc__txt">
-          Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi.
-          Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-          mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis
-          tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non
-          suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at
-          maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales
-          sodales.
+          {article?.articleSummary}
         </p>
       </div>
       <main className="regulation__conversation conversation">
