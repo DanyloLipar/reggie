@@ -13,11 +13,13 @@ import logo from "../../assets/photos/logo.svg";
 import googleLogo from "../../assets/photos/google.svg";
 import { useAppSelector } from "../../core/store/index";
 import { setIsAuth, setUser } from "../../core/store/reducers/auth/authSlice";
+import { useLogout } from "../../core/hooks/useLogout";
 
 const MainPageClosedBeta = () => {
   const { currentUser } = useAppSelector((state) => state.auth);
 
   const dispatch = useDispatch();
+  const { logout } = useLogout();
 
   useEffect(() => {
     if (localStorage.getItem("savedUser")) {
@@ -34,22 +36,26 @@ const MainPageClosedBeta = () => {
       const response = await AuthService.loginGoogle(encoded_values);
 
       localStorage.setItem("savedUser", JSON.stringify(response?.data));
+
+      dispatch(setUser(response?.data));
+      dispatch(setIsAuth());
     } catch (errors: any) {
-      console.log(errors);
       toast.error("Login failed!");
     }
   };
 
   const joinWaitingList = async () => {
-    try {
-      const response = await AppService.joinWaitingList(currentUser?.userId);
-      toast.success(
-        `Successfully added user ${currentUser?.userId} to the waiting list!`
-      );
-
-      console.log(response);
-    } catch (errors: any) {
-      toast.error("Some errors occured.");
+    if (currentUser) {
+      try {
+        const response = await AppService.joinWaitingList(currentUser?.userId);
+        toast.success(
+          `Successfully added user ${currentUser?.userId} to the waiting list!`
+        );
+      } catch (errors: any) {
+        toast.error("Some errors occured.");
+      }
+    } else {
+      toast.error("Sign in first");
     }
   };
 
@@ -60,25 +66,31 @@ const MainPageClosedBeta = () => {
           <img className="heading__logo-image" src={logo} alt="logo" />
         </div>
         <div className="heading__buttons">
-          <label className="heading__buttons-google button-google">
-            <div className="button-google__box">
-              <img
-                className="button-google__box-icon"
-                src={googleLogo}
-                alt="google"
-              />
-              <span className="button-google__box-text">
-                Sign in with Google
-              </span>
-            </div>
-            <div className="button-google__click">
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  handleGoogleSignIn(credentialResponse);
-                }}
-              />
-            </div>
-          </label>
+          {!currentUser ? (
+            <label className="heading__buttons-google button-google">
+              <div className="button-google__box">
+                <img
+                  className="button-google__box-icon"
+                  src={googleLogo}
+                  alt="google"
+                />
+                <span className="button-google__box-text">
+                  Sign in with Google
+                </span>
+              </div>
+              <div className="button-google__click">
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    handleGoogleSignIn(credentialResponse);
+                  }}
+                />
+              </div>
+            </label>
+          ) : (
+            <button onClick={logout} className="overview-top-btn">
+              <span className="overview-top-btn__txt">Sign out</span>
+            </button>
+          )}
         </div>
       </header>
       <div className="general-info general-closed">

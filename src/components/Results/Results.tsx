@@ -71,7 +71,9 @@ const Results = () => {
   // };
 
   const filterParamsSwitcher = (id: number) => {
-    const newCategory = categories.find((category: Category) => category.categoryId === id);
+    const newCategory = categories.find(
+      (category: Category) => category.categoryId === id
+    );
     setSelectedCategory(newCategory);
   };
 
@@ -79,15 +81,13 @@ const Results = () => {
     resolve: (response) => {
       if (response) {
         setCategories(response?.summaries);
-        setSelectedCategory(response?.summaries[0])
+        setSelectedCategory(response?.summaries[0]);
       }
     },
     reject: (error) => {
-      toast.error("Articles not found!")
-    }
+      toast.error("Articles not found!");
+    },
   });
-
-  console.log(selectedCategory);
 
   return (
     <section className="overview">
@@ -184,23 +184,26 @@ const Results = () => {
           </div>
         </div>
         <div className="results-reviews">
-          {selectedCategory?.articleSummaries.map((article: Article, index: number) => (
-            <div className="results-reviews-block" key={article.articleId}>
-              <div className="results-reviews__block-main block-main">
-                <div className="block-main-wrapper">
-                  <div className="block-main-review">
-                    <p className="block-main-review__txt">{article.articleSummary}</p>
-                  </div>
-                  <div className="block-main-review__block-footer block-footer">
-                    <div className="block-footer-head">
-                      <span className="block-footer-head__main">
-                        {article.articleName}
-                      </span>
-                      <span className="block-footer-head__additional">
-                        Summary
-                      </span>
+          {selectedCategory?.articleSummaries.map(
+            (article: Article, index: number) => (
+              <div className="results-reviews-block" key={article.articleId}>
+                <div className="results-reviews__block-main block-main">
+                  <div className="block-main-wrapper">
+                    <div className="block-main-review">
+                      <p className="block-main-review__txt">
+                        {article.articleSummary}
+                      </p>
                     </div>
-                    {/* {result.liked === 0 && (
+                    <div className="block-main-review__block-footer block-footer">
+                      <div className="block-footer-head">
+                        <span className="block-footer-head__main">
+                          {article.articleName}
+                        </span>
+                        <span className="block-footer-head__additional">
+                          Summary
+                        </span>
+                      </div>
+                      {/* {result.liked === 0 && (
                       <div className="block-footer-end">
                         <img
                           src={like}
@@ -242,15 +245,15 @@ const Results = () => {
                         />
                       </div>
                     )} */}
+                    </div>
                   </div>
-                </div>
-                <ul className="block-main-controls">
-                  <li className="block-main-controls__item">
-                    <button className="block-main-controls__item-btn">
-                      <img src={link_disable} alt="link_disable" />
-                    </button>
-                  </li>
-                  {/* <li className="block-main-controls__item">
+                  <ul className="block-main-controls">
+                    <li className="block-main-controls__item">
+                      <button className="block-main-controls__item-btn">
+                        <img src={link_disable} alt="link_disable" />
+                      </button>
+                    </li>
+                    {/* <li className="block-main-controls__item">
                     <button
                       className="block-main-controls__item-btn"
                       onClick={() => starPiner(index)}>
@@ -261,19 +264,23 @@ const Results = () => {
                       )}
                     </button>
                   </li> */}
-                  <li className="block-main-controls__item">
-                    <button className="block-main-controls__item-btn">
-                      <img src={text_area} alt="text_area" />
-                    </button>
-                  </li>
-                  <li className="block-main-controls__item">
-                    <button className="block-main-controls__item-btn" onClick={() => {
-                      navigate(`/regulation/${selectedCategory.categoryId}/${article.articleId}`)
-                    }}>
-                      <img src={visit} alt="visit" />
-                    </button>
-                  </li>
-                  {/* <li className="block-main-controls__item">
+                    <li className="block-main-controls__item">
+                      <button className="block-main-controls__item-btn">
+                        <img src={text_area} alt="text_area" />
+                      </button>
+                    </li>
+                    <li className="block-main-controls__item">
+                      <button
+                        className="block-main-controls__item-btn"
+                        onClick={() => {
+                          navigate(
+                            `/regulation/${selectedCategory.categoryId}/${article.articleId}`
+                          );
+                        }}>
+                        <img src={visit} alt="visit" />
+                      </button>
+                    </li>
+                    {/* <li className="block-main-controls__item">
                     <button
                       className="block-main-controls__item-btn"
                       onClick={() => transformPiner(index)}>
@@ -284,10 +291,11 @@ const Results = () => {
                       )}
                     </button>
                   </li> */}
-                </ul>
+                  </ul>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          )}
         </div>
       </main>
     </section>

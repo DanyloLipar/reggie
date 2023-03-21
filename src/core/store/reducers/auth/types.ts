@@ -6,5 +6,5 @@ export type User = {
 
 export interface AuthState {
   isAuth: boolean;
-  currentUser: User | null;
+  currentUser: null | User;
 }

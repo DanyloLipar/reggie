@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import { toast } from "react-toastify";
 import jwtDecode from "jwt-decode";
+
+import Categories from "../Categories";
 
 import AppService from "../../core/services/app.service";
 import AuthService from "../../core/services/auth.service";
 import { setIsAuth, setUser } from "../../core/store/reducers/auth/authSlice";
 import { useAppSelector } from "../../core/store";
-import Categories from "../Categories";
 import { App } from "../../core/models";
 
 import logo from "../../assets/photos/logo.svg";
 import googleLogo from "../../assets/photos/google.svg";
+import { useLogout } from "../../core/hooks/useLogout";
 
 const MainPageOpenBeta = () => {
   const [inpQuery, setInpQuery] = useState("");
@@ -21,12 +23,13 @@ const MainPageOpenBeta = () => {
   const user = useAppSelector((state) => state.auth.currentUser);
 
   const navigate = useNavigate();
+  const { logout } = useLogout();
   const dispatch = useDispatch();
+
+  const currUser = JSON.parse(localStorage.getItem("savedUser") || "{}");
 
   useEffect(() => {
     if (localStorage.getItem("savedUser")) {
-      const currUser = JSON.parse(localStorage.getItem("savedUser") || "{}");
-
       dispatch(setUser(currUser));
       dispatch(setIsAuth());
     }
@@ -38,6 +41,8 @@ const MainPageOpenBeta = () => {
       const response = await AuthService.loginGoogle(encoded_values);
 
       localStorage.setItem("savedUser", JSON.stringify(response?.data));
+      dispatch(setUser(response?.data));
+      dispatch(setIsAuth());
     } catch (errors: any) {
       toast.error("Login failed!");
     }
@@ -46,10 +51,14 @@ const MainPageOpenBeta = () => {
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    if (inpQuery) {
-      performSearch();
+    if (user) {
+      if (inpQuery) {
+        performSearch();
+      } else {
+        toast.error("Please provide search details");
+      }
     } else {
-      toast.error("Please provide search details");
+      toast.error("Sign in first");
     }
   };
 
@@ -74,25 +83,31 @@ const MainPageOpenBeta = () => {
         </div>
         <div className="heading__buttons">
           <div className="heading__buttons-beta">Beta</div>
-          <label className="heading__buttons-google button-google">
-            <div className="button-google__box">
-              <img
-                className="button-google__box-icon"
-                src={googleLogo}
-                alt="google"
-              />
-              <span className="button-google__box-text">
-                Sign in with Google
-              </span>
-            </div>
-            <div className="button-google__click">
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  handleGoogleSignIn(credentialResponse);
-                }}
-              />
-            </div>
-          </label>
+          {!user ? (
+            <label className="heading__buttons-google button-google">
+              <div className="button-google__box">
+                <img
+                  className="button-google__box-icon"
+                  src={googleLogo}
+                  alt="google"
+                />
+                <span className="button-google__box-text">
+                  Sign in with Google
+                </span>
+              </div>
+              <div className="button-google__click">
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    handleGoogleSignIn(credentialResponse);
+                  }}
+                />
+              </div>
+            </label>
+          ) : (
+            <button onClick={logout} className="overview-top-btn">
+              <span className="overview-top-btn__txt">Sign out</span>
+            </button>
+          )}
         </div>
       </header>
       <div className="general-info general-open">
