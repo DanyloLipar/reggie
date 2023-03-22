@@ -28,14 +28,7 @@ const Regulation = () => {
   const [hovered, setHovered] = useState<string | number>("");
   const [article, setArticle] = useState<Article>();
   const [isSummary, setIsSummary] = useState(false);
-  const [feedback, setFeedback] = useState("");
-  const [isLiked, setIsLiked] = useState({
-    head: 0,
-    comment: 0,
-    star_first: false,
-    star_second: false,
-    repeat: false,
-  });
+  const [feedback, setFeedback] = useState<string | number>("");
 
   const user = useAppSelector((state) => state.auth.currentUser);
 
@@ -51,9 +44,6 @@ const Regulation = () => {
       },
     }
   );
-
-  console.log(article);
-
   // const { fetchedData: articles } = useHttpGet<any>(`${APIRoutes.ARTICLES}`);
 
   const handleText = () => {
@@ -64,11 +54,11 @@ const Regulation = () => {
     }
   };
 
-  const handleSummary = async () => {
+  const handleFeedback = async (id: number) => {
     const newFeedback = {
       userId: user?.userId,
       isSummary: isSummary,
-      articleId: Number(articleId),
+      articleId: id,
       feedback: feedback,
     };
 
@@ -108,119 +98,58 @@ const Regulation = () => {
               {feedback === "" && (
                 <>
                   <img
-                    // onClick={() =>
-                    //   setFeedback((prev) => {
-                    //     if (feedback. === 1) {
-                    //       return {
-                    //         ...prev,
-                    //         head: 0,
-                    //       };
-                    //     }
-                    //     return {
-                    //       ...prev,
-                    //       head: 1,
-                    //     };
-                    //   })
-                    // }
+                    onClick={() => {
+                      setFeedback(0);
+                      handleFeedback(Number(articleId));
+                    }}
                     src={def_like}
                     alt="def_like"
                   />
                   <img
-                    onClick={() =>
-                      setIsLiked((prev) => {
-                        if (isLiked.head === 2) {
-                          return {
-                            ...prev,
-                            head: 0,
-                          };
-                        }
-                        return {
-                          ...prev,
-                          head: 2,
-                        };
-                      })
-                    }
+                    onClick={() => {
+                      setFeedback(1);
+                      handleFeedback(Number(articleId));
+                    }}
                     src={thumbs_down}
                     alt="thumbs_down"
                   />
                 </>
               )}
-              {isLiked.head === 1 && (
+              {feedback === 0 && (
                 <>
                   <img
-                    onClick={() =>
-                      setIsLiked((prev) => {
-                        if (isLiked.head === 1) {
-                          return {
-                            ...prev,
-                            head: 0,
-                          };
-                        }
-
-                        return {
-                          ...prev,
-                          head: 1,
-                        };
-                      })
-                    }
+                    onClick={() => {
+                      setFeedback(0);
+                      handleFeedback(Number(articleId));
+                    }}
                     src={voted}
                     alt="voted"
                   />
                   <img
-                    onClick={() =>
-                      setIsLiked((prev) => {
-                        if (isLiked.head === 2) {
-                          return {
-                            ...prev,
-                            head: 0,
-                          };
-                        }
-                        return {
-                          ...prev,
-                          head: 2,
-                        };
-                      })
-                    }
+                    onClick={() => {
+                      setFeedback(1);
+                      handleFeedback(Number(articleId));
+                    }}
                     src={thumbs_down}
                     alt="thumbs_down"
                   />
                 </>
               )}
-              {isLiked.head === 2 && (
+              {feedback === 1 && (
                 <>
                   <img
-                    onClick={() =>
-                      setIsLiked((prev) => {
-                        if (isLiked.head === 1) {
-                          return {
-                            ...prev,
-                            head: 0,
-                          };
-                        }
-                        return {
-                          ...prev,
-                          head: 1,
-                        };
-                      })
-                    }
+                    onClick={() => {
+                      setFeedback(0);
+                      handleFeedback(Number(articleId));
+                    }}
                     src={def_like}
                     alt="liked"
                   />
                   <img
-                    onClick={() =>
-                      setIsLiked((prev) => {
-                        if (isLiked.head === 2) {
-                          return {
-                            ...prev,
-                            head: 0,
-                          };
-                        }
-                        return {
-                          ...prev,
-                          head: 2,
-                        };
-                      })
-                    }
+                    onClick={() => {
+                      setFeedback(1);
+                      handleFeedback(Number(articleId));
+                    }}
                     src={disliked}
                     alt="thumbs_down"
                   />
@@ -230,115 +159,83 @@ const Regulation = () => {
           </div>
         </div>
         <div className="regulation-head-end">
-          {!isLiked.star_first && (
+          {!isSummary && (
             <img
               src={star}
               alt="star"
               onClick={() => {
-                setIsLiked((prev) => {
-                  return {
-                    ...prev,
-                    star_first: true,
-                  };
-                });
+                setIsSummary(true);
+                handleFeedback(Number(articleId));
               }}
             />
           )}
-          {isLiked.star_first && (
+          {isSummary && (
             <img
               src={active_star}
               alt="active_star"
               onClick={() => {
-                setIsLiked((prev) => {
-                  return {
-                    ...prev,
-                    star_first: false,
-                  };
-                });
+                setIsSummary(false);
+                handleFeedback(Number(articleId));
               }}
             />
           )}
           <img src={visit} alt="visit" />
           <div className="regulation-head-end__thumbs">
-            {isLiked.head === 0 && (
+            {feedback === "" && (
               <>
                 <img
-                  onClick={() =>
-                    setIsLiked((prev) => {
-                      return {
-                        ...prev,
-                        head: 1,
-                      };
-                    })
-                  }
+                  onClick={() => {
+                    setFeedback(0);
+                    handleFeedback(Number(articleId));
+                  }}
                   src={def_like}
                   alt="def_like"
                 />
                 <img
-                  onClick={() =>
-                    setIsLiked((prev) => {
-                      return {
-                        ...prev,
-                        head: 2,
-                      };
-                    })
-                  }
+                  onClick={() => {
+                    setFeedback(1);
+                    handleFeedback(Number(articleId));
+                  }}
                   src={thumbs_down}
                   alt="thumbs_down"
                 />
               </>
             )}
-            {isLiked.head === 1 && (
+            {feedback === 0 && (
               <>
                 <img
-                  onClick={() =>
-                    setIsLiked((prev) => {
-                      return {
-                        ...prev,
-                        head: 1,
-                      };
-                    })
-                  }
+                  onClick={() => {
+                    setFeedback(0);
+                    handleFeedback(Number(articleId));
+                  }}
                   src={voted}
                   alt="voted"
                 />
                 <img
-                  onClick={() =>
-                    setIsLiked((prev) => {
-                      return {
-                        ...prev,
-                        head: 2,
-                      };
-                    })
-                  }
+                  onClick={() => {
+                    setFeedback(1);
+                    handleFeedback(Number(articleId));
+                  }}
                   src={thumbs_down}
                   alt="thumbs_down"
                 />
               </>
             )}
-            {isLiked.head === 2 && (
+            {feedback === 1 && (
               <>
                 <img
-                  onClick={() =>
-                    setIsLiked((prev) => {
-                      return {
-                        ...prev,
-                        head: 1,
-                      };
-                    })
-                  }
+                  onClick={() => {
+                    setFeedback(0);
+                    handleFeedback(Number(articleId));
+                  }}
                   src={def_like}
                   alt="liked"
                 />
                 <img
-                  onClick={() =>
-                    setIsLiked((prev) => {
-                      return {
-                        ...prev,
-                        head: 2,
-                      };
-                    })
-                  }
+                  onClick={() => {
+                    setFeedback(1);
+                    handleFeedback(Number(articleId));
+                  }}
                   src={disliked}
                   alt="thumbs_down"
                 />
@@ -350,31 +247,23 @@ const Regulation = () => {
       <div className="regulation-subhead">
         <span className="regulation-subhead__txt">{article?.category}</span>
         <div className="regulation-subhead__thumbs">
-          {!isLiked.star_first && (
+          {!isSummary && (
             <img
               src={star}
               alt="star"
               onClick={() => {
-                setIsLiked((prev) => {
-                  return {
-                    ...prev,
-                    star_first: true,
-                  };
-                });
+                setIsSummary(true);
+                handleFeedback(Number(articleId));
               }}
             />
           )}
-          {isLiked.star_first && (
+          {isSummary && (
             <img
               src={active_star}
               alt="active_star"
               onClick={() => {
-                setIsLiked((prev) => {
-                  return {
-                    ...prev,
-                    star_first: false,
-                  };
-                });
+                setIsSummary(false);
+                handleFeedback(Number(articleId));
               }}
             />
           )}
@@ -427,33 +316,25 @@ const Regulation = () => {
                   </li>
                   <li className="conversation-answer-section-content-links__item">
                     <button className="conversation-answer-section-content-links__item-btn">
-                      {!isLiked.star_second && (
+                      {!isSummary && (
                         <img
                           className="conversation-answer-section-content-links__item-btn-img"
                           src={star}
                           alt="star"
                           onClick={() => {
-                            setIsLiked((prev) => {
-                              return {
-                                ...prev,
-                                star_second: true,
-                              };
-                            });
+                            setIsSummary(true);
+                            handleFeedback(requirement.requirementId);
                           }}
                         />
                       )}
-                      {isLiked.star_second && (
+                      {isSummary && (
                         <img
                           className="conversation-answer-section-content-links__item-btn-img"
                           src={active_star}
                           alt="active_star"
                           onClick={() => {
-                            setIsLiked((prev) => {
-                              return {
-                                ...prev,
-                                star_second: false,
-                              };
-                            });
+                            setIsSummary(false);
+                            handleFeedback(requirement.requirementId);
                           }}
                         />
                       )}
@@ -478,36 +359,28 @@ const Regulation = () => {
                     </button>
                   </li>
                   <li className="conversation-answer-section-content-links__item">
-                    {!isLiked.repeat && (
+                    {!isSummary && (
                       <button className="conversation-answer-section-content-links__item-btn">
                         <img
                           className="conversation-answer-section-content-links__item-btn-img"
                           src={transform}
                           alt="star"
                           onClick={() => {
-                            setIsLiked((prev) => {
-                              return {
-                                ...prev,
-                                repeat: true,
-                              };
-                            });
+                            setIsSummary(true);
+                            handleFeedback(requirement.requirementId);
                           }}
                         />
                       </button>
                     )}
-                    {isLiked.repeat && (
+                    {isSummary && (
                       <button className="conversation-answer-section-content-links__item-btn">
                         <img
                           className="conversation-answer-section-content-links__item-btn-img"
                           src={transform_active}
                           alt="transform_active"
                           onClick={() => {
-                            setIsLiked((prev) => {
-                              return {
-                                ...prev,
-                                repeat: false,
-                              };
-                            });
+                            setIsSummary(false);
+                            handleFeedback(requirement.requirementId);
                           }}
                         />
                       </button>
@@ -518,123 +391,146 @@ const Regulation = () => {
             </div>
             {hovered === requirement.requirementId && (
               <div className="conversation-quest-section-footer">
-                {isLiked.comment === 0 && (
+                <ul className="conversation-answer-section-footer-links">
+                  <li className="conversation-answer-section-content-links__item">
+                    <button className="conversation-answer-section-content-links__item-btn">
+                      <img
+                        src={link_active}
+                        alt="link_active"
+                        className="conversation-answer-section-content-links__item-btn-img"
+                      />
+                    </button>
+                  </li>
+                  <li className="conversation-answer-section-content-links__item">
+                    <button className="conversation-answer-section-content-links__item-btn">
+                      {!isSummary && (
+                        <img
+                          className="conversation-answer-section-content-links__item-btn-img"
+                          src={star}
+                          alt="star"
+                          onClick={() => {
+                            setIsSummary(true);
+                            handleFeedback(requirement.requirementId);
+                          }}
+                        />
+                      )}
+                      {isSummary && (
+                        <img
+                          className="conversation-answer-section-content-links__item-btn-img"
+                          src={active_star}
+                          alt="active_star"
+                          onClick={() => {
+                            setIsSummary(false);
+                            handleFeedback(requirement.requirementId);
+                          }}
+                        />
+                      )}
+                    </button>
+                  </li>
+                  <li className="conversation-answer-section-content-links__item">
+                    <button className="conversation-answer-section-content-links__item-btn">
+                      <img
+                        src={text_area}
+                        alt="text_area"
+                        className="conversation-answer-section-content-links__item-btn-img"
+                      />
+                    </button>
+                  </li>
+                  <li className="conversation-answer-section-content-links__item">
+                    <button className="conversation-answer-section-content-links__item-btn">
+                      <img
+                        src={visit}
+                        alt="visit"
+                        className="conversation-answer-section-content-links__item-btn-img"
+                      />
+                    </button>
+                  </li>
+                  <li className="conversation-answer-section-content-links__item">
+                    {!isSummary && (
+                      <button className="conversation-answer-section-content-links__item-btn">
+                        <img
+                          className="conversation-answer-section-content-links__item-btn-img"
+                          src={transform}
+                          alt="star"
+                          onClick={() => {
+                            setIsSummary(true);
+                            handleFeedback(requirement.requirementId);
+                          }}
+                        />
+                      </button>
+                    )}
+                    {isSummary && (
+                      <button className="conversation-answer-section-content-links__item-btn">
+                        <img
+                          className="conversation-answer-section-content-links__item-btn-img"
+                          src={transform_active}
+                          alt="transform_active"
+                          onClick={() => {
+                            setIsSummary(false);
+                            handleFeedback(requirement.requirementId);
+                          }}
+                        />
+                      </button>
+                    )}
+                  </li>
+                </ul>
+                {feedback === "" && (
                   <>
                     <img
-                      onClick={() =>
-                        setIsLiked((prev) => {
-                          if (isLiked.comment === 1) {
-                            return {
-                              ...prev,
-                              comment: 0,
-                            };
-                          }
-                          return {
-                            ...prev,
-                            comment: 1,
-                          };
-                        })
-                      }
+                      onClick={() => {
+                        setFeedback(0);
+                        handleFeedback(requirement.requirementId);
+                      }}
                       src={def_like}
                       alt="def_like"
                     />
                     <img
-                      onClick={() =>
-                        setIsLiked((prev) => {
-                          if (isLiked.comment === 2) {
-                            return {
-                              ...prev,
-                              comment: 0,
-                            };
-                          }
-                          return {
-                            ...prev,
-                            comment: 2,
-                          };
-                        })
-                      }
+                      onClick={() => {
+                        setFeedback(1);
+                        handleFeedback(requirement.requirementId);
+                      }}
                       src={thumbs_down}
                       alt="thumbs_down"
                     />
                   </>
                 )}
-                {isLiked.comment === 1 && (
+                {feedback === 0 && (
                   <>
                     <img
-                      onClick={() =>
-                        setIsLiked((prev) => {
-                          if (isLiked.comment === 1) {
-                            return {
-                              ...prev,
-                              comment: 0,
-                            };
-                          }
-                          return {
-                            ...prev,
-                            comment: 1,
-                          };
-                        })
-                      }
+                      onClick={() => {
+                        setFeedback(0);
+                        handleFeedback(requirement.requirementId);
+                      }}
                       src={voted}
                       alt="voted"
                     />
                     <img
-                      onClick={() =>
-                        setIsLiked((prev) => {
-                          if (isLiked.comment === 2) {
-                            return {
-                              ...prev,
-                              comment: 0,
-                            };
-                          }
-                          return {
-                            ...prev,
-                            comment: 2,
-                          };
-                        })
-                      }
+                      onClick={() => {
+                        setFeedback(1);
+                        handleFeedback(requirement.requirementId);
+                      }}
                       src={thumbs_down}
                       alt="thumbs_down"
                     />
                   </>
                 )}
-                {isLiked.comment === 2 && (
+                {feedback === 1 && (
                   <>
                     <img
-                      onClick={() =>
-                        setIsLiked((prev) => {
-                          if (isLiked.comment === 1) {
-                            return {
-                              ...prev,
-                              comment: 0,
-                            };
-                          }
-                          return {
-                            ...prev,
-                            comment: 1,
-                          };
-                        })
-                      }
+                      onClick={() => {
+                        setFeedback(0);
+                        handleFeedback(requirement.requirementId);
+                      }}
                       src={def_like}
-                      alt="liked"
+                      alt="like"
                     />
                     <img
-                      onClick={() =>
-                        setIsLiked((prev) => {
-                          if (isLiked.comment === 2) {
-                            return {
-                              ...prev,
-                              comment: 0,
-                            };
-                          }
-                          return {
-                            ...prev,
-                            comment: 2,
-                          };
-                        })
-                      }
+                      onClick={() => {
+                        setFeedback(1);
+                        handleFeedback(requirement.requirementId);
+                      }}
                       src={disliked}
-                      alt="thumbs_down"
+                      alt="dislike"
                     />
                   </>
                 )}

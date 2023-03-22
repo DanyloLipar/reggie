@@ -22,13 +22,18 @@ import { filters } from "../../core/constants/filters";
 import { results } from "../../core/constants/results";
 import { toast } from "react-toastify";
 import { useLogout } from "../../core/hooks/useLogout";
+import { useAppSelector } from "../../core/store";
+import AppService from "../../core/services/app.service";
 
 const Results = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isActive, setIsActive] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
   const [allresults, setAllResults] = useState<any>([]);
-  const [pin, setPin] = useState(false);
+  const [isSummary, setIsSummary] = useState(false);
+  const [feedback, setFeedback] = useState<string | number>("");
+
+  const user = useAppSelector((state) => state.auth.currentUser);
 
   const navigate = useNavigate();
   const { logout } = useLogout();
@@ -79,6 +84,19 @@ const Results = () => {
     setSelectedCategory(newCategory);
   };
 
+  const handleFeedback = async (id: number) => {
+    const newFeedback = {
+      userId: user?.userId,
+      isSummary: isSummary,
+      articleId: id,
+      feedback: feedback,
+    };
+
+    try {
+      await AppService.changeIsSummary(Number(searchId), newFeedback);
+    } catch (error: any) {}
+  };
+
   useHttpGet<any>(`${APIRoutes.SEARCH_SUMMARY}/${searchId}`, {
     resolve: (response) => {
       if (response) {
@@ -112,8 +130,9 @@ const Results = () => {
           <ul className="overview-head-end-list">
             <div
               className="overview-head-end-list__item"
-              onClick={() => setPin(!pin)}>
-              {pin ? (
+              onClick={() => setIsSummary(!isSummary)}
+            >
+              {isSummary ? (
                 <img src={starActive} alt="star-active" />
               ) : (
                 <img src={star} alt="star" />
@@ -131,20 +150,23 @@ const Results = () => {
             <li
               className="overview-categories-list-item"
               key={category.categoryId}
-              onClick={() => filterParamsSwitcher(category.categoryId)}>
+              onClick={() => filterParamsSwitcher(category.categoryId)}
+            >
               <button
                 onClick={() => setIsActive(!isActive)}
                 className={
                   selectedCategory?.categoryId === category.categoryId
                     ? "overview-categories-list-item-active-btn"
                     : "overview-categories-list-item-btn"
-                }>
+                }
+              >
                 <span
                   className={
                     selectedCategory?.categoryId === category.categoryId
                       ? "overview-categories-list-item-btn__txt-active"
                       : "overview-categories-list-item-btn__txt"
-                  }>
+                  }
+                >
                   {category.category}
                 </span>
               </button>
@@ -164,8 +186,9 @@ const Results = () => {
             </li>
             <li
               className="overview-categories-func__list-item"
-              onClick={() => setPin(!pin)}>
-              {pin ? (
+              onClick={() => setIsSummary(!isSummary)}
+            >
+              {isSummary ? (
                 <img src={starActive} alt="star-active" />
               ) : (
                 <img src={star} alt="star" />
@@ -205,48 +228,66 @@ const Results = () => {
                           Summary
                         </span>
                       </div>
-                      {/* {result.liked === 0 && (
-                      <div className="block-footer-end">
-                        <img
-                          src={like}
-                          alt="voted"
-                          onClick={() => likeSwitcher(index, 1)}
-                        />
-                        <img
-                          src={dislike}
-                          alt="thumb_down"
-                          onClick={() => likeSwitcher(index, 2)}
-                        />
-                      </div>
-                    )}
-                    {result.liked === 1 && (
-                      <div className="block-footer-end">
-                        <img
-                          src={likeActive}
-                          alt="voted"
-                          onClick={() => likeSwitcher(index, 1)}
-                        />
-                        <img
-                          src={dislike}
-                          alt="thumb_down"
-                          onClick={() => likeSwitcher(index, 2)}
-                        />
-                      </div>
-                    )}
-                    {result.liked === 2 && (
-                      <div className="block-footer-end">
-                        <img
-                          src={like}
-                          alt="voted"
-                          onClick={() => likeSwitcher(index, 1)}
-                        />
-                        <img
-                          src={dislikeActive}
-                          alt="thumb_down"
-                          onClick={() => likeSwitcher(index, 2)}
-                        />
-                      </div>
-                    )} */}
+                      {feedback === "" && (
+                        <div className="block-footer-end">
+                          <img
+                            src={like}
+                            alt="voted"
+                            onClick={() => {
+                              setFeedback(0);
+                              handleFeedback(article.articleId);
+                            }}
+                          />
+                          <img
+                            src={dislike}
+                            alt="thumb_down"
+                            onClick={() => {
+                              setFeedback(1);
+                              handleFeedback(article.articleId);
+                            }}
+                          />
+                        </div>
+                      )}
+                      {feedback === 0 && (
+                        <div className="block-footer-end">
+                          <img
+                            src={likeActive}
+                            alt="voted"
+                            onClick={() => {
+                              setFeedback(0);
+                              handleFeedback(article.articleId);
+                            }}
+                          />
+                          <img
+                            src={dislike}
+                            alt="thumb_down"
+                            onClick={() => {
+                              setFeedback(1);
+                              handleFeedback(article.articleId);
+                            }}
+                          />
+                        </div>
+                      )}
+                      {feedback === 1 && (
+                        <div className="block-footer-end">
+                          <img
+                            src={like}
+                            alt="voted"
+                            onClick={() => {
+                              setFeedback(0);
+                              handleFeedback(article.articleId);
+                            }}
+                          />
+                          <img
+                            src={dislikeActive}
+                            alt="thumb_down"
+                            onClick={() => {
+                              setFeedback(1);
+                              handleFeedback(article.articleId);
+                            }}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                   <ul className="block-main-controls">
@@ -255,17 +296,18 @@ const Results = () => {
                         <img src={link_disable} alt="link_disable" />
                       </button>
                     </li>
-                    {/* <li className="block-main-controls__item">
-                    <button
-                      className="block-main-controls__item-btn"
-                      onClick={() => starPiner(index)}>
-                      {result.star ? (
-                        <img src={starActive} alt="star-active" />
-                      ) : (
-                        <img src={star} alt="star" />
-                      )}
-                    </button>
-                  </li> */}
+                    <li className="block-main-controls__item">
+                      <button
+                        className="block-main-controls__item-btn"
+                        onClick={() => setIsSummary(!isSummary)}
+                      >
+                        {isSummary ? (
+                          <img src={starActive} alt="star-active" />
+                        ) : (
+                          <img src={star} alt="star" />
+                        )}
+                      </button>
+                    </li>
                     <li className="block-main-controls__item">
                       <button className="block-main-controls__item-btn">
                         <img src={text_area} alt="text_area" />
@@ -278,21 +320,23 @@ const Results = () => {
                           navigate(
                             `/regulation/${selectedCategory.categoryId}/${article.articleId}`
                           );
-                        }}>
+                        }}
+                      >
                         <img src={visit} alt="visit" />
                       </button>
                     </li>
-                    {/* <li className="block-main-controls__item">
-                    <button
-                      className="block-main-controls__item-btn"
-                      onClick={() => transformPiner(index)}>
-                      {result.transform ? (
-                        <img src={transformActive} alt="transform-active" />
-                      ) : (
-                        <img src={transform} alt="transform" />
-                      )}
-                    </button>
-                  </li> */}
+                    <li className="block-main-controls__item">
+                      <button
+                        className="block-main-controls__item-btn"
+                        onClick={() => transformPiner(index)}
+                      >
+                        {isSummary ? (
+                          <img src={transformActive} alt="transform-active" />
+                        ) : (
+                          <img src={transform} alt="transform" />
+                        )}
+                      </button>
+                    </li>
                   </ul>
                 </div>
               </div>
