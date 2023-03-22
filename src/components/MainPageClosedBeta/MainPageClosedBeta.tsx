@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { GoogleLogin } from "@react-oauth/google";
 import { toast } from "react-toastify";
@@ -16,6 +16,7 @@ import { setIsAuth, setUser } from "../../core/store/reducers/auth/authSlice";
 import { useLogout } from "../../core/hooks/useLogout";
 
 const MainPageClosedBeta = () => {
+  const [joinedList, setJoinedList] = useState(false);
   const { currentUser } = useAppSelector((state) => state.auth);
 
   const dispatch = useDispatch();
@@ -46,8 +47,17 @@ const MainPageClosedBeta = () => {
 
   const joinWaitingList = async () => {
     if (currentUser) {
+      if (currentUser.userLevel === 1) {
+        toast.warning("On waiting list already");
+        return;
+      }
       try {
-        const response = await AppService.joinWaitingList(currentUser?.userId);
+        await AppService.joinWaitingList(currentUser?.userId);
+        localStorage.setItem(
+          "savedUser",
+          JSON.stringify({ ...currentUser, userLevel: 1 })
+        );
+        dispatch(setUser({ ...currentUser, userLevel: 1 }));
         toast.success(
           `Successfully added user ${currentUser?.userId} to the waiting list!`
         );
@@ -104,7 +114,8 @@ const MainPageClosedBeta = () => {
         </p>
         <button
           className="general-info__waitlist-btn"
-          onClick={joinWaitingList}>
+          onClick={joinWaitingList}
+        >
           Join Waitlist
         </button>
       </div>
