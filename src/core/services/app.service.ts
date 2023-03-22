@@ -9,16 +9,8 @@ export default class AppService {
   static async joinWaitingList(
     userId: number | undefined
   ): Promise<AxiosResponse<any>> {
-    const userData = JSON.stringify(userId);
-
     return RequestsService.postMethod<any>(
-      APIRoutes.JOIN_WAITINGLIST,
-      userData,
-      {
-        headers: {
-          "Content-Type": "application/json;",
-        },
-      }
+      `${APIRoutes.JOIN_WAITINGLIST}/${userId}`
     );
   }
 
