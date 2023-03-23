@@ -75,6 +75,16 @@ const MainPageOpenBeta = () => {
     }
   };
 
+  const googleButtonResizer = () => {
+    if (window.screen.width > 1024) {
+      return undefined;
+    } else if (window.screen.width <= 350) {
+      return "small";
+    } else {
+      return "medium";
+    }
+  };
+
   return (
     <>
       <header className="heading">
@@ -97,6 +107,7 @@ const MainPageOpenBeta = () => {
               </div>
               <div className="button-google__click">
                 <GoogleLogin
+                  size={googleButtonResizer()}
                   onSuccess={(credentialResponse) => {
                     handleGoogleSignIn(credentialResponse);
                   }}

@@ -43,6 +43,7 @@
 
 .button-google {
   position: relative;
+  cursor: pointer;
 
   &__box {
     position: relative;
@@ -54,11 +55,10 @@
     padding-left: 18px;
     padding-right: 29px;
     height: 44px;
-    cursor: pointer;
 
     @include onMobile {
       height: 37.7px;
-      padding: 0 12px;
+      padding: 0 10px;
     }
 
     &-icon {
@@ -73,6 +73,10 @@
       font-weight: 700;
       font-size: 16px;
       line-height: 28px;
+
+      @media (max-width: 350px) {
+        font-size: 12px;
+      }
     }
   }
 
@@ -80,9 +84,19 @@
     position: absolute;
     opacity: 0;
     z-index: 10;
-    top: 0;
+    top: 2px;
+    left: 15px;
     width: 100%;
     display: block;
+
+    @include onTablet {
+      left: 14px;
+    }
+
+    @include onMobile {
+      top: 9px;
+      left: 13px;
+    }
   }
 }
 
