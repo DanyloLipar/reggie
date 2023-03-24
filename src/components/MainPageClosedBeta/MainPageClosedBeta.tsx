@@ -14,11 +14,20 @@ import googleLogo from "../../assets/photos/google.svg";
 import { useAppSelector } from "../../core/store/index";
 import { setIsAuth, setUser } from "../../core/store/reducers/auth/authSlice";
 import { useLogout } from "../../core/hooks/useLogout";
+import {
+  setModal,
+  setModalType,
+  setNotice,
+  setTitle,
+} from "../../core/store/reducers/modal/modalSlice";
+import { windowModalType } from "../../core/types";
+import { useNavigate } from "react-router-dom";
 
 const MainPageClosedBeta = () => {
   const [joinedList, setJoinedList] = useState(false);
   const { currentUser } = useAppSelector((state) => state.auth);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { logout } = useLogout();
 
@@ -40,15 +49,25 @@ const MainPageClosedBeta = () => {
 
       dispatch(setUser(response?.data));
       dispatch(setIsAuth());
+      dispatch(setModalType(windowModalType.notificationModal));
+      dispatch(setTitle("Success!"));
+      dispatch(setNotice("Logged in successfully."));
     } catch (errors: any) {
-      toast.error("Login failed!");
+      dispatch(setModalType(windowModalType.notificationModal));
+      dispatch(setTitle("Error!"));
+      dispatch(setNotice("Login failed."));
     }
+
+    dispatch(setModal());
   };
 
   const joinWaitingList = async () => {
     if (currentUser) {
       if (currentUser.userLevel === 1) {
-        toast.warning("On waiting list already");
+        dispatch(setModalType(windowModalType.notificationModal));
+        dispatch(setTitle("Warn!"));
+        dispatch(setNotice("On waiting list already."));
+        dispatch(setModal());
         return;
       }
       try {
@@ -58,15 +77,24 @@ const MainPageClosedBeta = () => {
           JSON.stringify({ ...currentUser, userLevel: 1 })
         );
         dispatch(setUser({ ...currentUser, userLevel: 1 }));
-        toast.success(
-          `Successfully added user ${currentUser?.userId} to the waiting list!`
+        dispatch(setModalType(windowModalType.notificationModal));
+        dispatch(setTitle("Success!"));
+        dispatch(
+          setNotice(
+            `Successfully added user ${currentUser?.userId} to the waiting list!`
+          )
         );
       } catch (errors: any) {
-        toast.error("Some errors occured.");
+        dispatch(setModalType(windowModalType.notificationModal));
+        dispatch(setTitle("Error!"));
+        dispatch(setNotice("Some errors occured."));
       }
     } else {
-      toast.error("Sign in first");
+      dispatch(setModalType(windowModalType.notificationModal));
+      dispatch(setTitle("Error!"));
+      dispatch(setNotice("Login in first."));
     }
+    dispatch(setModal());
   };
 
   const googleButtonResizer = () => {
@@ -82,7 +110,7 @@ const MainPageClosedBeta = () => {
   return (
     <>
       <header className="heading">
-        <div className="heading__logo">
+        <div className="heading__logo" onClick={() => navigate("/")}>
           <img className="heading__logo-image" src={logo} alt="logo" />
         </div>
         <div className="heading__buttons">

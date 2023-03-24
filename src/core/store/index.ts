@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import authSlice from "./reducers/auth/authSlice";
+import modalSlice from "./reducers/modal/modalSlice";
 
 const rootReducer = combineReducers({
   auth: authSlice,
+  modal: modalSlice,
 });
 
 export const store = configureStore({

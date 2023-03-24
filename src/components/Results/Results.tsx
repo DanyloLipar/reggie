@@ -24,6 +24,12 @@ import { toast } from "react-toastify";
 import { useLogout } from "../../core/hooks/useLogout";
 import { useAppSelector } from "../../core/store";
 import AppService from "../../core/services/app.service";
+import { useDispatch } from "react-redux";
+import {
+  setModal,
+  setNotice,
+  setTitle,
+} from "../../core/store/reducers/modal/modalSlice";
 
 const Results = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -35,6 +41,7 @@ const Results = () => {
 
   const user = useAppSelector((state) => state.auth.currentUser);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { logout } = useLogout();
 
@@ -105,7 +112,9 @@ const Results = () => {
       }
     },
     reject: (error) => {
-      toast.error("Articles not found!");
+      dispatch(setTitle("Success"));
+      dispatch(setNotice("Logged in successfully!"));
+      dispatch(setModal());
     },
   });
 

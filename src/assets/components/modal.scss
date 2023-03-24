@@ -1,0 +1,108 @@
+.modal {
+  display: none;
+  &-active {
+    display: block;
+  }
+  &__bg {
+    position: fixed;
+    z-index: 5;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $modal-bg;
+  }
+  &__container {
+    background-color: $main-background;
+    width: 85vw;
+    border-radius: 8px;
+    max-width: 478px;
+    height: 616px;
+
+    @include onMobile {
+      height: 490px;
+    }
+
+    @include onMobile {
+      max-width: 343px;
+    }
+  }
+}
+
+.modal-details {
+  position: fixed;
+  top: 7%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 5;
+
+  @include onTablet {
+    top: 9%;
+  }
+
+  &__theme {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 24px 34px 33px;
+    border-radius: 10px;
+
+    &-click {
+      font-family: "Plus Jakarta Sans";
+      font-style: normal;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 28px;
+      height: 60px;
+      border-radius: 10px;
+      background: $modal-btn-bg;
+      color: $modal-btn-txt;
+    }
+  }
+}
+
+.theme-info {
+  &-title {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 44px;
+  }
+
+  &-notice {
+    font-family: "Source Serif 4";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 28px;
+    margin-top: 12px;
+    max-width: 326px;
+    color: $modal-txt-color;
+  }
+}
+
+.export-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 26px;
+  list-style-type: none;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: $modal-txt-color;
+
+    &-txt {
+      font-family: "Plus Jakarta Sans";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 26px;
+    }
+  }
+}

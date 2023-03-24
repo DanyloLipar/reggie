@@ -7,4 +7,6 @@ export type User = {
 export interface AuthState {
   isAuth: boolean;
   currentUser: null | User;
+  modal: boolean;
+  modalType: number;
 }

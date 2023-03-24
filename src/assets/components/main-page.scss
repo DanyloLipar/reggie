@@ -9,6 +9,7 @@
   }
 
   &__logo {
+    cursor: pointer;
     @include onMobile {
       max-width: 41.5px;
     }

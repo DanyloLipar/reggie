@@ -27,3 +27,31 @@ button {
     width: 100%;
   }
 }
+
+input[type="radio"]:after {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  top: -2px;
+  left: -1px;
+  position: relative;
+  background-color: $main-background;
+  content: "";
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid $modal-radio;
+}
+
+input[type="radio"]:checked:after {
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  top: -2px;
+  left: -1px;
+  position: relative;
+  background-color: $modal-txt-color;
+  content: "";
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid $modal-radio;
+}

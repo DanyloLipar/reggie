@@ -16,6 +16,13 @@ import { App } from "../../core/models";
 import logo from "../../assets/photos/logo.svg";
 import googleLogo from "../../assets/photos/google.svg";
 import { useLogout } from "../../core/hooks/useLogout";
+import {
+  setModal,
+  setModalType,
+  setNotice,
+  setTitle,
+} from "../../core/store/reducers/modal/modalSlice";
+import { windowModalType } from "../../core/types";
 
 const MainPageOpenBeta = () => {
   const [inpQuery, setInpQuery] = useState("");
@@ -43,9 +50,17 @@ const MainPageOpenBeta = () => {
       localStorage.setItem("savedUser", JSON.stringify(response?.data));
       dispatch(setUser(response?.data));
       dispatch(setIsAuth());
+
+      dispatch(setModalType(windowModalType.notificationModal));
+      dispatch(setTitle("Success!"));
+      dispatch(setNotice("Logged in successfully."));
     } catch (errors: any) {
-      toast.error("Login failed!");
+      dispatch(setModalType(windowModalType.notificationModal));
+      dispatch(setTitle("Error!"));
+      dispatch(setNotice("Login failed."));
     }
+
+    dispatch(setModal());
   };
 
   const handleSubmit = (e: React.SyntheticEvent) => {
@@ -55,10 +70,17 @@ const MainPageOpenBeta = () => {
       if (inpQuery) {
         performSearch();
       } else {
-        toast.error("Please provide search details");
+        dispatch(setModalType(windowModalType.notificationModal));
+        dispatch(setTitle("Error!"));
+        dispatch(setNotice("Please provide search details!"));
+        dispatch(setModal());
       }
     } else {
       toast.error("Sign in first");
+      dispatch(setModalType(windowModalType.notificationModal));
+      dispatch(setTitle("Error!"));
+      dispatch(setNotice("Sign in first."));
+      dispatch(setModal());
     }
   };
 

@@ -3,7 +3,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../core/store/index";
 
 const RequireAuth = () => {
-  const { currentUser } = useAppSelector((state) => state.auth);
+  const currentUser = localStorage.getItem("savedUser");
   const location = useLocation();
 
   if (!currentUser) {

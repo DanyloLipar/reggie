@@ -10,10 +10,12 @@ import Results from "./components/Results";
 
 import "./assets/index.scss";
 import RequireAuth from "./components/RequireAuth";
+import ModalWindow from "./components/ModalWindow";
 
 function App() {
   return (
     <>
+      <ModalWindow />
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_KEY}>
         <Routes>
           <Route path="/" element={<MainPageOpenBeta />} />

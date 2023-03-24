@@ -18,10 +18,15 @@ import transform from "../../assets/photos/results/transform.svg";
 import transform_active from "../../assets/photos/results/transform-active.svg";
 import link_active from "../../assets/photos/results/link-active.svg";
 import AppService from "../../core/services/app.service";
-import { Article } from "../../core/types";
+import { Article, windowModalType } from "../../core/types";
 import { useLogout } from "../../core/hooks/useLogout";
 import { useAppSelector } from "../../core/store";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import {
+  setModal,
+  setModalType,
+} from "../../core/store/reducers/modal/modalSlice";
 
 const Regulation = () => {
   const [showMore, setShowMore] = useState(false);
@@ -31,6 +36,10 @@ const Regulation = () => {
   const [feedback, setFeedback] = useState<string | number>("");
 
   const user = useAppSelector((state) => state.auth.currentUser);
+  const modal = useAppSelector((state) => state.auth.modal);
+  const dispatch = useDispatch();
+
+  console.log(modal);
 
   const { logout } = useLogout();
 
@@ -75,8 +84,6 @@ const Regulation = () => {
   //     tags: ["tag1", "tag2"],
   //   });
   // };
-
-  console.log(article);
 
   return (
     <section className="regulation">
@@ -306,7 +313,13 @@ const Regulation = () => {
               {hovered === requirement.requirementId && (
                 <ul className="conversation-answer-section-content-links">
                   <li className="conversation-answer-section-content-links__item">
-                    <button className="conversation-answer-section-content-links__item-btn">
+                    <button
+                      className="conversation-answer-section-content-links__item-btn"
+                      onClick={() => {
+                        dispatch(setModalType(windowModalType.exportModal));
+                        dispatch(setModal());
+                      }}
+                    >
                       <img
                         src={link_active}
                         alt="link_active"
@@ -393,7 +406,13 @@ const Regulation = () => {
               <div className="conversation-quest-section-footer">
                 <ul className="conversation-answer-section-footer-links">
                   <li className="conversation-answer-section-content-links__item">
-                    <button className="conversation-answer-section-content-links__item-btn">
+                    <button
+                      className="conversation-answer-section-content-links__item-btn"
+                      onClick={() => {
+                        dispatch(setModalType(windowModalType.exportModal));
+                        dispatch(setModal());
+                      }}
+                    >
                       <img
                         src={link_active}
                         alt="link_active"

@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { windowModalType } from "../../../types";
 
 import { AuthState, User } from "./types";
 
 const state: AuthState = {
   isAuth: false,
   currentUser: null,
+  modal: false,
+  modalType: windowModalType.noModalDefault,
 };
 
 const authSlice = createSlice({

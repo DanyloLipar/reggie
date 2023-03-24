@@ -15,10 +15,16 @@ export type Requirements = {
 };
 
 export type Category = {
-  articleSummaries: any; 
+  articleSummaries: any;
   category: string;
   categoryId: number;
   categorySummary: string;
   numberOfArticles: number;
   numberOfRequirements: number;
+};
+
+export enum windowModalType {
+  noModalDefault = 0,
+  notificationModal = 1,
+  exportModal = 2,
 }
