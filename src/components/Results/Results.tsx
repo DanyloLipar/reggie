@@ -10,14 +10,6 @@ import summary from "../../assets/photos/results/summary.svg";
 import star from "../../assets/photos/results/star.svg";
 import starActive from "../../assets/photos/results/star-active.svg";
 import visit from "../../assets/photos/results/visit.svg";
-import link_disable from "../../assets/photos/results/link-disable.svg";
-import text_area from "../../assets/photos/results/text-area.svg";
-import transform from "../../assets/photos/results/transform.svg";
-import transformActive from "../../assets/photos/results/transform-active.svg";
-import like from "../../assets/photos/like.svg";
-import dislike from "../../assets/photos/dislike.svg";
-import likeActive from "../../assets/photos/like-active.svg";
-import dislikeActive from "../../assets/photos/dislike-active.svg";
 import { filters } from "../../core/constants/filters";
 import { results } from "../../core/constants/results";
 import { toast } from "react-toastify";
@@ -30,26 +22,42 @@ import {
   setNotice,
   setTitle,
 } from "../../core/store/reducers/modal/modalSlice";
+import ResultCard from "../ResultCard";
 
 const Results = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [isActive, setIsActive] = useState(false);
+  const [reloadChecker, setReloadChecker] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
   const [allresults, setAllResults] = useState<any>([]);
-  const [isSummary, setIsSummary] = useState(false);
   const [feedback, setFeedback] = useState<string | number>("");
+  const [artcileFeedback, setArticleFeedback] = useState<any>();
 
   const user = useAppSelector((state) => state.auth.currentUser);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { logout } = useLogout();
 
   const { searchId } = useParams();
 
   useEffect(() => {
+    localStorage.setItem(
+      "feedback",
+      JSON.stringify({
+        [`star${selectedCategory?.categoryId}`]: false,
+      })
+    );
+  }, [selectedCategory]);
+
+  useEffect(() => {
     setAllResults(results);
   }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem("feedback")) {
+      setArticleFeedback(JSON.parse(localStorage.getItem("feedback") || "{}"));
+    }
+  }, [reloadChecker]);
 
   const starPiner = (index: number) => {
     const newResults = [...allresults];
@@ -91,18 +99,38 @@ const Results = () => {
     setSelectedCategory(newCategory);
   };
 
-  const handleFeedback = async (id: number) => {
-    const newFeedback = {
-      userId: user?.userId,
-      isSummary: isSummary,
-      articleId: id,
-      feedback: feedback,
-    };
-
-    try {
-      await AppService.changeIsSummary(Number(searchId), newFeedback);
-    } catch (error: any) {}
+  const saveFeedback = (id: number, type: string, value: boolean | number) => {
+    if (localStorage.getItem("feedback")) {
+      localStorage.setItem(
+        "feedback",
+        JSON.stringify({
+          ...JSON.parse(localStorage.getItem("feedback") || "{}"),
+          [`${type}${id}`]: value,
+        })
+      );
+    } else {
+      localStorage.setItem(
+        "feedback",
+        JSON.stringify({
+          [`${type}${id}`]: value,
+        })
+      );
+    }
+    setReloadChecker(!reloadChecker);
   };
+
+  // const handleFeedback = async (id: number) => {
+  //   const newFeedback = {
+  //     userId: user?.userId,
+  //     isSummary: isSummary,
+  //     articleId: id,
+  //     feedback: feedback,
+  //   };
+
+  //   try {
+  //     await AppService.changeIsSummary(Number(searchId), newFeedback);
+  //   } catch (error: any) {}
+  // };
 
   useHttpGet<any>(`${APIRoutes.SEARCH_SUMMARY}/${searchId}`, {
     resolve: (response) => {
@@ -137,14 +165,29 @@ const Results = () => {
             </li>
           </ul>
           <ul className="overview-head-end-list">
-            <div
-              className="overview-head-end-list__item"
-              onClick={() => setIsSummary(!isSummary)}
-            >
-              {isSummary ? (
-                <img src={starActive} alt="star-active" />
+            <div className="overview-head-end-list__item">
+              {artcileFeedback &&
+              artcileFeedback &&
+              artcileFeedback[`star${selectedCategory?.categoryId}`] ? (
+                <img
+                  src={starActive}
+                  onClick={() => {
+                    if (selectedCategory) {
+                      saveFeedback(selectedCategory?.categoryId, "star", false);
+                    }
+                  }}
+                  alt="star-active"
+                />
               ) : (
-                <img src={star} alt="star" />
+                <img
+                  src={star}
+                  onClick={() => {
+                    if (selectedCategory) {
+                      saveFeedback(selectedCategory?.categoryId, "star", true);
+                    }
+                  }}
+                  alt="star"
+                />
               )}
             </div>
             <li className="overview-head-end-list__item">
@@ -193,14 +236,28 @@ const Results = () => {
             <li className="overview-categories-func__list-item">
               <img src={visit} alt="visit" />
             </li>
-            <li
-              className="overview-categories-func__list-item"
-              onClick={() => setIsSummary(!isSummary)}
-            >
-              {isSummary ? (
-                <img src={starActive} alt="star-active" />
+            <li className="overview-categories-func__list-item">
+              {artcileFeedback &&
+              artcileFeedback[`star${selectedCategory?.categoryId}`] ? (
+                <img
+                  src={starActive}
+                  onClick={() => {
+                    if (selectedCategory) {
+                      saveFeedback(selectedCategory?.categoryId, "star", false);
+                    }
+                  }}
+                  alt="star-active"
+                />
               ) : (
-                <img src={star} alt="star" />
+                <img
+                  src={star}
+                  onClick={() => {
+                    if (selectedCategory) {
+                      saveFeedback(selectedCategory?.categoryId, "star", true);
+                    }
+                  }}
+                  alt="star"
+                />
               )}
             </li>
           </ul>
@@ -220,135 +277,18 @@ const Results = () => {
         <div className="results-reviews">
           {selectedCategory?.articleSummaries.map(
             (article: Article, index: number) => (
-              <div className="results-reviews-block" key={article.articleId}>
-                <div className="results-reviews__block-main block-main">
-                  <div className="block-main-wrapper">
-                    <div className="block-main-review">
-                      <p className="block-main-review__txt">
-                        {article.articleSummary}
-                      </p>
-                    </div>
-                    <div className="block-main-review__block-footer block-footer">
-                      <div className="block-footer-head">
-                        <span className="block-footer-head__main">
-                          {article.articleName}
-                        </span>
-                        <span className="block-footer-head__additional">
-                          Summary
-                        </span>
-                      </div>
-                      {feedback === "" && (
-                        <div className="block-footer-end">
-                          <img
-                            src={like}
-                            alt="voted"
-                            onClick={() => {
-                              setFeedback(0);
-                              handleFeedback(article.articleId);
-                            }}
-                          />
-                          <img
-                            src={dislike}
-                            alt="thumb_down"
-                            onClick={() => {
-                              setFeedback(1);
-                              handleFeedback(article.articleId);
-                            }}
-                          />
-                        </div>
-                      )}
-                      {feedback === 0 && (
-                        <div className="block-footer-end">
-                          <img
-                            src={likeActive}
-                            alt="voted"
-                            onClick={() => {
-                              setFeedback(0);
-                              handleFeedback(article.articleId);
-                            }}
-                          />
-                          <img
-                            src={dislike}
-                            alt="thumb_down"
-                            onClick={() => {
-                              setFeedback(1);
-                              handleFeedback(article.articleId);
-                            }}
-                          />
-                        </div>
-                      )}
-                      {feedback === 1 && (
-                        <div className="block-footer-end">
-                          <img
-                            src={like}
-                            alt="voted"
-                            onClick={() => {
-                              setFeedback(0);
-                              handleFeedback(article.articleId);
-                            }}
-                          />
-                          <img
-                            src={dislikeActive}
-                            alt="thumb_down"
-                            onClick={() => {
-                              setFeedback(1);
-                              handleFeedback(article.articleId);
-                            }}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <ul className="block-main-controls">
-                    <li className="block-main-controls__item">
-                      <button className="block-main-controls__item-btn">
-                        <img src={link_disable} alt="link_disable" />
-                      </button>
-                    </li>
-                    <li className="block-main-controls__item">
-                      <button
-                        className="block-main-controls__item-btn"
-                        onClick={() => setIsSummary(!isSummary)}
-                      >
-                        {isSummary ? (
-                          <img src={starActive} alt="star-active" />
-                        ) : (
-                          <img src={star} alt="star" />
-                        )}
-                      </button>
-                    </li>
-                    <li className="block-main-controls__item">
-                      <button className="block-main-controls__item-btn">
-                        <img src={text_area} alt="text_area" />
-                      </button>
-                    </li>
-                    <li className="block-main-controls__item">
-                      <button
-                        className="block-main-controls__item-btn"
-                        onClick={() => {
-                          navigate(
-                            `/regulation/${selectedCategory.categoryId}/${article.articleId}`
-                          );
-                        }}
-                      >
-                        <img src={visit} alt="visit" />
-                      </button>
-                    </li>
-                    <li className="block-main-controls__item">
-                      <button
-                        className="block-main-controls__item-btn"
-                        onClick={() => transformPiner(index)}
-                      >
-                        {isSummary ? (
-                          <img src={transformActive} alt="transform-active" />
-                        ) : (
-                          <img src={transform} alt="transform" />
-                        )}
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              <ResultCard
+                key={article.articleId}
+                article={article}
+                feedback={feedback}
+                saveFeedback={saveFeedback}
+                // handleFeedback={handleFeedback}
+                artcileFeedback={artcileFeedback}
+                setArticleFeedback={setArticleFeedback}
+                transformPiner={transformPiner}
+                selectedCategory={selectedCategory}
+                index={index}
+              />
             )
           )}
         </div>
