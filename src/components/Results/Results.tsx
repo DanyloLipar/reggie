@@ -12,7 +12,6 @@ import starActive from "../../assets/photos/results/star-active.svg";
 import visit from "../../assets/photos/results/visit.svg";
 import { filters } from "../../core/constants/filters";
 import { results } from "../../core/constants/results";
-import { toast } from "react-toastify";
 import { useLogout } from "../../core/hooks/useLogout";
 import { useAppSelector } from "../../core/store";
 import AppService from "../../core/services/app.service";

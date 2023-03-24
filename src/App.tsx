@@ -1,7 +1,5 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
 
 import MainPageClosedBeta from "./components/MainPageClosedBeta";
 import MainPageOpenBeta from "./components/MainPageOpenBeta";
@@ -30,18 +28,6 @@ function App() {
           <Route path="*" element={<Navigate to={"/"} />} />
         </Routes>
       </GoogleOAuthProvider>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={true}
-        newestOnTop={true}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
     </>
   );
 }

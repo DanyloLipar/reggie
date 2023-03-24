@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
-import { toast } from "react-toastify";
 import jwtDecode from "jwt-decode";
 
 import Categories from "../Categories";
@@ -51,13 +50,13 @@ const MainPageOpenBeta = () => {
       dispatch(setUser(response?.data));
       dispatch(setIsAuth());
 
-      dispatch(setModalType(windowModalType.notificationModal));
       dispatch(setTitle("Success!"));
       dispatch(setNotice("Logged in successfully."));
-    } catch (errors: any) {
       dispatch(setModalType(windowModalType.notificationModal));
+    } catch (errors: any) {
       dispatch(setTitle("Error!"));
       dispatch(setNotice("Login failed."));
+      dispatch(setModalType(windowModalType.notificationModal));
     }
 
     dispatch(setModal());
@@ -70,16 +69,15 @@ const MainPageOpenBeta = () => {
       if (inpQuery) {
         performSearch();
       } else {
-        dispatch(setModalType(windowModalType.notificationModal));
         dispatch(setTitle("Error!"));
         dispatch(setNotice("Please provide search details!"));
+        dispatch(setModalType(windowModalType.notificationModal));
         dispatch(setModal());
       }
     } else {
-      toast.error("Sign in first");
-      dispatch(setModalType(windowModalType.notificationModal));
       dispatch(setTitle("Error!"));
       dispatch(setNotice("Sign in first."));
+      dispatch(setModalType(windowModalType.notificationModal));
       dispatch(setModal());
     }
   };
@@ -93,7 +91,10 @@ const MainPageOpenBeta = () => {
 
       navigate(`/results/${response?.data?.searchId}`);
     } catch (errors: any) {
-      toast.error("Not Found!");
+      dispatch(setTitle("Error!"));
+      dispatch(setNotice("Nothing was found."));
+      dispatch(setModalType(windowModalType.notificationModal));
+      dispatch(setModal());
     }
   };
 

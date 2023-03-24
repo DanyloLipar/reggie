@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { GoogleLogin } from "@react-oauth/google";
-import { toast } from "react-toastify";
 import jwtDecode from "jwt-decode";
 
 import Categories from "../Categories";
