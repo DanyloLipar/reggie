@@ -12,6 +12,12 @@ import text_area from "../../assets/photos/results/text-area.svg";
 import transform_active from "../../assets/photos/results/transform-active.svg";
 import transform from "../../assets/photos/results/transform.svg";
 import visit from "../../assets/photos/results/visit.svg";
+import { useDispatch } from "react-redux";
+import {
+  setModal,
+  setModalType,
+} from "../../core/store/reducers/modal/modalSlice";
+import { windowModalType } from "../../core/types";
 
 type RequirementProp = {
   requirementId: number;
@@ -32,21 +38,26 @@ const Requirement = ({
 }: RequirementProp) => {
   const [hovered, setHovered] = useState<string | number>("");
 
+  const dispatch = useDispatch();
+
   return (
     <div
       key={requirementId}
       onMouseEnter={() => setHovered(requirementId)}
-      onMouseLeave={() => setHovered("")}>
+      onMouseLeave={() => setHovered("")}
+    >
       <div
         className={classNames({
           "conversation-quest-section": true,
           "conversation-quest-section-active": hovered === requirementId,
-        })}>
+        })}
+      >
         {hovered !== requirementId && (
           <div
             className={classNames({
               "conversation-quest-section-line": true,
-            })}></div>
+            })}
+          ></div>
         )}
         <div className="conversation-quest-section-content">
           <p className="conversation-quest-section-content__main">
@@ -59,7 +70,13 @@ const Requirement = ({
         {hovered === requirementId && (
           <ul className="conversation-answer-section-content-links">
             <li className="conversation-answer-section-content-links__item">
-              <button className="conversation-answer-section-content-links__item-btn">
+              <button
+                className="conversation-answer-section-content-links__item-btn"
+                onClick={() => {
+                  dispatch(setModalType(windowModalType.exportModal));
+                  dispatch(setModal());
+                }}
+              >
                 <img
                   src={link_active}
                   alt="link_active"
@@ -145,7 +162,13 @@ const Requirement = ({
         <div className="conversation-quest-section-footer">
           <ul className="conversation-answer-section-footer-links">
             <li className="conversation-answer-section-content-links__item">
-              <button className="conversation-answer-section-content-links__item-btn">
+              <button
+                className="conversation-answer-section-content-links__item-btn"
+                onClick={() => {
+                  dispatch(setModalType(windowModalType.exportModal));
+                  dispatch(setModal());
+                }}
+              >
                 <img
                   src={link_active}
                   alt="link_active"
