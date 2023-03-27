@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
+import Header from "./Header";
 import Requirement from "../Requirement";
 import MobileHead from "./MobileHead";
 
@@ -9,9 +11,8 @@ import useHttpGet from "../../core/hooks/useHttpGet";
 import { Article } from "../../core/types";
 import { useLogout } from "../../core/hooks/useLogout";
 import { useAppSelector } from "../../core/store";
+import AppService from "../../core/services/app.service";
 
-import Header from "./Header";
-import { useDispatch } from "react-redux";
 import {
   setModal,
   setModalType,
@@ -25,6 +26,7 @@ const Regulation = () => {
 
   const user = useAppSelector((state) => state.auth.currentUser);
   const modal = useAppSelector((state) => state.auth.modal);
+
   const dispatch = useDispatch();
 
   const { logout } = useLogout();
@@ -52,31 +54,32 @@ const Regulation = () => {
     `${APIRoutes.SEARCH_DETAILS}/${searchId}/articles/${articleId}`,
     {
       resolve: (response) => {
-        console.log(response?.article);
         setArticle(response?.article);
       },
     }
   );
   // const { fetchedData: articles } = useHttpGet<any>(`${APIRoutes.ARTICLES}`);
 
-  const handleText = () => {
-    if (!showMore) {
-      setShowMore(true);
-    } else {
-      setShowMore(false);
-    }
-  };
+  // const handleText = () => {
+  //   if (!showMore) {
+  //     setShowMore(true);
+  //   } else {
+  //     setShowMore(false);
+  //   }
+  // };
 
   const handleFeedback = async (id: number) => {
+    const storage = JSON.parse(localStorage.getItem(`commentFeedback`) || "{}");
+
     const newFeedback = {
       userId: user?.userId,
-      // isSummary: isSummary,
+      isSummary: storage[`star${id}`] || false,
       articleId: id,
-      // feedback: feedback,
+      feedback: storage[`like${id}`] || 0,
     };
 
     try {
-      // await AppService.changeIsSummary(Number(searchId), newFeedback);
+      await AppService.changeIsSummary(Number(searchId), newFeedback);
     } catch (error: any) {}
   };
 

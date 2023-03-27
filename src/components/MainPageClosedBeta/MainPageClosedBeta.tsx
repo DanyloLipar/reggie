@@ -24,20 +24,12 @@ import { useNavigate } from "react-router-dom";
 
 const MainPageClosedBeta = () => {
   const [joinedList, setJoinedList] = useState(false);
+
   const { currentUser } = useAppSelector((state) => state.auth);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { logout } = useLogout();
-
-  useEffect(() => {
-    if (localStorage.getItem("savedUser")) {
-      const currUser = JSON.parse(localStorage.getItem("savedUser") || "{}");
-
-      dispatch(setUser(currUser));
-      dispatch(setIsAuth());
-    }
-  }, []);
 
   const handleGoogleSignIn = async (values: any) => {
     const encoded_values: App.GoogleLogin = jwtDecode(values.credential);
@@ -156,8 +148,7 @@ const MainPageClosedBeta = () => {
         </p>
         <button
           className="general-info__waitlist-btn"
-          onClick={joinWaitingList}
-        >
+          onClick={joinWaitingList}>
           Join Waitlist
         </button>
       </div>

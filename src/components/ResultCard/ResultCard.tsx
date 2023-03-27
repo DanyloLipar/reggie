@@ -16,12 +16,12 @@ import { useNavigate } from "react-router-dom";
 type ResultCardProps = {
   artcileFeedback: any;
   index: number;
-  feedback: string | number;
+
   article: Article;
   saveFeedback: (id: number, type: string, value: number | boolean) => void;
   setArticleFeedback: (articleFeedback: any) => void;
   selectedCategory: Category;
-  //   handleFeedback: (id: number) => void;
+  handleFeedback: (id: number) => void;
   transformPiner: (index: number) => void;
 };
 
@@ -30,7 +30,7 @@ const ResultCard = ({
   index,
   article,
   saveFeedback,
-  //   handleFeedback,
+  handleFeedback,
   selectedCategory,
   transformPiner,
 }: ResultCardProps) => {
@@ -46,8 +46,7 @@ const ResultCard = ({
               navigate(
                 `/regulation/${selectedCategory.categoryId}/${article.articleId}`
               );
-            }}
-          >
+            }}>
             <p className="block-main-review__txt">{article.articleSummary}</p>
           </div>
           <div className="block-main-review__block-footer block-footer">
@@ -64,7 +63,7 @@ const ResultCard = ({
                   alt="voted"
                   onClick={() => {
                     saveFeedback(article?.articleId, "like", 1);
-                    //     handleFeedback(article.articleId);
+                    handleFeedback(article.articleId);
                   }}
                 />
                 <img
@@ -72,7 +71,7 @@ const ResultCard = ({
                   alt="thumb_down"
                   onClick={() => {
                     saveFeedback(article?.articleId, "like", 2);
-                    //     handleFeedback(article.articleId);
+                    handleFeedback(article.articleId);
                   }}
                 />
               </div>
@@ -84,7 +83,7 @@ const ResultCard = ({
                   alt="voted"
                   onClick={() => {
                     saveFeedback(article?.articleId, "like", 1);
-                    //     handleFeedback(article.articleId);
+                    handleFeedback(article.articleId);
                   }}
                 />
                 <img
@@ -92,7 +91,7 @@ const ResultCard = ({
                   alt="thumb_down"
                   onClick={() => {
                     saveFeedback(article?.articleId, "like", 0);
-                    //     handleFeedback(article.articleId);
+                    handleFeedback(article.articleId);
                   }}
                 />
               </div>
@@ -104,7 +103,7 @@ const ResultCard = ({
                   alt="voted"
                   onClick={() => {
                     saveFeedback(article?.articleId, "like", 0);
-                    //     handleFeedback(article.articleId);
+                    handleFeedback(article.articleId);
                   }}
                 />
                 <img
@@ -112,7 +111,7 @@ const ResultCard = ({
                   alt="thumb_down"
                   onClick={() => {
                     saveFeedback(article?.articleId, "like", 2);
-                    //     handleFeedback(article.articleId);
+                    handleFeedback(article.articleId);
                   }}
                 />
               </div>
@@ -133,6 +132,7 @@ const ResultCard = ({
                   src={starActive}
                   onClick={() => {
                     saveFeedback(article?.articleId, "star", false);
+                    handleFeedback(article.articleId);
                   }}
                   alt="star-active"
                 />
@@ -141,6 +141,7 @@ const ResultCard = ({
                   src={star}
                   onClick={() => {
                     saveFeedback(article?.articleId, "star", true);
+                    handleFeedback(article.articleId);
                   }}
                   alt="star"
                 />

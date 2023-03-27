@@ -1,16 +1,30 @@
+import { useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { useDispatch } from "react-redux";
 
 import MainPageClosedBeta from "./components/MainPageClosedBeta";
 import MainPageOpenBeta from "./components/MainPageOpenBeta";
 import Regulation from "./components/Regulation/Regulation";
 import Results from "./components/Results";
 
-import "./assets/index.scss";
 import RequireAuth from "./components/RequireAuth";
 import ModalWindow from "./components/ModalWindow";
 
+import { setIsAuth, setUser } from "./core/store/reducers/auth/authSlice";
+import "./assets/index.scss";
+
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (localStorage.getItem("savedUser")) {
+      const currUser = JSON.parse(localStorage.getItem("savedUser") || "{}");
+
+      dispatch(setUser(currUser));
+      dispatch(setIsAuth());
+    }
+  }, []);
   return (
     <>
       <ModalWindow />

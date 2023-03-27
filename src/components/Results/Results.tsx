@@ -29,7 +29,6 @@ const Results = () => {
   const [reloadChecker, setReloadChecker] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category>();
   const [allresults, setAllResults] = useState<any>([]);
-  const [feedback, setFeedback] = useState<string | number>("");
   const [artcileFeedback, setArticleFeedback] = useState<any>();
 
   const user = useAppSelector((state) => state.auth.currentUser);
@@ -118,18 +117,21 @@ const Results = () => {
     setReloadChecker(!reloadChecker);
   };
 
-  // const handleFeedback = async (id: number) => {
-  //   const newFeedback = {
-  //     userId: user?.userId,
-  //     isSummary: isSummary,
-  //     articleId: id,
-  //     feedback: feedback,
-  //   };
+  const handleFeedback = async (id: number) => {
+    const storage = JSON.parse(localStorage.getItem(`feedback`) || "{}");
 
-  //   try {
-  //     await AppService.changeIsSummary(Number(searchId), newFeedback);
-  //   } catch (error: any) {}
-  // };
+    const newFeedback = {
+      userId: user?.userId,
+      isSummary: storage[`star${id}`] || false,
+      articleId: id,
+      feedback: storage[`like${id}`] || 0,
+    };
+    try {
+      await AppService.changeIsSummary(Number(searchId), newFeedback);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
 
   useHttpGet<any>(`${APIRoutes.SEARCH_SUMMARY}/${searchId}`, {
     resolve: (response) => {
@@ -166,13 +168,13 @@ const Results = () => {
           <ul className="overview-head-end-list">
             <div className="overview-head-end-list__item">
               {artcileFeedback &&
-              artcileFeedback &&
               artcileFeedback[`star${selectedCategory?.categoryId}`] ? (
                 <img
                   src={starActive}
                   onClick={() => {
                     if (selectedCategory) {
                       saveFeedback(selectedCategory?.categoryId, "star", false);
+                      handleFeedback(selectedCategory.categoryId);
                     }
                   }}
                   alt="star-active"
@@ -183,6 +185,7 @@ const Results = () => {
                   onClick={() => {
                     if (selectedCategory) {
                       saveFeedback(selectedCategory?.categoryId, "star", true);
+                      handleFeedback(selectedCategory.categoryId);
                     }
                   }}
                   alt="star"
@@ -201,23 +204,20 @@ const Results = () => {
             <li
               className="overview-categories-list-item"
               key={category.categoryId}
-              onClick={() => filterParamsSwitcher(category.categoryId)}
-            >
+              onClick={() => filterParamsSwitcher(category.categoryId)}>
               <button
                 onClick={() => setIsActive(!isActive)}
                 className={
                   selectedCategory?.categoryId === category.categoryId
                     ? "overview-categories-list-item-active-btn"
                     : "overview-categories-list-item-btn"
-                }
-              >
+                }>
                 <span
                   className={
                     selectedCategory?.categoryId === category.categoryId
                       ? "overview-categories-list-item-btn__txt-active"
                       : "overview-categories-list-item-btn__txt"
-                  }
-                >
+                  }>
                   {category.category}
                 </span>
               </button>
@@ -243,6 +243,7 @@ const Results = () => {
                   onClick={() => {
                     if (selectedCategory) {
                       saveFeedback(selectedCategory?.categoryId, "star", false);
+                      handleFeedback(selectedCategory.categoryId);
                     }
                   }}
                   alt="star-active"
@@ -253,6 +254,7 @@ const Results = () => {
                   onClick={() => {
                     if (selectedCategory) {
                       saveFeedback(selectedCategory?.categoryId, "star", true);
+                      handleFeedback(selectedCategory.categoryId);
                     }
                   }}
                   alt="star"
@@ -279,9 +281,8 @@ const Results = () => {
               <ResultCard
                 key={article.articleId}
                 article={article}
-                feedback={feedback}
                 saveFeedback={saveFeedback}
-                // handleFeedback={handleFeedback}
+                handleFeedback={handleFeedback}
                 artcileFeedback={artcileFeedback}
                 setArticleFeedback={setArticleFeedback}
                 transformPiner={transformPiner}

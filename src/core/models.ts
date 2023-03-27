@@ -21,6 +21,6 @@ export declare namespace App {
     userId: number | undefined;
     isSummary: boolean;
     articleId: number | undefined;
-    feedback: number | string;
+    feedback: number | null;
   }
 }

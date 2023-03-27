@@ -35,27 +35,26 @@ const Header = ({
             className="regulation-head-title-big__logo"
           />
           <div className="regulation-head-title-big-small">
-            {commentFeedback &&
-              !commentFeedback[`like${Number(articleId)}`] && (
-                <>
-                  <img
-                    onClick={() => {
-                      saveFeedback(Number(articleId), "like", 1);
-                      handleFeedback(Number(articleId));
-                    }}
-                    src={like}
-                    alt="def_like"
-                  />
-                  <img
-                    onClick={() => {
-                      saveFeedback(Number(articleId), "like", 2);
-                      handleFeedback(Number(articleId));
-                    }}
-                    src={dislike}
-                    alt="dislike"
-                  />
-                </>
-              )}
+            {commentFeedback && !commentFeedback[`like${Number(articleId)}`] && (
+              <>
+                <img
+                  onClick={() => {
+                    saveFeedback(Number(articleId), "like", 1);
+                    handleFeedback(Number(articleId));
+                  }}
+                  src={like}
+                  alt="def_like"
+                />
+                <img
+                  onClick={() => {
+                    saveFeedback(Number(articleId), "like", 2);
+                    handleFeedback(Number(articleId));
+                  }}
+                  src={dislike}
+                  alt="dislike"
+                />
+              </>
+            )}
             {commentFeedback &&
               commentFeedback[`like${Number(articleId)}`] === 2 && (
                 <>
@@ -108,9 +107,7 @@ const Header = ({
             alt="active_star"
             onClick={() => {
               handleFeedback(Number(articleId));
-              if (article) {
-                saveFeedback(Number(articleId), "star", false);
-              }
+              saveFeedback(Number(articleId), "star", false);
             }}
           />
         ) : (

@@ -32,15 +32,6 @@ const MainPageOpenBeta = () => {
   const { logout } = useLogout();
   const dispatch = useDispatch();
 
-  const currUser = JSON.parse(localStorage.getItem("savedUser") || "{}");
-
-  useEffect(() => {
-    if (localStorage.getItem("savedUser")) {
-      dispatch(setUser(currUser));
-      dispatch(setIsAuth());
-    }
-  }, []);
-
   const handleGoogleSignIn = async (values: any) => {
     const encoded_values: App.GoogleLogin = jwtDecode(values.credential);
     try {
