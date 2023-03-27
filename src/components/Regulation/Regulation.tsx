@@ -16,6 +16,7 @@ import AppService from "../../core/services/app.service";
 import {
   setModal,
   setModalType,
+  setSearchNum,
 } from "../../core/store/reducers/modal/modalSlice";
 
 const Regulation = () => {
@@ -25,7 +26,6 @@ const Regulation = () => {
   const [commentFeedback, setCommentFeedback] = useState();
 
   const user = useAppSelector((state) => state.auth.currentUser);
-  const modal = useAppSelector((state) => state.auth.modal);
 
   const dispatch = useDispatch();
 
@@ -40,6 +40,7 @@ const Regulation = () => {
         [`star${Number(articleId)}`]: false,
       })
     );
+    dispatch(setSearchNum(Number(searchId)));
   }, []);
 
   useEffect(() => {

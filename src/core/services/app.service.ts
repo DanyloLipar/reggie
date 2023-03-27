@@ -55,4 +55,21 @@ export default class AppService {
       }
     );
   }
+
+  static async exportCsv(
+    searchId: number | undefined,
+    model: App.ExportArticles
+  ): Promise<AxiosResponse<any>> {
+    const exportData = JSON.stringify(model);
+
+    return RequestsService.postMethod<any>(
+      `${APIRoutes.EXPORT}/${searchId}`,
+      exportData,
+      {
+        headers: {
+          "Content-Type": "application/json;",
+        },
+      }
+    );
+  }
 }

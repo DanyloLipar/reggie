@@ -1,4 +1,4 @@
-import { Article } from "../../../core/types";
+import { Article, Requirements, windowModalType } from "../../../core/types";
 
 import info from "../../../assets/photos/results/info.svg";
 import dislike from "../../../assets/photos/dislike.svg";
@@ -8,6 +8,12 @@ import exportIcon from "../../../assets/photos/results/export.svg";
 import like from "../../../assets/photos/like.svg";
 import likeActive from "../../../assets/photos/like-active.svg";
 import dislikeActive from "../../../assets/photos/dislike-active.svg";
+import { useDispatch } from "react-redux";
+import {
+  setArticlesIds,
+  setModal,
+  setModalType,
+} from "../../../core/store/reducers/modal/modalSlice";
 
 type HeaderProps = {
   article: Article;
@@ -24,6 +30,18 @@ const Header = ({
   handleFeedback,
   saveFeedback,
 }: HeaderProps) => {
+  const dispatch = useDispatch();
+
+  const saveAllIds = () => {
+    const allIds: number[] = [];
+
+    article.requirements.map((req: Requirements) =>
+      allIds.push(req.requirementId)
+    );
+
+    return allIds;
+  };
+
   return (
     <header className="regulation-head">
       <div className="regulation-head-title">
@@ -35,26 +53,27 @@ const Header = ({
             className="regulation-head-title-big__logo"
           />
           <div className="regulation-head-title-big-small">
-            {commentFeedback && !commentFeedback[`like${Number(articleId)}`] && (
-              <>
-                <img
-                  onClick={() => {
-                    saveFeedback(Number(articleId), "like", 1);
-                    handleFeedback(Number(articleId));
-                  }}
-                  src={like}
-                  alt="def_like"
-                />
-                <img
-                  onClick={() => {
-                    saveFeedback(Number(articleId), "like", 2);
-                    handleFeedback(Number(articleId));
-                  }}
-                  src={dislike}
-                  alt="dislike"
-                />
-              </>
-            )}
+            {commentFeedback &&
+              !commentFeedback[`like${Number(articleId)}`] && (
+                <>
+                  <img
+                    onClick={() => {
+                      saveFeedback(Number(articleId), "like", 1);
+                      handleFeedback(Number(articleId));
+                    }}
+                    src={like}
+                    alt="def_like"
+                  />
+                  <img
+                    onClick={() => {
+                      saveFeedback(Number(articleId), "like", 2);
+                      handleFeedback(Number(articleId));
+                    }}
+                    src={dislike}
+                    alt="dislike"
+                  />
+                </>
+              )}
             {commentFeedback &&
               commentFeedback[`like${Number(articleId)}`] === 2 && (
                 <>
@@ -120,7 +139,15 @@ const Header = ({
             }}
           />
         )}
-        <img src={exportIcon} alt="export" />
+        <img
+          src={exportIcon}
+          alt="export"
+          onClick={() => {
+            dispatch(setArticlesIds(saveAllIds()));
+            dispatch(setModalType(windowModalType.exportModal));
+            dispatch(setModal());
+          }}
+        />
         <div className="regulation-head-end__thumbs">
           {commentFeedback && !commentFeedback[`like${Number(articleId)}`] && (
             <>

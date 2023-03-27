@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 type ResultCardProps = {
   artcileFeedback: any;
   index: number;
-
   article: Article;
   saveFeedback: (id: number, type: string, value: number | boolean) => void;
   setArticleFeedback: (articleFeedback: any) => void;
@@ -46,7 +45,8 @@ const ResultCard = ({
               navigate(
                 `/regulation/${selectedCategory.categoryId}/${article.articleId}`
               );
-            }}>
+            }}
+          >
             <p className="block-main-review__txt">{article.articleSummary}</p>
           </div>
           <div className="block-main-review__block-footer block-footer">

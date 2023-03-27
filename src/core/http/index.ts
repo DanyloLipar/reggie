@@ -7,7 +7,8 @@ export const APIRoutes = {
   SEARCH: "/search",
   SEARCH_SUMMARY: "/searchSummary",
   SEARCH_DETAILS: "/searchDetails",
-  FEEDBACK: "/feedback"
+  FEEDBACK: "/feedback",
+  EXPORT: "/exportCSV",
 };
 
 const $api = axios.create({

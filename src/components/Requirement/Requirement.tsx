@@ -70,13 +70,7 @@ const Requirement = ({
         {hovered === requirementId && (
           <ul className="conversation-answer-section-content-links">
             <li className="conversation-answer-section-content-links__item">
-              <button
-                className="conversation-answer-section-content-links__item-btn"
-                onClick={() => {
-                  dispatch(setModalType(windowModalType.exportModal));
-                  dispatch(setModal());
-                }}
-              >
+              <button className="conversation-answer-section-content-links__item-btn">
                 <img
                   src={link_active}
                   alt="link_active"
@@ -162,13 +156,7 @@ const Requirement = ({
         <div className="conversation-quest-section-footer">
           <ul className="conversation-answer-section-footer-links">
             <li className="conversation-answer-section-content-links__item">
-              <button
-                className="conversation-answer-section-content-links__item-btn"
-                onClick={() => {
-                  dispatch(setModalType(windowModalType.exportModal));
-                  dispatch(setModal());
-                }}
-              >
+              <button className="conversation-answer-section-content-links__item-btn">
                 <img
                   src={link_active}
                   alt="link_active"

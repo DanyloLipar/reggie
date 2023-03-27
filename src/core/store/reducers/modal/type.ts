@@ -3,4 +3,6 @@ export type Modal = {
   modalType: number;
   title: string;
   notice: string;
+  searchNum: number | null;
+  articlesIds: number[];
 };

@@ -1,4 +1,4 @@
-import { Article } from "../../../core/types";
+import { Article, Requirements, windowModalType } from "../../../core/types";
 
 import dislike from "../../../assets/photos/dislike.svg";
 import star from "../../../assets/photos/results/star.svg";
@@ -7,6 +7,12 @@ import exportIcon from "../../../assets/photos/results/export.svg";
 import like from "../../../assets/photos/like.svg";
 import likeActive from "../../../assets/photos/like-active.svg";
 import dislikeActive from "../../../assets/photos/dislike-active.svg";
+import { useDispatch } from "react-redux";
+import {
+  setArticlesIds,
+  setModal,
+  setModalType,
+} from "../../../core/store/reducers/modal/modalSlice";
 
 type MobileHeadProps = {
   commentFeedback: any;
@@ -23,6 +29,18 @@ const MobileHead = ({
   handleFeedback,
   saveFeedback,
 }: MobileHeadProps) => {
+  const dispatch = useDispatch();
+
+  const saveAllIds = () => {
+    const allIds: number[] = [];
+
+    article.requirements.map((req: Requirements) =>
+      allIds.push(req.requirementId)
+    );
+
+    return allIds;
+  };
+
   return (
     <div className="regulation-subhead">
       <span className="regulation-subhead__txt">{article?.category}</span>
@@ -46,7 +64,15 @@ const MobileHead = ({
             }}
           />
         )}
-        <img src={exportIcon} alt="export" />
+        <img
+          src={exportIcon}
+          alt="export"
+          onClick={() => {
+            dispatch(setArticlesIds(saveAllIds()));
+            dispatch(setModalType(windowModalType.exportModal));
+            dispatch(setModal());
+          }}
+        />
         <div className="regulation-head-end__thumbs">
           {commentFeedback && !commentFeedback[`like${Number(articleId)}`] && (
             <>

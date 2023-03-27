@@ -23,4 +23,10 @@ export declare namespace App {
     articleId: number | undefined;
     feedback: number | null;
   }
+
+  interface ExportArticles {
+    userId: number;
+    isSummary: boolean;
+    articleIDs: number[];
+  }
 }

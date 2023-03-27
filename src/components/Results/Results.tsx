@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { APIRoutes } from "../../core/http";
-import { Article, Category } from "../../core/types";
+import {
+  Article,
+  Category,
+  Requirements,
+  windowModalType,
+} from "../../core/types";
 import useHttpGet from "../../core/hooks/useHttpGet";
 
 import more from "../../assets/photos/results/more.svg";
@@ -17,11 +22,15 @@ import { useAppSelector } from "../../core/store";
 import AppService from "../../core/services/app.service";
 import { useDispatch } from "react-redux";
 import {
+  setArticlesIds,
   setModal,
+  setModalType,
   setNotice,
+  setSearchNum,
   setTitle,
 } from "../../core/store/reducers/modal/modalSlice";
 import ResultCard from "../ResultCard";
+import { App } from "../../core/models";
 
 const Results = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -49,6 +58,7 @@ const Results = () => {
 
   useEffect(() => {
     setAllResults(results);
+    dispatch(setSearchNum(Number(searchId)));
   }, []);
 
   useEffect(() => {
@@ -143,9 +153,22 @@ const Results = () => {
     reject: (error) => {
       dispatch(setTitle("Success"));
       dispatch(setNotice("Logged in successfully!"));
+      dispatch(setModalType(windowModalType.exportModal));
       dispatch(setModal());
     },
   });
+
+  const saveAllIds = () => {
+    const allIds: number[] = [];
+
+    categories.map((category: Category) =>
+      category.articleSummaries.map((article: Article) =>
+        allIds.push(article.articleId)
+      )
+    );
+
+    return allIds;
+  };
 
   return (
     <section className="overview">
@@ -192,7 +215,14 @@ const Results = () => {
                 />
               )}
             </div>
-            <li className="overview-head-end-list__item">
+            <li
+              className="overview-head-end-list__item"
+              onClick={() => {
+                dispatch(setArticlesIds(saveAllIds()));
+                dispatch(setModalType(windowModalType.exportModal));
+                dispatch(setModal());
+              }}
+            >
               <img src={exportIcon} alt="export" />
             </li>
           </ul>
@@ -204,20 +234,23 @@ const Results = () => {
             <li
               className="overview-categories-list-item"
               key={category.categoryId}
-              onClick={() => filterParamsSwitcher(category.categoryId)}>
+              onClick={() => filterParamsSwitcher(category.categoryId)}
+            >
               <button
                 onClick={() => setIsActive(!isActive)}
                 className={
                   selectedCategory?.categoryId === category.categoryId
                     ? "overview-categories-list-item-active-btn"
                     : "overview-categories-list-item-btn"
-                }>
+                }
+              >
                 <span
                   className={
                     selectedCategory?.categoryId === category.categoryId
                       ? "overview-categories-list-item-btn__txt-active"
                       : "overview-categories-list-item-btn__txt"
-                  }>
+                  }
+                >
                   {category.category}
                 </span>
               </button>
@@ -232,7 +265,14 @@ const Results = () => {
             <li className="overview-categories-func__list-item">
               <img src={summary} alt="summary" />
             </li>
-            <li className="overview-categories-func__list-item">
+            <li
+              className="overview-categories-func__list-item"
+              onClick={() => {
+                dispatch(setArticlesIds(saveAllIds()));
+                dispatch(setModalType(windowModalType.exportModal));
+                dispatch(setModal());
+              }}
+            >
               <img src={exportIcon} alt="export" />
             </li>
             <li className="overview-categories-func__list-item">

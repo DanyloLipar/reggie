@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { App } from "../../../models";
 import { Modal } from "./type";
 
 const state: Modal = {
@@ -6,6 +7,8 @@ const state: Modal = {
   modalType: 0,
   title: "",
   notice: "",
+  searchNum: null,
+  articlesIds: [],
 };
 
 const modalSlice = createSlice({
@@ -24,9 +27,21 @@ const modalSlice = createSlice({
     setNotice(state, action: PayloadAction<string>) {
       state.notice = action.payload;
     },
+    setSearchNum(state, action: PayloadAction<number>) {
+      state.searchNum = action.payload;
+    },
+    setArticlesIds(state, action: PayloadAction<number[]>) {
+      state.articlesIds = action.payload;
+    },
   },
 });
 
 export default modalSlice.reducer;
-export const { setModal, setModalType, setTitle, setNotice } =
-  modalSlice.actions;
+export const {
+  setModal,
+  setModalType,
+  setTitle,
+  setNotice,
+  setSearchNum,
+  setArticlesIds,
+} = modalSlice.actions;
