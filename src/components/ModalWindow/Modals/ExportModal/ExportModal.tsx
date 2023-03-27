@@ -49,58 +49,55 @@ const ExportModal = () => {
 
   return (
     <div className="modal__container modal-details">
-      <div className="modal-details__theme">
+      <form className="modal-details__theme" onSubmit={formikForm.handleSubmit}>
         <div className="modal-details__theme-info theme-info">
           <h1 className="theme-info-title">Export</h1>
           <p className="theme-info-notice">
             Export summaries, requirements, or both, into CSV format.
           </p>
-          <form
-            className="theme-info-list export-list"
-            onSubmit={formikForm.handleSubmit}
-          >
-            <div className="export-list__item">
+          <div className="theme-info-form export-form">
+            <div className="export-form__item">
               <input
                 type="radio"
-                className="export-list__item-radio"
+                className="export-form__item-radio"
                 name="export"
                 onChange={() => formikForm.setFieldValue("isSummary", true)}
               />
-              <span className="export-list__item-txt">Master summary</span>
+              <span className="export-form__item-txt">Master summary</span>
             </div>
-            <div className="export-list__item">
+            <div className="export-form__item">
               <input
                 type="radio"
-                className="export-list__item-radio"
+                className="export-form__item-radio"
                 name="export"
                 onChange={() => formikForm.setFieldValue("isSummary", true)}
               />
-              <span className="export-list__item-txt">All summaries</span>
+              <span className="export-form__item-txt">All summaries</span>
             </div>
-            <div className="export-list__item">
+            <div className="export-form__item">
               <input
                 type="radio"
-                className="export-list__item-radio"
+                className="export-form__item-radio"
                 name="export"
                 onChange={() => formikForm.setFieldValue("isSummary", true)}
               />
-              <span className="export-list__item-txt">All requirements</span>
+              <span className="export-form__item-txt">All requirements</span>
             </div>
-            <div className="export-list__item">
+            <div className="export-form__item">
               <input
                 type="radio"
-                className="export-list__item-radio"
+                className="export-form__item-radio"
                 name="export"
                 onChange={() => formikForm.setFieldValue("isSummary", true)}
               />
-              <span className="export-list__item-txt">Master summary</span>
+              <span className="export-form__item-txt">Master summary</span>
             </div>
-            <button type="submit" className="modal-details__theme-click">
-              OK
-            </button>
-          </form>
+          </div>
         </div>
-      </div>
+        <button type="submit" className="modal-details__theme-click">
+          OK
+        </button>
+      </form>
     </div>
   );
 };
