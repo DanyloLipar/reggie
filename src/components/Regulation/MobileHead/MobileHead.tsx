@@ -3,7 +3,7 @@ import { Article } from "../../../core/types";
 import dislike from "../../../assets/photos/dislike.svg";
 import star from "../../../assets/photos/results/star.svg";
 import active_star from "../../../assets/photos/results/star-active.svg";
-import visit from "../../../assets/photos/results/visit.svg";
+import exportIcon from "../../../assets/photos/results/export.svg";
 import like from "../../../assets/photos/like.svg";
 import likeActive from "../../../assets/photos/like-active.svg";
 import dislikeActive from "../../../assets/photos/dislike-active.svg";
@@ -46,7 +46,7 @@ const MobileHead = ({
             }}
           />
         )}
-        <img src={visit} alt="visit" />
+        <img src={exportIcon} alt="export" />
         <div className="regulation-head-end__thumbs">
           {commentFeedback && !commentFeedback[`like${Number(articleId)}`] && (
             <>

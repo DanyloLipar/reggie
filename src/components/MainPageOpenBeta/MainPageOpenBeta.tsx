@@ -89,7 +89,7 @@ const MainPageOpenBeta = () => {
         query: inpQuery,
       });
 
-      navigate(`/results/${response?.data?.searchId}`);
+      navigate(`/results-overview/${response?.data?.searchId}`);
     } catch (errors: any) {
       dispatch(setTitle("Error!"));
       dispatch(setNotice("Nothing was found."));

@@ -27,8 +27,6 @@ const Regulation = () => {
   const modal = useAppSelector((state) => state.auth.modal);
   const dispatch = useDispatch();
 
-  console.log(modal);
-
   const { logout } = useLogout();
 
   const { searchId, articleId } = useParams();
@@ -54,6 +52,7 @@ const Regulation = () => {
     `${APIRoutes.SEARCH_DETAILS}/${searchId}/articles/${articleId}`,
     {
       resolve: (response) => {
+        console.log(response?.article);
         setArticle(response?.article);
       },
     }
@@ -133,6 +132,7 @@ const Regulation = () => {
       <main className="regulation__conversation conversation">
         {article?.requirements.map((requirement) => (
           <Requirement
+            key={requirement.requirementId}
             requirementId={requirement.requirementId}
             requirementName={requirement.requirementName}
             requirementSummary={requirement.requirementSummary}

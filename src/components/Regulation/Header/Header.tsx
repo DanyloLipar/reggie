@@ -4,7 +4,7 @@ import info from "../../../assets/photos/results/info.svg";
 import dislike from "../../../assets/photos/dislike.svg";
 import star from "../../../assets/photos/results/star.svg";
 import active_star from "../../../assets/photos/results/star-active.svg";
-import visit from "../../../assets/photos/results/visit.svg";
+import exportIcon from "../../../assets/photos/results/export.svg";
 import like from "../../../assets/photos/like.svg";
 import likeActive from "../../../assets/photos/like-active.svg";
 import dislikeActive from "../../../assets/photos/dislike-active.svg";
@@ -35,26 +35,27 @@ const Header = ({
             className="regulation-head-title-big__logo"
           />
           <div className="regulation-head-title-big-small">
-            {commentFeedback && !commentFeedback[`like${Number(articleId)}`] && (
-              <>
-                <img
-                  onClick={() => {
-                    saveFeedback(Number(articleId), "like", 1);
-                    handleFeedback(Number(articleId));
-                  }}
-                  src={like}
-                  alt="def_like"
-                />
-                <img
-                  onClick={() => {
-                    saveFeedback(Number(articleId), "like", 2);
-                    handleFeedback(Number(articleId));
-                  }}
-                  src={dislike}
-                  alt="dislike"
-                />
-              </>
-            )}
+            {commentFeedback &&
+              !commentFeedback[`like${Number(articleId)}`] && (
+                <>
+                  <img
+                    onClick={() => {
+                      saveFeedback(Number(articleId), "like", 1);
+                      handleFeedback(Number(articleId));
+                    }}
+                    src={like}
+                    alt="def_like"
+                  />
+                  <img
+                    onClick={() => {
+                      saveFeedback(Number(articleId), "like", 2);
+                      handleFeedback(Number(articleId));
+                    }}
+                    src={dislike}
+                    alt="dislike"
+                  />
+                </>
+              )}
             {commentFeedback &&
               commentFeedback[`like${Number(articleId)}`] === 2 && (
                 <>
@@ -122,7 +123,7 @@ const Header = ({
             }}
           />
         )}
-        <img src={visit} alt="visit" />
+        <img src={exportIcon} alt="export" />
         <div className="regulation-head-end__thumbs">
           {commentFeedback && !commentFeedback[`like${Number(articleId)}`] && (
             <>

@@ -9,7 +9,7 @@ import more from "../../assets/photos/results/more.svg";
 import summary from "../../assets/photos/results/summary.svg";
 import star from "../../assets/photos/results/star.svg";
 import starActive from "../../assets/photos/results/star-active.svg";
-import visit from "../../assets/photos/results/visit.svg";
+import exportIcon from "../../assets/photos/results/export.svg";
 import { filters } from "../../core/constants/filters";
 import { results } from "../../core/constants/results";
 import { useLogout } from "../../core/hooks/useLogout";
@@ -190,7 +190,7 @@ const Results = () => {
               )}
             </div>
             <li className="overview-head-end-list__item">
-              <img src={visit} alt="visit" />
+              <img src={exportIcon} alt="export" />
             </li>
           </ul>
         </div>
@@ -233,7 +233,7 @@ const Results = () => {
               <img src={summary} alt="summary" />
             </li>
             <li className="overview-categories-func__list-item">
-              <img src={visit} alt="visit" />
+              <img src={exportIcon} alt="export" />
             </li>
             <li className="overview-categories-func__list-item">
               {artcileFeedback &&

@@ -11,7 +11,7 @@ import link_active from "../../assets/photos/results/link-active.svg";
 import text_area from "../../assets/photos/results/text-area.svg";
 import transform_active from "../../assets/photos/results/transform-active.svg";
 import transform from "../../assets/photos/results/transform.svg";
-import visit from "../../assets/photos/results/visit.svg";
+import exportIcon from "../../assets/photos/results/export.svg";
 import { useDispatch } from "react-redux";
 import {
   setModal,
@@ -118,11 +118,11 @@ const Requirement = ({
                 />
               </button>
             </li>
-            <li className="conversation-answer-section-content-links__item">
+            {/* <li className="conversation-answer-section-content-links__item">
               <button className="conversation-answer-section-content-links__item-btn">
                 <img
-                  src={visit}
-                  alt="visit"
+                  src={exportIcon}
+                  alt="export"
                   className="conversation-answer-section-content-links__item-btn-img"
                 />
               </button>
@@ -154,7 +154,7 @@ const Requirement = ({
                   />
                 </button>
               )}
-            </li>
+            </li> */}
           </ul>
         )}
       </div>
@@ -210,11 +210,11 @@ const Requirement = ({
                 />
               </button>
             </li>
-            <li className="conversation-answer-section-content-links__item">
+            {/* <li className="conversation-answer-section-content-links__item">
               <button className="conversation-answer-section-content-links__item-btn">
                 <img
-                  src={visit}
-                  alt="visit"
+                  src={exportIcon}
+                  alt="export"
                   className="conversation-answer-section-content-links__item-btn-img"
                 />
               </button>
@@ -246,7 +246,7 @@ const Requirement = ({
                   />
                 </button>
               )}
-            </li>
+            </li> */}
           </ul>
           {commentFeedback && !commentFeedback[`like${requirementId}`] && (
             <>

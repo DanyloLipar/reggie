@@ -18,7 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPageOpenBeta />} />
           <Route element={<RequireAuth />}>
-            <Route path="/results/:searchId" element={<Results />} />
+            <Route path="/results-overview/:searchId" element={<Results />} />
             <Route
               path="/regulation/:searchId/:articleId"
               element={<Regulation />}

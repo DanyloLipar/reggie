@@ -51,6 +51,10 @@ const MainPageClosedBeta = () => {
       dispatch(setModalType(windowModalType.notificationModal));
       dispatch(setTitle("Success!"));
       dispatch(setNotice("Logged in successfully."));
+
+      if (response?.data.userLevel === 0) {
+        navigate("/");
+      }
     } catch (errors: any) {
       dispatch(setModalType(windowModalType.notificationModal));
       dispatch(setTitle("Error!"));

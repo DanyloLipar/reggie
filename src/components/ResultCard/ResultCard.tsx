@@ -5,7 +5,7 @@ import text_area from "../../assets/photos/results/text-area.svg";
 import transform from "../../assets/photos/results/transform.svg";
 import transformActive from "../../assets/photos/results/transform-active.svg";
 import like from "../../assets/photos/like.svg";
-import visit from "../../assets/photos/results/visit.svg";
+import exportIcon from "../../assets/photos/results/export.svg";
 import dislike from "../../assets/photos/dislike.svg";
 import likeActive from "../../assets/photos/like-active.svg";
 import dislikeActive from "../../assets/photos/dislike-active.svg";
@@ -40,7 +40,14 @@ const ResultCard = ({
     <div className="results-reviews-block">
       <div className="results-reviews__block-main block-main">
         <div className="block-main-wrapper">
-          <div className="block-main-review">
+          <div
+            className="block-main-review"
+            onClick={() => {
+              navigate(
+                `/regulation/${selectedCategory.categoryId}/${article.articleId}`
+              );
+            }}
+          >
             <p className="block-main-review__txt">{article.articleSummary}</p>
           </div>
           <div className="block-main-review__block-footer block-footer">
@@ -145,21 +152,16 @@ const ResultCard = ({
               <img src={text_area} alt="text_area" />
             </button>
           </li>
-          <li className="block-main-controls__item">
-            <button
-              className="block-main-controls__item-btn"
-              onClick={() => {
-                navigate(
-                  `/regulation/${selectedCategory.categoryId}/${article.articleId}`
-                );
-              }}>
-              <img src={visit} alt="visit" />
+          {/* <li className="block-main-controls__item">
+            <button className="block-main-controls__item-btn">
+              <img src={exportIcon} alt="export" />
             </button>
           </li>
           <li className="block-main-controls__item">
             <button
               className="block-main-controls__item-btn"
-              onClick={() => transformPiner(index)}>
+              onClick={() => transformPiner(index)}
+            >
               {artcileFeedback &&
               artcileFeedback[`transform${article.articleId}`] ? (
                 <img
@@ -179,7 +181,7 @@ const ResultCard = ({
                 />
               )}
             </button>
-          </li>
+          </li> */}
         </ul>
       </div>
     </div>
