@@ -1,6 +1,5 @@
 import React from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { useAppSelector } from "../store/index";
 
 const RequireAuth = () => {
   const currentUser = JSON.parse(localStorage.getItem("savedUser") || "{}");
