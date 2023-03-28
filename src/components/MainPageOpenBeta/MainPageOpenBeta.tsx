@@ -81,6 +81,7 @@ const MainPageOpenBeta = () => {
       });
 
       navigate(`/results-overview/${response?.data?.searchId}`);
+      localStorage.setItem("searchQuery", JSON.stringify(inpQuery));
     } catch (errors: any) {
       dispatch(setTitle("Error!"));
       dispatch(setNotice("Nothing was found."));

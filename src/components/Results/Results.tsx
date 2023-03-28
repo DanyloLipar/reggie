@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactEventHandler, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { APIRoutes } from "../../core/http";
@@ -15,7 +15,6 @@ import summary from "../../assets/photos/results/summary.svg";
 import star from "../../assets/photos/results/star.svg";
 import starActive from "../../assets/photos/results/star-active.svg";
 import exportIcon from "../../assets/photos/results/export.svg";
-import { filters } from "../../core/constants/filters";
 import { results } from "../../core/constants/results";
 import { useLogout } from "../../core/hooks/useLogout";
 import { useAppSelector } from "../../core/store";
@@ -30,9 +29,9 @@ import {
   setTitle,
 } from "../../core/store/reducers/modal/modalSlice";
 import ResultCard from "../ResultCard";
-import { App } from "../../core/models";
 
 const Results = () => {
+  const [searchQuery, setSearchQuery] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [isActive, setIsActive] = useState(false);
   const [reloadChecker, setReloadChecker] = useState(false);
@@ -44,8 +43,24 @@ const Results = () => {
 
   const dispatch = useDispatch();
   const { logout } = useLogout();
+  const navigate = useNavigate();
 
   const { searchId } = useParams();
+
+  useHttpGet<any>(`${APIRoutes.SEARCH_SUMMARY}/${searchId}`, {
+    resolve: (response) => {
+      if (response) {
+        setCategories(response?.summaries);
+        setSelectedCategory(response?.summaries[0]);
+      }
+    },
+    reject: (error) => {
+      dispatch(setTitle("Success"));
+      dispatch(setNotice("Logged in successfully!"));
+      dispatch(setModalType(windowModalType.exportModal));
+      dispatch(setModal());
+    },
+  });
 
   useEffect(() => {
     localStorage.setItem(
@@ -57,6 +72,7 @@ const Results = () => {
   }, [selectedCategory]);
 
   useEffect(() => {
+    setSearchQuery(JSON.parse(localStorage.getItem("searchQuery") || ""));
     setAllResults(results);
     dispatch(setSearchNum(Number(searchId)));
   }, []);
@@ -143,20 +159,22 @@ const Results = () => {
     }
   };
 
-  useHttpGet<any>(`${APIRoutes.SEARCH_SUMMARY}/${searchId}`, {
-    resolve: (response) => {
-      if (response) {
-        setCategories(response?.summaries);
-        setSelectedCategory(response?.summaries[0]);
-      }
-    },
-    reject: (error) => {
-      dispatch(setTitle("Success"));
-      dispatch(setNotice("Logged in successfully!"));
-      dispatch(setModalType(windowModalType.exportModal));
+  const performSearch = async () => {
+    try {
+      const response = await AppService.searchPerform({
+        userId: user?.userId,
+        query: searchQuery,
+      });
+
+      navigate(`/results-overview/${response?.data?.searchId}`);
+      localStorage.setItem("searchQuery", JSON.stringify(searchQuery));
+    } catch (errors: any) {
+      dispatch(setTitle("Error!"));
+      dispatch(setNotice("Nothing was found."));
+      dispatch(setModalType(windowModalType.notificationModal));
       dispatch(setModal());
-    },
-  });
+    }
+  };
 
   const saveAllIds = () => {
     const allIds: number[] = [];
@@ -170,6 +188,12 @@ const Results = () => {
     return allIds;
   };
 
+  const handleKeyDown = (event: any) => {
+    if (event.key === "Enter") {
+      performSearch();
+    }
+  };
+
   return (
     <section className="overview">
       <div className="overview-top">
@@ -178,7 +202,14 @@ const Results = () => {
         </button>
       </div>
       <header className="overview-head">
-        <h1 className="overview-head__title">Intercom</h1>
+        <input
+          className="overview-head__title"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={(e) => {
+            handleKeyDown(e);
+          }}
+        />
         <div className="overview-head-end">
           <ul className="overview-head-end-list">
             <li className="overview-head-end-list__item">

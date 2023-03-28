@@ -3,10 +3,10 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../core/store/index";
 
 const RequireAuth = () => {
-  const currentUser = localStorage.getItem("savedUser");
+  const currentUser = JSON.parse(localStorage.getItem("savedUser") || "{}");
   const location = useLocation();
 
-  if (!currentUser) {
+  if (currentUser?.userLevel === 2) {
     return <Navigate to="/" replace state={{ from: location }} />;
   }
 

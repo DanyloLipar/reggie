@@ -214,6 +214,12 @@
     border: none;
     color: $waitlist-btn-txt;
   }
+
+  &__waitlist-disabled {
+    background: $waitilist-btn-disabled;
+    animation: none;
+    background-size: auto;
+  }
 }
 
 @keyframes gradient {

@@ -30,15 +30,15 @@ function App() {
       <ModalWindow />
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_KEY}>
         <Routes>
-          <Route path="/" element={<MainPageOpenBeta />} />
+          <Route path="/" element={<MainPageClosedBeta />} />
           <Route element={<RequireAuth />}>
+            <Route path="/search" element={<MainPageOpenBeta />} />
             <Route path="/results-overview/:searchId" element={<Results />} />
             <Route
               path="/regulation/:searchId/:articleId"
               element={<Regulation />}
             />
           </Route>
-          <Route path="/closed-beta" element={<MainPageClosedBeta />} />
           <Route path="*" element={<Navigate to={"/"} />} />
         </Routes>
       </GoogleOAuthProvider>
