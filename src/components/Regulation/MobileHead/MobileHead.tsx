@@ -12,6 +12,7 @@ import {
   setArticlesIds,
   setModal,
   setModalType,
+  setTitle,
 } from "../../../core/store/reducers/modal/modalSlice";
 
 type MobileHeadProps = {
@@ -70,6 +71,7 @@ const MobileHead = ({
           onClick={() => {
             dispatch(setArticlesIds(saveAllIds()));
             dispatch(setModalType(windowModalType.exportModal));
+            dispatch(setTitle(String(articleId)));
             dispatch(setModal());
           }}
         />

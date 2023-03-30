@@ -10,10 +10,13 @@ import {
   setTitle,
 } from "../../../../core/store/reducers/modal/modalSlice";
 import { windowModalType } from "../../../../core/types";
+import FileSaver, { saveAs } from "file-saver";
 import { useFormik } from "formik";
 
 const ExportModal = () => {
-  const { searchNum, articlesIds } = useAppSelector((state) => state.modal);
+  const { searchNum, articlesIds, title } = useAppSelector(
+    (state) => state.modal
+  );
   const { currentUser } = useAppSelector((state) => state.auth);
   const dispatch = useDispatch();
 
@@ -36,7 +39,10 @@ const ExportModal = () => {
     if (searchNum && formikForm.values.isSummary !== "") {
       try {
         const response = await AppService.exportCsv(searchNum, values);
-        console.log(response.data);
+        const newFile = new Blob([response.data], {
+          type: "text/plain;charset=utf-8",
+        });
+        FileSaver.saveAs(newFile, `${title}.txt`);
       } catch (errors: any) {
         dispatch(setTitle("Success"));
         dispatch(setNotice("Cannot export!"));

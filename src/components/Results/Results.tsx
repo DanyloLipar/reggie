@@ -251,6 +251,7 @@ const Results = () => {
               onClick={() => {
                 dispatch(setArticlesIds(saveAllIds()));
                 dispatch(setModalType(windowModalType.exportModal));
+                dispatch(setTitle(String(selectedCategory?.categoryId)));
                 dispatch(setModal());
               }}
             >
@@ -301,6 +302,7 @@ const Results = () => {
               onClick={() => {
                 dispatch(setArticlesIds(saveAllIds()));
                 dispatch(setModalType(windowModalType.exportModal));
+                dispatch(setTitle(String(selectedCategory?.categoryId)));
                 dispatch(setModal());
               }}
             >

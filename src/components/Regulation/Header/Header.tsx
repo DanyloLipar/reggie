@@ -13,6 +13,7 @@ import {
   setArticlesIds,
   setModal,
   setModalType,
+  setTitle,
 } from "../../../core/store/reducers/modal/modalSlice";
 
 type HeaderProps = {
@@ -145,6 +146,7 @@ const Header = ({
           onClick={() => {
             dispatch(setArticlesIds(saveAllIds()));
             dispatch(setModalType(windowModalType.exportModal));
+            dispatch(setTitle(String(articleId)));
             dispatch(setModal());
           }}
         />
