@@ -78,17 +78,15 @@ const MainPageClosedBeta = () => {
             `Successfully added user ${currentUser?.userId} to the waiting list!`
           )
         );
+        dispatch(setModal());
       } catch (errors: any) {
         dispatch(setModalType(windowModalType.notificationModal));
         dispatch(setTitle("Error!"));
         dispatch(setNotice("Some errors occured."));
+        dispatch(setModal());
       }
-    } else {
-      dispatch(setModalType(windowModalType.notificationModal));
-      dispatch(setTitle("Error!"));
-      dispatch(setNotice("Login in first."));
     }
-    dispatch(setModal());
+    navigate("/questionnaire");
   };
 
   const googleButtonResizer = () => {
@@ -147,7 +145,9 @@ const MainPageClosedBeta = () => {
         </p>
         <button
           className="general-info__waitlist-btn"
-          onClick={joinWaitingList}
+          onClick={() => {
+            joinWaitingList();
+          }}
         >
           Join Waitlist
         </button>
