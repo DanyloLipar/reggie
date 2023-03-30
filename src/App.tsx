@@ -13,6 +13,7 @@ import ModalWindow from "./components/ModalWindow";
 
 import { setIsAuth, setUser } from "./core/store/reducers/auth/authSlice";
 import "./assets/index.scss";
+import Questionnaire from "./components/Questionnaire";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ function App() {
       <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_KEY}>
         <Routes>
           <Route path="/" element={<MainPageClosedBeta />} />
+          <Route path="/questionnaire" element={<Questionnaire />} />
           <Route element={<RequireAuth />}>
             <Route path="/search" element={<MainPageOpenBeta />} />
             <Route path="/results-overview/:searchId" element={<Results />} />

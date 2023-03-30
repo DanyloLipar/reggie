@@ -30,10 +30,6 @@ const MainPageClosedBeta = () => {
   const dispatch = useDispatch();
   const { logout } = useLogout();
 
-  const waitListBtn = () => {
-    return currentUser?.userLevel === 1 || !currentUser;
-  };
-
   const handleGoogleSignIn = async (values: any) => {
     const encoded_values: App.GoogleLogin = jwtDecode(values.credential);
     try {
@@ -150,10 +146,7 @@ const MainPageClosedBeta = () => {
           have to be.
         </p>
         <button
-          className={classNames({
-            "general-info__waitlist-btn": true,
-            "general-info__waitlist-disabled": waitListBtn(),
-          })}
+          className="general-info__waitlist-btn"
           onClick={joinWaitingList}
         >
           Join Waitlist
