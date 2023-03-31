@@ -153,7 +153,7 @@ const MainPageOpenBeta = () => {
                   <input
                     className="functional-search__inp-item"
                     type="text"
-                    placeholder="ie. ‘a smart lock’, ‘extension in NYC’"
+                    placeholder="smart thermostat, 'helmet', etc:"
                     value={inpQuery}
                     onChange={(event) => setInpQuery(event.target.value)}
                   />
